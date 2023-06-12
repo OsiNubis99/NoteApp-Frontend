@@ -10,13 +10,6 @@ AppBar AppBarMenu(BuildContext context) {
         width: 130,
       ),
       centerTitle: true,
-      leading: IconButton(
-          icon: const Icon(Icons.menu, color: AppTheme.text_dark),
-          onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Buscar Proximamente')));
-          },
-        ),
       iconTheme: const IconThemeData(color: AppTheme.text_dark),
       actions: [
         IconButton(

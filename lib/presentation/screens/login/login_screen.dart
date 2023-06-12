@@ -47,12 +47,12 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: AppTheme.bgGray,
         elevation: 0,
         automaticallyImplyLeading: false,
-        leading: IconButton(
+        /* leading: IconButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
           icon: const Icon(Icons.arrow_back_ios, color: Color(0XFF000000)),
-        ),
+        ), */
       ),
       
       body: SafeArea(
