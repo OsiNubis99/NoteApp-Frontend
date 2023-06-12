@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:note_app_frontend/presentation/screens/note/noteList_screen.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 
 import '../../../config/theme/app_theme.dart';
@@ -24,26 +25,59 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             SafeArea(
               child: GridView.count(
-                  padding: EdgeInsets.only(top: 60.0, left: 25, right: 25, bottom: 20),
+                  padding: EdgeInsets.only(top: 60.0, left: 15, right: 15, bottom: 20),
                     crossAxisCount: 2,
-                    crossAxisSpacing: 20,
+                    childAspectRatio: 1.15,
+                    crossAxisSpacing: 5,
                     mainAxisSpacing: 40,
-                    children: const <Widget>[ 
+                    children: <Widget>[ 
 
                       //NOTAS
-                      OptionCard(title: "Notas                         ", theme: AppTheme.note_1,),
+                      MaterialButton(
+                        onPressed: () {
+                          final route = MaterialPageRoute(builder: (context) => const NoteListScreen());
+                          Navigator.pushReplacement(context, route);
+                        },
+
+                        child: const OptionCard(
+                          title: "Notas                         ", 
+                          theme: AppTheme.note_1,
+                        ),
+                      ),
+
 
                       //OCRCAM
-                      OptionCard(title: "Lector de imagenes", theme: AppTheme.note_2,),
+                      MaterialButton(
+                        onPressed: () {
+                          final route = MaterialPageRoute(builder: (context) => const NoteListScreen());
+                          Navigator.pushReplacement(context, route);
+                        },
+
+                        child: const OptionCard(
+                          title: "Lector de imagenes", 
+                          theme: AppTheme.note_2,
+                        ),
+                      ),
 
 
                       //AUDIO CAPTURE
-                      OptionCard(title: "Transcripción de audio", theme: AppTheme.note_3,),
+                      MaterialButton(
+                        onPressed: () {
+                          final route = MaterialPageRoute(builder: (context) => const NoteListScreen());
+                          Navigator.pushReplacement(context, route);
+                        },
+
+                        child: const OptionCard(
+                          title: "Transcripción de audio", 
+                          theme: AppTheme.note_3,
+                        ),
+                      ),
 
 
-                    ],
-                ),
-          )]
+                  ],
+              )
+            )
+          ]
       )
     );
   }
@@ -52,21 +86,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 class OptionCard extends StatelessWidget {
-  //final String imagen o icono
+  //final String icon;
   final String title;
   final Color theme;
-  //final Function onPressed;
   
   const OptionCard({
     super.key, 
-    required this.title, required this.theme, //required this.onPressed,
-    //required this.imagen,
+    required this.title, 
+    required this.theme,
+    //required this.icon,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 50.0, left: 20, right: 20, bottom: 70),
+      padding: EdgeInsets.only(top: 50.0, left: 15, right: 15, bottom: 60),
         decoration: BoxDecoration(
         color: theme,
         borderRadius: BorderRadius.circular(20),
@@ -79,7 +113,7 @@ class OptionCard extends StatelessWidget {
       ),
             child: Column(
               children: <Widget>[
-                Spacer(),
+                const Spacer(),
                 //icono
                 //Spacer(),
                 Text(

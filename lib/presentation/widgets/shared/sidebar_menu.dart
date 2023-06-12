@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_app_frontend/presentation/screens/home/home_screen.dart';
 import 'package:note_app_frontend/presentation/screens/login/login_screen.dart';
 
 import '../../../config/theme/app_theme.dart';
@@ -52,11 +53,32 @@ class SideBar extends StatelessWidget {
             ),
           ),
 
+
+          //'Home'
+          GestureDetector(
+            onTap: () {
+              final route = MaterialPageRoute(builder: (context) => const HomeScreen());
+              Navigator.push(context, route);
+              },
+            child: const ListTile(
+              title: Text(
+                'Menú Principal',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0XFF1F1F1F),),
+              ),
+            leading: Icon(Icons.exit_to_app_outlined),
+            ),
+          ),
+
+
+
           //'Cerrar sesión'
           GestureDetector(
             onTap: () {
               final route = MaterialPageRoute(builder: (context) => const LoginScreen());
-              Navigator.pushReplacement(context, route);
+              Navigator.push(context, route);
               },
             child: const ListTile(
               title: Text(
@@ -69,6 +91,7 @@ class SideBar extends StatelessWidget {
             leading: Icon(Icons.exit_to_app_outlined),
             ),
           ),
+
         ],
       ),
     );
