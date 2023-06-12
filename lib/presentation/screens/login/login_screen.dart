@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import '../../../config/theme/app_theme.dart';
+import '../home/home_screen.dart';
 //import 'package:note_app_frontend/domain/entities/usuario.dart';
 
 //import 'package:http/http.dart' as http;
@@ -50,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(Icons.arrow_back_ios, color: Color(0XFF000000)),
+          icon: const Icon(Icons.arrow_back_ios, color: Color(0XFF000000)),
         ),
       ),
       
@@ -85,12 +86,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         //Navigator
                         onPressed: () {
-                          /* final Future<Usuario> user = getUser();
-                          final route = MaterialPageRoute(builder: (context) => const HomeScreen());
-                          Navigator.pushReplacement(context, route); */
+                          //final Future<Usuario> user = getUser();
+                          final route = MaterialPageRoute(builder:(context) =>  const HomeScreen());
+                          Navigator.pushReplacement(context, route); 
                         },
 
-                        child: Padding(padding: EdgeInsets.all(12.0),
+                        child: Padding(padding: const EdgeInsets.all(12.0),
                           child: Column(children: <Widget>[ 
                               Text(
                                 "Iniciar Sesión",
@@ -122,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.pushReplacement(context, route); */
                         },
 
-                        child: Padding(padding: EdgeInsets.all(12.0),
+                        child: Padding(padding: const EdgeInsets.all(12.0),
                           child: Column(children: <Widget>[ 
                               Text(
                                 "Iniciar Sesión Premium",

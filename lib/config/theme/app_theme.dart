@@ -13,6 +13,7 @@ class AppTheme{
   static const Color note_5     = Color(0XFF00D4FF);
 
   static final ThemeData lightTheme = ThemeData(
+        useMaterial3: true,
         primaryColor: const Color(0xFFEDC123),
         colorScheme: ColorScheme.fromSwatch()
           .copyWith(secondary: Color(0XFFFAFAFA)),
