@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:note_app_frontend/presentation/providers/note/note_provider.dart';
+import 'package:provider/provider.dart';
 import 'config/routes/app_routes.dart';
 import 'config/theme/app_theme.dart';
 
@@ -12,13 +14,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'MyNoteApp',
-      initialRoute: AppRoutes.initialRoute,
-      routes: AppRoutes.routes,
-      onGenerateRoute: AppRoutes.onGenerateRoute,
-      theme: AppTheme.lightTheme,
+    return MultiProvider(
+      providers:[
+        ChangeNotifierProvider(create: (_) => NoteProvider())
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'MyNoteApp',
+        initialRoute: AppRoutes.initialRoute,
+        routes: AppRoutes.routes,
+        onGenerateRoute: AppRoutes.onGenerateRoute,
+        theme: AppTheme.lightTheme,
+      ),
     );
   }
 }

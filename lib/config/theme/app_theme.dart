@@ -15,6 +15,7 @@ class AppTheme{
   static final ThemeData lightTheme = ThemeData(
         useMaterial3: true,
         primaryColor: const Color(0xFFEDC123),
+        scaffoldBackgroundColor:bgGray,
         colorScheme: ColorScheme.fromSwatch()
           .copyWith(secondary: Color(0XFFFAFAFA)),
         highlightColor:  const Color(0XFFFAFAFA),
