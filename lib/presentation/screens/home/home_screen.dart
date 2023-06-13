@@ -1,10 +1,9 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteList_screen.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 
 import '../../../config/theme/app_theme.dart';
+import '../../widgets/home/menu_cards.dart';
 import '../../widgets/shared/appBarMenu.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,11 +24,10 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             SafeArea(
               child: GridView.count(
-                  padding: EdgeInsets.only(top: 60.0, left: 15, right: 15, bottom: 20),
+                  padding: EdgeInsets.only(top: 50.0, left: 15, right: 15, bottom: 20),
                     crossAxisCount: 2,
-                    childAspectRatio: 1.15,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 40,
+                    childAspectRatio: 1.2,
+                    mainAxisSpacing: 35,
                     children: <Widget>[ 
 
                       //NOTAS
@@ -42,6 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: const OptionCard(
                           title: "Notas                         ", 
                           theme: AppTheme.note_1,
+                          icono: Icons.edit_note,
+                          body: "Cree, edite o elimine sus notas"
                         ),
                       ),
 
@@ -49,13 +49,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       //OCRCAM
                       MaterialButton(
                         onPressed: () {
-                          final route = MaterialPageRoute(builder: (context) => const NoteListScreen());
-                          Navigator.pushReplacement(context, route);
+/*                           final route = MaterialPageRoute(builder: (context) => const Screen());
+                          Navigator.pushReplacement(context, route); */
                         },
 
                         child: const OptionCard(
                           title: "Lector de imagenes", 
                           theme: AppTheme.note_2,
+                          icono: Icons.photo_camera_back,
+                          body: "¡Convierta una imagen en texto!"
                         ),
                       ),
 
@@ -63,13 +65,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       //AUDIO CAPTURE
                       MaterialButton(
                         onPressed: () {
-                          final route = MaterialPageRoute(builder: (context) => const NoteListScreen());
-                          Navigator.pushReplacement(context, route);
+/*                           final route = MaterialPageRoute(builder: (context) => const Screen());
+                          Navigator.pushReplacement(context, route); */
                         },
 
                         child: const OptionCard(
-                          title: "Transcripción de audio", 
+                          title: "Redactor de audio", 
                           theme: AppTheme.note_3,
+                          icono: Icons.multitrack_audio_outlined,
+                          body: "¡Convierta un audio en texto!"
                         ),
                       ),
 
@@ -78,50 +82,6 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             )
           ]
-      )
-    );
-  }
-}
-
-
-
-class OptionCard extends StatelessWidget {
-  //final String icon;
-  final String title;
-  final Color theme;
-  
-  const OptionCard({
-    super.key, 
-    required this.title, 
-    required this.theme,
-    //required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 50.0, left: 15, right: 15, bottom: 60),
-        decoration: BoxDecoration(
-        color: theme,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: const [BoxShadow(
-          offset: Offset(5, 5),
-          blurRadius: 10,
-          spreadRadius: -9,
-          color: AppTheme.text_dark
-        )]
-      ),
-            child: Column(
-              children: <Widget>[
-                const Spacer(),
-                //icono
-                //Spacer(),
-                Text(
-                  title, 
-                  textAlign: TextAlign.start,
-                  style: AppTheme.lightTheme.textTheme.bodySmall,
-                )
-              ],
       )
     );
   }
