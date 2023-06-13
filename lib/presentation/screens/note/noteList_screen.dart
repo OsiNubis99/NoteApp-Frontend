@@ -1,7 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:note_app_frontend/presentation/providers/note/note_provider.dart';
 import 'package:note_app_frontend/presentation/widgets/note/noteList_widget.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/appBarMenu.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
+import 'package:provider/provider.dart';
 
 import '../../../config/theme/app_theme.dart';
 
@@ -18,26 +22,53 @@ class NoteListScreen extends StatefulWidget {
 class _NoteListScreenState extends State<NoteListScreen> {
   @override
   Widget build(BuildContext context) {
+
+    final noteProvider = context.watch<NoteProvider>();
+
+    final countNote = noteProvider.notes.length;
+
     return Scaffold(
       backgroundColor: AppTheme.bgGray,
       drawer: const SideBar(),
       appBar: AppBarMenu(context),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 1),
+          padding: const EdgeInsets.symmetric(horizontal: 5),
           child: 
           GridView.count(
+          
           crossAxisCount: 2,
-          children: const <Widget>[
-              userNote(title: 'sdg', body: 'date', color: AppTheme.note_1),
-              userNote(title: 'sdg', body: 'date', color: AppTheme.note_1),
-              userNote(title: 'sdg', body: 'date', color: AppTheme.note_2),
-              userNote(title: 'sdg', body: 'date', color: AppTheme.note_3),
-              userNote(title: 'sdg', body: 'date', color: AppTheme.note_4),
-          ],
+          children: List.generate(countNote, (index) {
+              return Center(
+                child: ListViewBuilder(noteProvider: noteProvider,index:index)
+              );
+            }),
           )
         )
         ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          noteProvider.addNote();
+        },
+        child: const Icon(Icons.update),
+      ),
     );
+  }
+}
+
+class ListViewBuilder extends StatelessWidget {
+  const ListViewBuilder({
+    super.key,
+    required this.noteProvider,
+    required this.index,
+  });
+
+  final NoteProvider noteProvider;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return userNote(title: noteProvider.notes[index].title, body: noteProvider.notes[index].body, color: AppTheme.note_1);
+    
   }
 }

@@ -40,7 +40,7 @@ class userNote extends StatelessWidget {
                           ),
                       Align(
                           alignment: Alignment.centerLeft,
-                          child:  Text(title),
+                          child:  Text(body),
                           ),
                     ],
                   ),
