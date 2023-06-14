@@ -13,25 +13,18 @@ class NoteProvider extends ChangeNotifier{
 
 
 
-  List<Note> notes = [
-    Note(title:'Primera nota 1', body: 'Texto descriptivo de la nota como para rellenar , tu sabes'),
-    Note(title:'Primera nota 2', body: 'Texto descriptivo de la nota como para rellenar , tu sabes'),
-  ];
+  List<Note> notes = [];
 
 
 Future<void> getNotes() async{
   final notesAnswer = await getNotesAnswer.getAnswer();
+  notes = [];
   notes.addAll(notesAnswer);
   notifyListeners();
 }
 
 
-Future<void> addNote() async {
-  // TODO
-  await getNotes();
-  print(notes[3].body);
-  notifyListeners();
-}
+
 
 }
 
