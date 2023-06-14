@@ -4,14 +4,14 @@
 import '../../widgets/shared/appBarMenu.dart';
 
 
-class OrcCamScreen extends StatefulWidget {
-  const OrcCamScreen({super.key});
+class OcrCamScreen extends StatefulWidget {
+  const OcrCamScreen({super.key});
 
   @override
-  State<OrcCamScreen> createState() => _OrcCamScreenState();
+  State<OcrCamScreen> createState() => _OcrCamScreenState();
 }
 
-class _OrcCamScreenState extends State<OrcCamScreen>{
+class _OcrCamScreenState extends State<OcrCamScreen>{
   bool isPermissionGranted = false;
 
   late final Future<void> _future;

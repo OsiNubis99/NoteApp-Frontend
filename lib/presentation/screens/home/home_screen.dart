@@ -49,12 +49,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       //OCRCAM
                       MaterialButton(
                         onPressed: () {
-/*                           final route = MaterialPageRoute(builder: (context) => const Screen());
-                          Navigator.pushReplacement(context, route); */
+                          ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('¡Próximamente!')));
+                          //final route = MaterialPageRoute(builder: (context) => const OcrCamScreen());
+                          //Navigator.pushReplacement(context, route);
                         },
 
                         child: const OptionCard(
-                          title: "Lector de imagenes", 
+                          title: "Lector de imágenes", 
                           theme: AppTheme.note_2,
                           icono: Icons.camera_alt_rounded,
                           body: "¡Convierta una imagen en texto!"
@@ -65,6 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       //AUDIO CAPTURE
                       MaterialButton(
                         onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('¡Próximamente!')));
 /*                           final route = MaterialPageRoute(builder: (context) => const Screen());
                           Navigator.pushReplacement(context, route); */
                         },
