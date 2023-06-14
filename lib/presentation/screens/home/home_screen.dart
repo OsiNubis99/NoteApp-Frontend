@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteList_screen.dart';
+import 'package:note_app_frontend/presentation/screens/orccam/orccam_screen.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 
 import '../../../config/theme/app_theme.dart';
@@ -49,12 +50,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       //OCRCAM
                       MaterialButton(
                         onPressed: () {
-/*                           final route = MaterialPageRoute(builder: (context) => const Screen());
-                          Navigator.pushReplacement(context, route); */
+                          final route = MaterialPageRoute(builder: (context) => const OrcCamScreen());
+                          Navigator.pushReplacement(context, route);
                         },
 
                         child: const OptionCard(
-                          title: "Lector de imagenes", 
+                          title: "Lector de imágenes", 
                           theme: AppTheme.note_2,
                           icono: Icons.camera_alt_rounded,
                           body: "¡Convierta una imagen en texto!"

@@ -17,7 +17,7 @@ class AppTheme{
         primaryColor: const Color(0xFFEDC123),
         scaffoldBackgroundColor:bgGray,
         colorScheme: ColorScheme.fromSwatch()
-          .copyWith(secondary: Color(0XFFFAFAFA)),
+          .copyWith(secondary: const Color(0XFFFAFAFA)),
         highlightColor:  const Color(0XFFFAFAFA),
         textTheme: const TextTheme(
 

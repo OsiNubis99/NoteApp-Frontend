@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 
 import '../../domain/entities/note.dart';
 
