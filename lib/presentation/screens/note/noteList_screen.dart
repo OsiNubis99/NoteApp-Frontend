@@ -48,11 +48,24 @@ class _NoteListScreenState extends State<NoteListScreen> {
               Center(child: FilledButton.tonal(onPressed: (){},child: const Text('Crear una Nota')))
         )
         ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          noteProvider.getNotes();
-        },
-        child: const Icon(Icons.update),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: (){
+              noteProvider.getNotes();
+            },
+            child: const Icon(Icons.update),
+          ),
+          const SizedBox(height: 10,)
+          ,
+          FloatingActionButton(
+            onPressed: (){
+              
+            },
+            child: const Icon(Icons.add),
+          ),
+        ],
       ),
     );
   }
