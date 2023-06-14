@@ -66,6 +66,14 @@ class AppTheme{
               fontWeight: FontWeight.bold,
               color: Color(0XFF1F1F1F),
           ),
+
+          titleMedium: TextStyle(
+              fontSize: 15.0,
+              //fontFamily:,
+              fontWeight: FontWeight.bold,
+              color: Color(0XFF1F1F1F),
+          ),
+
         ),
       );
 
