@@ -68,7 +68,7 @@ class SideBar extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: Color(0XFF1F1F1F),),
               ),
-            leading: Icon(Icons.exit_to_app_outlined),
+            leading: Icon(Icons.home),
             ),
           ),
 
