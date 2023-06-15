@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/presentation/providers/note/note_provider.dart';
+import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/appBarMenu.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 import 'package:provider/provider.dart';
@@ -57,6 +58,8 @@ class _NoteListScreenState extends State<NoteListScreen> {
            FloatingActionButton(
              heroTag: "Create",
              onPressed: (){
+                final route = MaterialPageRoute(builder: (context) => NoteEditorScreen());
+                Navigator.pushReplacement(context, route);
           
              },
              child: const Icon(Icons.add),

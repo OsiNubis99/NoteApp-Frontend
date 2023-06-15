@@ -6,6 +6,8 @@ import 'package:quill_html_editor/quill_html_editor.dart';
 
 import 'package:material_tag_editor/tag_editor.dart';
 
+import 'noteList_screen.dart';
+
 class NoteEditorScreen extends StatefulWidget {
   NoteEditorScreen({Key? key}) : super(key: key);
 
@@ -75,13 +77,19 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
     return Scaffold(
       backgroundColor: AppTheme.bgGray,
       appBar: AppBar(
-        backgroundColor: AppTheme.lightTheme.appBarTheme.backgroundColor,
+        backgroundColor: AppTheme.lightTheme.appBarTheme.backgroundColor, leading: IconButton(
+          onPressed: () {
+                          final route = MaterialPageRoute(builder: (context) => const NoteListScreen());
+                          Navigator.pushReplacement(context, route);
+          },
+          icon: const Icon(Icons.arrow_back_ios, color: Color(0XFF000000)),
+        ),
         actions: [
           IconButton(
               onPressed: () async {
                 print(await _controller.getText());
               },
-              icon: const Icon(Icons.check))
+              icon: const Icon(Icons.check)),
         ],
       ),
       body: SingleChildScrollView(
