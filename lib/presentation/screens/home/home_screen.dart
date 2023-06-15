@@ -25,9 +25,9 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             SafeArea(
               child: GridView.count(
-                  padding: EdgeInsets.only(top: 50.0, left: 15, right: 15, bottom: 20),
+                  padding: EdgeInsets.only(top: 50.0, left: 10, right: 10, bottom: 20),
                     crossAxisCount: 2,
-                    childAspectRatio: 1.2,
+                    childAspectRatio: 1.15,
                     mainAxisSpacing: 35,
                     children: <Widget>[ 
 

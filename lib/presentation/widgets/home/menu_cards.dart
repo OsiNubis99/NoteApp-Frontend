@@ -16,7 +16,7 @@ class OptionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 20.0, left: 15, right: 30, bottom: 20),
+      padding: EdgeInsets.only(top: 20.0, left: 10, right: 15, bottom: 20),
         decoration: BoxDecoration(
         color: theme,
         borderRadius: BorderRadius.circular(10),
