@@ -24,11 +24,11 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             SafeArea(
               child: GridView.count(
-                  padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 5),
-                  crossAxisCount: 2,
-                  childAspectRatio: 1.2,
-                  mainAxisSpacing: 32,
-                  children: <Widget>[ 
+                  padding: EdgeInsets.only(top: 50.0, left: 15, right: 15, bottom: 20),
+                    crossAxisCount: 2,
+                    childAspectRatio: 1.2,
+                    mainAxisSpacing: 35,
+                    children: <Widget>[ 
 
                       //NOTAS
                       MaterialButton(
@@ -49,16 +49,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       //OCRCAM
                       MaterialButton(
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('¡Próximamente!')));
-                          //final route = MaterialPageRoute(builder: (context) => const OcrCamScreen());
-                          //Navigator.pushReplacement(context, route);
+/*                           final route = MaterialPageRoute(builder: (context) => const Screen());
+                          Navigator.pushReplacement(context, route); */
                         },
 
                         child: const OptionCard(
-                          title: "Lector de imágenes", 
+                          title: "Lector de imagenes", 
                           theme: AppTheme.note_2,
-                          icono: Icons.camera_alt_rounded,
+                          icono: Icons.photo_camera_back,
                           body: "¡Convierta una imagen en texto!"
                         ),
                       ),
@@ -74,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
 
                         child: const OptionCard(
-                          title: "Redactor de audio    ", 
+                          title: "Redactor de audio    ",
                           theme: AppTheme.note_3,
                           icono: Icons.multitrack_audio_outlined,
                           body: "¡Convierta un audio en texto!"
