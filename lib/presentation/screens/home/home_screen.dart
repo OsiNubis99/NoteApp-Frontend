@@ -5,6 +5,7 @@ import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart'
 import '../../../config/theme/app_theme.dart';
 import '../../widgets/home/menu_cards.dart';
 import '../../widgets/shared/appBarMenu.dart';
+import '../note/noteEditor_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
