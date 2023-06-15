@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteList_screen.dart';
-import 'package:note_app_frontend/presentation/screens/orccam/orccam_screen.dart';
+import 'package:note_app_frontend/presentation/screens/ocrcam/ocrcam_screen.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 
 import '../../../config/theme/app_theme.dart';
@@ -66,6 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       //AUDIO CAPTURE
                       MaterialButton(
                         onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('¡Próximamente!')));
 /*                           final route = MaterialPageRoute(builder: (context) => const Screen());
                           Navigator.pushReplacement(context, route); */
                         },
