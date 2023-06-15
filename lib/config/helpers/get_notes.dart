@@ -7,16 +7,28 @@ class GetNotes {
 
 final _dio = Dio();
 
-Future<List<Note>> getAnswer() async {
+Future<List<NoteEntity>> getAnswer() async {
   
-  final List<Note> notes = [];
+  final List<NotesByUserId> notesByUser = [];
+  List<NoteEntity> notes = [];
 
-  final response = await _dio.get('https://mynoteapp-production.up.railway.app/notes');
+  final response = await _dio.get('https://mynoteapp-prod.up.railway.app/user/1/notes');
   
-  for (final item in response.data){
-    final noteIn = Note(title: item['Titulo'], body: item['Cuerpo']);
-    notes.add(noteIn);
+  print(response.data[0]['notes']);
+
+  for(final item in response.data[0]['notes']){
+      NoteEntity noteIn = NoteEntity(
+        idNota:          item['idNota'], 
+        cuerpoNotaText:  item['cuerpoNotaText'], 
+        cuerpoNotaImg:   item['cuerpoNotaImg'], 
+        estadoNota:      item['estadoNota'], 
+        etiquetaNota:    item['etiquetaNota'], 
+        fechaNota:       item['fechaNota'], 
+        tituloNota:      item['tituloNota']);
+
+      notes.add(noteIn);
   }
+
 
   return notes;
 

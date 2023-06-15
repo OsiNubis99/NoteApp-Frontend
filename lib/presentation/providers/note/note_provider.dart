@@ -13,7 +13,7 @@ class NoteProvider extends ChangeNotifier{
 
 
 
-  List<Note> notes = [];
+  List<NoteEntity> notes = [];
 
 
 Future<void> getNotes() async{

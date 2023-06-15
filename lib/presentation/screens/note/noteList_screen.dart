@@ -52,19 +52,22 @@ class _NoteListScreenState extends State<NoteListScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
+            heroTag: "Update",
             onPressed: (){
+              
               noteProvider.getNotes();
             },
             child: const Icon(Icons.update),
           ),
           const SizedBox(height: 10,)
-          ,
-          FloatingActionButton(
-            onPressed: (){
-              
-            },
-            child: const Icon(Icons.add),
-          ),
+           ,
+           FloatingActionButton(
+             heroTag: "Create",
+             onPressed: (){
+          
+             },
+             child: const Icon(Icons.add),
+           ),
         ],
       ),
     );
@@ -83,7 +86,7 @@ class ListViewBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return userNote(title: noteProvider.notes[index].title, body: noteProvider.notes[index].body, color: AppTheme.note_1);
+    return userNote(title: noteProvider.notes[index].tituloNota, body: noteProvider.notes[index].cuerpoNotaText, color: AppTheme.note_1);
     
   }
 }
