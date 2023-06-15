@@ -29,23 +29,16 @@ class _NoteListScreenState extends State<NoteListScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5),
-          child: 
-          (countNote != 0) ? 
-          GridView.count(
-          
-          crossAxisCount: 2,
-          children: 
-          List.generate(countNote, (index) {
+          child: GridView.count(
+            crossAxisCount: 2,
+            children: List.generate(countNote, (index) {
               return Center(
                 child: 
-                 ListViewBuilder(noteProvider: noteProvider,index:index) 
-                
+                 ListViewBuilder(noteProvider: noteProvider,index:index)
               );
             })
             
           )
-          :
-              Center(child: FilledButton.tonal(onPressed: (){},child: const Text('Crear una Nota')))
         )
         ),
       floatingActionButton: Column(

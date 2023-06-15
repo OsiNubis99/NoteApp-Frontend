@@ -34,8 +34,8 @@ class SideBar extends StatelessWidget {
             ),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
-                child: Image.asset(
-                  "assets/user.jpg",
+                child: Image.network(
+                  'https://i.pinimg.com/564x/00/80/ee/0080eeaeaa2f2fba77af3e1efeade565.jpg',
                   width: 100,
                   height: 100,
                   fit: BoxFit.cover,
@@ -68,7 +68,7 @@ class SideBar extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: Color(0XFF1F1F1F),),
               ),
-            leading: Icon(Icons.home),
+            leading: Icon(Icons.exit_to_app_outlined),
             ),
           ),
 

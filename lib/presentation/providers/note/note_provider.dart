@@ -23,8 +23,7 @@ Future<void> getNotes() async{
   notifyListeners();
 }
 
-
-
+  void addNote() {}
 
 }
 
