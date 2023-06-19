@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteList_screen.dart';
+import 'package:note_app_frontend/presentation/screens/ocr-audio/ocrAudio_screen.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 
 import '../../../config/theme/app_theme.dart';
 import '../../widgets/home/menu_cards.dart';
 import '../../widgets/shared/appBarMenu.dart';
-import '../note/noteEditor_screen.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -66,14 +67,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       //AUDIO CAPTURE
                       MaterialButton(
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('¡Próximamente!')));
-/*                           final route = MaterialPageRoute(builder: (context) => const Screen());
-                          Navigator.pushReplacement(context, route); */
+                          final route = MaterialPageRoute(builder: (context) => const OcrAudioScreen());
+                          Navigator.pushReplacement(context, route);
                         },
 
                         child: const OptionCard(
-                          title: "Redactor de audio    ",
+                          title: "Redactor de audio",
                           theme: AppTheme.note_3,
                           icono: Icons.multitrack_audio_outlined,
                           body: "¡Convierta un audio en texto!"
