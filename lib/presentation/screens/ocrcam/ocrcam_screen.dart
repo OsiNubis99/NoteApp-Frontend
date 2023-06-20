@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../widgets/shared/appBarMenu.dart';
+import '../../widgets/shared/sidebar_menu.dart';
 
 
 class OrcCamScreen extends StatefulWidget {
@@ -30,6 +31,7 @@ class _OrcCamScreenState extends State<OrcCamScreen>{
       future: _future,
       builder: (context, snapshot) {
         return Scaffold(
+          drawer: const SideBar(),
           appBar: AppBarMenu(context),
           body: Center(
             child: Container(

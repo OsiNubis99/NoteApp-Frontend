@@ -5,6 +5,7 @@ import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart'
 
 import '../../../config/theme/app_theme.dart';
 import '../../widgets/home/menu_cards.dart';
+import '../../widgets/ocrcam/modal_dialog.dart';
 import '../../widgets/shared/appBarMenu.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -50,8 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       //OCRCAM
                       MaterialButton(
                         onPressed: () {
-                          final route = MaterialPageRoute(builder: (context) => const OrcCamScreen());
-                          Navigator.pushReplacement(context, route);
+                          imagePickerModal(context);
                         },
 
                         child: const OptionCard(
