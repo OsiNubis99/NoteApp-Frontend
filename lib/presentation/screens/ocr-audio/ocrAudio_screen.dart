@@ -68,7 +68,8 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
           const SizedBox(height: 20),
           const Text('Presiona el microfono',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
           const SizedBox(height: 10),
-          const Text('Para comenzar a recolectar texto por audio')
+          (_lastWords != '') ? Text(_lastWords) : const Text('Para comenzar a recolectar texto por audio') 
+          
       ],)
       :
       Column(
@@ -81,7 +82,7 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
           Text(
                   // If listening is active show the recognized words
                   _speechToText.isListening
-                      ? '_lastWords'
+                      ? _lastWords
                       // If listening isn't active but could be tell the user
                       // how to start it, otherwise indicate that speech
                       // recognition is not yet ready or not supported on
@@ -97,7 +98,8 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
       )
       ,
      floatingActionButton: ( !openCapture ) ? 
-          fabButton(
+          FabButton(
+          tagName: "Play",  
           onPressed: (){
 
             _speechToText.isNotListening ? _startListening : _stopListening;
@@ -105,7 +107,7 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
              setState(() {});
 
           },
-          tagName: "Play",   
+           
           icon: _speechToText.isNotListening ? Icons.mic_off : Icons.mic, 
            bgColor: AppTheme.primary,
          )
@@ -113,28 +115,30 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
        Row(
            mainAxisAlignment: MainAxisAlignment.spaceAround,
            children: [
-             fabButton(
+             FabButton(
+              tagName: "Pause", 
           onPressed: (){
-           
+            print(_lastWords);
           },
-          tagName: "Pause",   
           icon: Icons.pause, 
           bgColor: AppTheme.note_1,
          ),
-          fabButton(
+          FabButton(
+          tagName: "Stop",  
           onPressed: (){
              openCapture = false;
              setState(() {});
           },
-          tagName: "Stop",   
+           
           icon: Icons.stop, 
            bgColor: Color.fromARGB(255, 255, 27, 27),
          ),
-          fabButton(
+          FabButton(
+          tagName: "Save",
           onPressed: (){
            
           },
-          tagName: "Save",   
+            
           icon: Icons.save, 
            bgColor: AppTheme.note_3,
          )
@@ -150,14 +154,14 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
 
 
 
-class fabButton extends StatelessWidget {
+class FabButton extends StatelessWidget {
 
   final VoidCallback onPressed;
   final String tagName;
   final IconData icon;
   final Color bgColor;
 
-  const fabButton({super.key, required this.onPressed, required this.tagName, required this.icon, required this.bgColor});
+  const FabButton({super.key, required this.onPressed, required this.tagName, required this.icon, required this.bgColor});
 
   @override
   Widget build(BuildContext context) {
