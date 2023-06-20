@@ -102,7 +102,7 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
           tagName: "Play",  
           onPressed: (){
 
-            _speechToText.isNotListening ? _startListening : _stopListening;
+             _startListening();
              openCapture = true;
              setState(() {});
 
