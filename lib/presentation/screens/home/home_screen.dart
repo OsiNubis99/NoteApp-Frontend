@@ -66,10 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       //AUDIO CAPTURE
                       MaterialButton(
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('¡Próximamente!')));
-/*                           final route = MaterialPageRoute(builder: (context) => const Screen());
-                          Navigator.pushReplacement(context, route); */
+                          final route = MaterialPageRoute(builder: (context) => const OrcCamScreen());
+                          Navigator.pushReplacement(context, route);
                         },
 
                         child: const OptionCard(
