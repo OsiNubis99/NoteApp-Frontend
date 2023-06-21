@@ -66,8 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       //AUDIO CAPTURE
                       MaterialButton(
                         onPressed: () {
-                          final route = MaterialPageRoute(builder: (context) => const OrcCamScreen());
-                          Navigator.pushReplacement(context, route);
+                          /* final route = MaterialPageRoute(builder: (context) => const OrcCamScreen());
+                          Navigator.pushReplacement(context, route); */
                         },
 
                         child: const OptionCard(

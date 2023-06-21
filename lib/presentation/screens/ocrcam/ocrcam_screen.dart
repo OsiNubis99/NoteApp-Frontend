@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:note_app_frontend/presentation/screens/ocrcam/result_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:camera/camera.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
 import '../../widgets/shared/appBarMenu.dart';
 import '../../widgets/shared/sidebar_menu.dart';
@@ -20,6 +24,8 @@ class _OrcCamScreenState extends State<OrcCamScreen> with WidgetsBindingObserver
 
   CameraController? _cameraController;
 
+  final _textRecognizer = TextRecognizer();
+
   @override
   void initState(){
     super.initState();
@@ -31,6 +37,8 @@ class _OrcCamScreenState extends State<OrcCamScreen> with WidgetsBindingObserver
   @override
   void dispose(){
     WidgetsBinding.instance.removeObserver(this);
+    _stopCamera();
+    _textRecognizer.close();
     super.dispose();
   }
 
@@ -80,10 +88,10 @@ class _OrcCamScreenState extends State<OrcCamScreen> with WidgetsBindingObserver
                       ),
                       Container(
                         padding: const EdgeInsets.only(bottom: 30),
-                        child: const Center(
-                          child: ElevatedButton(
-                            onPressed: null,
-                            child: Text("Scan text"),
+                        child: Center(
+                          child: GestureDetector(
+                            onTap: _scanImage,
+                            child: const Text("Scan text"),
                           ),
                         ),
                       )
@@ -105,30 +113,10 @@ class _OrcCamScreenState extends State<OrcCamScreen> with WidgetsBindingObserver
               )
           ],
         );
-
-        /* return Scaffold(
-          drawer: const SideBar(),
-          appBar: AppBarMenu(context),
-          body: Center(
-            child: Container(
-              padding: const EdgeInsets.only(left: 24, right: 24),
-              child: Text(
-                isPermissionGranted
-                  // PERMISSION GRANTED
-                  ? 'Permiso de cámara aceptado'
-
-                  // PERMISSION DENIED
-                  : 'Permiso de cámara negado',
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ); */
       },
     );
     
   }
-
 
 
 //CAMERA PERMISSION
@@ -181,6 +169,30 @@ class _OrcCamScreenState extends State<OrcCamScreen> with WidgetsBindingObserver
       return;
     }
     setState(() {});
+  }
+
+  //SCAN TEXT
+  Future<void> _scanImage() async {
+    if (_cameraController == null){
+      final navigator = Navigator.of(context);
+
+      try{
+        final pictureFile = await _cameraController!.takePicture();
+        final file = File(pictureFile.path);
+        final inputImage = InputImage.fromFile(file);
+        final recognizedText = await _textRecognizer.processImage(inputImage);
+
+        await navigator.push(
+          MaterialPageRoute(
+            builder: (context) => ResultScreen(text: recognizedText.text),
+          )
+        );
+      } catch(e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Ocurrió un error al escanear el texto"))
+        );
+      }
+    }
   }
 
 }
