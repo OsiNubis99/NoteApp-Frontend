@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:note_app_frontend/config/helpers/create_note.dart';
 import 'package:note_app_frontend/config/helpers/get_notes.dart';
 
 import '../../../domain/entities/note.dart';
@@ -10,6 +11,7 @@ import '../../../domain/entities/note.dart';
 class NoteProvider extends ChangeNotifier{
 
   final GetNotes getNotesAnswer = GetNotes();
+  final CreateNote createNote   = CreateNote();
 
 
 
@@ -23,7 +25,10 @@ Future<void> getNotes() async{
   notifyListeners();
 }
 
-  void addNote() {}
+  Future<void> addNote(String textBody) async{
+     await createNote.createNote(text:textBody,titulo:'Titulo por audio');
+     notifyListeners();
+  }
 
 }
 

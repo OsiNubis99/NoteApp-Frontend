@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/appBarMenu.dart';
+import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+
+import '../../providers/note/note_provider.dart';
 
 class OcrAudioScreen extends StatefulWidget {
   const OcrAudioScreen({super.key});
@@ -18,6 +21,7 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
   SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   String _lastWords = '';
+
 
 @override
   void initState() {
@@ -56,6 +60,11 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+
+    final noteProvider = context.watch<NoteProvider>();
+
+
     return Scaffold(
       appBar: AppBarMenu(context),
       body:  SafeArea(child: 
@@ -136,7 +145,7 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
           FabButton(
           tagName: "Save",
           onPressed: (){
-           
+            noteProvider.addNote(_lastWords);
           },
             
           icon: Icons.save, 
