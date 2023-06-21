@@ -68,18 +68,45 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
     return Scaffold(
       appBar: AppBarMenu(context),
       body:  SafeArea(child: 
-      Center(child: (!openCapture) ? 
-      Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children:  [
-           const SizedBox(height: 180),
-          Image.asset("assets/audioCollector.png",width: 200,),
-          const SizedBox(height: 20),
-          const Text('Presiona el microfono',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
-          const SizedBox(height: 10),
-          (_lastWords != '') ? Text(_lastWords) : const Text('Para comenzar a recolectar texto por audio') 
-          
-      ],)
+      Center(child: 
+      (!openCapture) ? 
+          ( _lastWords == "") ? 
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children:  [
+              const SizedBox(height: 180),
+              Image.asset("assets/audioCollector.png",width: 200,),
+              const SizedBox(height: 20),
+              const Text('Presiona el microfono',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+              const SizedBox(height: 10),
+              const Text('Para comenzar a recolectar texto por audio'), 
+              
+          ],)
+          :
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children:  [
+              const SizedBox(height: 320),
+              Container(
+                padding: EdgeInsets.all(8),
+                color: AppTheme.primary,
+                child: 
+                  
+                   Text(_lastWords),
+                         
+              ),
+               const SizedBox(height: 20),
+              FilledButton(
+                  onPressed: (){
+                      noteProvider.addNote(_lastWords);
+                       _lastWords = '';
+                       setState(() {});
+                  },
+                  child: const Text('Guardar Nota')),
+             
+              
+          ],)
+
       :
       Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -124,33 +151,17 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
        Row(
            mainAxisAlignment: MainAxisAlignment.spaceAround,
            children: [
-             FabButton(
-              tagName: "Pause", 
-          onPressed: (){
-            print(_lastWords);
-          },
-          icon: Icons.pause, 
-          bgColor: AppTheme.note_1,
-         ),
+            
           FabButton(
           tagName: "Stop",  
           onPressed: (){
              openCapture = false;
              setState(() {});
-          },
-           
+          },      
           icon: Icons.stop, 
            bgColor: Color.fromARGB(255, 255, 27, 27),
          ),
-          FabButton(
-          tagName: "Save",
-          onPressed: (){
-            noteProvider.addNote(_lastWords);
-          },
-            
-          icon: Icons.save, 
-           bgColor: AppTheme.note_3,
-         )
+         
            
          ],)
          ,
