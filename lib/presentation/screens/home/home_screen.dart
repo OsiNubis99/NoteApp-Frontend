@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteList_screen.dart';
-import 'package:note_app_frontend/presentation/screens/ocrcam/ocrcam_screen.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 
 import '../../../config/theme/app_theme.dart';

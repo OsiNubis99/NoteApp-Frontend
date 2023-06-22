@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/presentation/screens/ocrcam/result_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:camera/camera.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
-import '../../widgets/shared/appBarMenu.dart';
-import '../../widgets/shared/sidebar_menu.dart';
+import '../../widgets/shared/appBarMenuBack.dart';
 
 
 class OrcCamScreen extends StatefulWidget {
@@ -76,8 +76,7 @@ class _OrcCamScreenState extends State<OrcCamScreen> with WidgetsBindingObserver
                 },
               ),
               Scaffold(
-                drawer: const SideBar(),
-                appBar: AppBarMenu(context),
+                appBar: AppBarMenuBack(context),
                 backgroundColor: isPermissionGranted ? Colors.transparent : null,
                 body: isPermissionGranted 
                   // PERMISSION ACEPTED
@@ -89,9 +88,10 @@ class _OrcCamScreenState extends State<OrcCamScreen> with WidgetsBindingObserver
                       Container(
                         padding: const EdgeInsets.only(bottom: 30),
                         child: Center(
-                          child: GestureDetector(
-                            onTap: _scanImage,
-                            child: const Text("Scan text"),
+                          child: FloatingActionButton(
+                            onPressed: (){_scanImage;},
+                            backgroundColor: AppTheme.primary,
+                            child: const Icon(Icons.camera_alt_rounded),
                           ),
                         ),
                       )
