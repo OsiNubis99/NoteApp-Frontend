@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
-import 'package:note_app_frontend/presentation/widgets/shared/appBarMenu.dart';
+import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 import '../../providers/note/note_provider.dart';
-import '../../widgets/shared/sidebar_menu.dart';
+import '../../widgets/shared/appBarMenu.dart';
 
 class OcrAudioScreen extends StatefulWidget {
   const OcrAudioScreen({super.key});
