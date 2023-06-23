@@ -6,6 +6,7 @@ import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 import '../../providers/note/note_provider.dart';
+import '../../widgets/shared/sidebar_menu.dart';
 
 class OcrAudioScreen extends StatefulWidget {
   const OcrAudioScreen({super.key});
@@ -66,6 +67,7 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
 
 
     return Scaffold(
+      drawer: const SideBar(),
       appBar: AppBarMenu(context),
       body:  SafeArea(child: 
       Center(child: 
