@@ -1,7 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
+import 'package:note_app_frontend/presentation/screens/ocrcam/resultext_screen.dart';
 
 import '../../screens/ocrcam/ocrcam_screen.dart';
+import 'image_cropper.dart';
 
 void optionOcrCam(BuildContext context){
   showModalBottomSheet(
@@ -14,14 +18,33 @@ void optionOcrCam(BuildContext context){
           children: [
             MaterialButton(
               onPressed: (){
-                final route = MaterialPageRoute(builder: (context) => const OcrCamScreen());
-                Navigator.pushReplacement(context, route);
+                pickImage(source: ImageSource.camera).then((value) {
+                  if (value != ''){
+                    imageCropper(value, context).then((value) {
+                      if(value != ''){
+                        Navigator.push(context, CupertinoPageRoute(
+                          builder: (_) => ResultScreen(path: value,)
+                        ));
+                    }
+                  });}
+                });
               },
               child: const OptionOCRCard(title: "Cámara"),
             ),
             const SizedBox(height:15),
             MaterialButton(
-              onPressed: (){},
+              onPressed: (){
+                pickImage(source: ImageSource.gallery).then((value) {
+                  if (value != ''){
+                    imageCropper(value, context).then((value) {
+                      if(value != ''){
+                        Navigator.push(context, CupertinoPageRoute(
+                          builder: (_) => ResultScreen(path: value,)
+                        ));
+                    }
+                  });}
+                });
+              },
               child: const OptionOCRCard(title: "Galería"),
             ),
           ],
