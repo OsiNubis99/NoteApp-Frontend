@@ -5,6 +5,7 @@ import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart'
 
 import '../../../config/theme/app_theme.dart';
 import '../../widgets/home/menu_cards.dart';
+import '../../widgets/ocrcam/modal_optioncam.dart';
 import '../../widgets/shared/appBarMenu.dart';
 
 
@@ -26,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             SafeArea(
               child: GridView.count(
-                  padding: EdgeInsets.only(top: 50.0, left: 10, right: 10, bottom: 20),
+                  padding: const EdgeInsets.only(top: 50.0, left: 10, right: 10, bottom: 20),
                     crossAxisCount: 2,
                     childAspectRatio: 1.15,
                     mainAxisSpacing: 35,
@@ -51,8 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       //OCRCAM
                       MaterialButton(
                         onPressed: () {
-/*                           final route = MaterialPageRoute(builder: (context) => const Screen());
-                          Navigator.pushReplacement(context, route); */
+                          optionOcrCam(context);
                         },
 
                         child: const OptionCard(
