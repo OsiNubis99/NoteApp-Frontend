@@ -66,7 +66,7 @@ class OptionOCRCard extends StatelessWidget {
     return Card(
         child: Container(
           alignment: Alignment.center,
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.only(left:15, right: 15, top: 20),
           decoration: const BoxDecoration(color: AppTheme.primary,),
           child: Column(
               children: <Widget>[

@@ -17,8 +17,8 @@ Future<String> imageCropper(String? path, BuildContext context) async {
       uiSettings: [
         AndroidUiSettings(
             toolbarTitle: 'Cortar imagen',
-            toolbarColor: AppTheme.primary,
-            toolbarWidgetColor: Colors.white,
+            toolbarColor: AppTheme.bgGray,
+            toolbarWidgetColor: AppTheme.primary,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),
         IOSUiSettings(
