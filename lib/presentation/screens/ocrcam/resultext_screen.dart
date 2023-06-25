@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 import '../../widgets/shared/appBarMenu.dart';
 
@@ -30,16 +31,46 @@ class _ResultScreenState extends State<ResultScreen> {
   Widget build(BuildContext context){
     return Scaffold(
       drawer: const SideBar(),
-      appBar: AppBarMenu(context),
+
+      appBar: AppBar(
+        backgroundColor: AppTheme.bgGray,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(Icons.arrow_back_ios, color: Color(0XFF000000)),
+        ),
+        title: Image.asset(
+          "assets/my_notes_app.png",
+          width: 130,
+        ),
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: AppTheme.text_dark),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search, color: AppTheme.text_dark),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Buscar Proximamente')));
+            },
+          ),
+        ],
+      ),
+      
       body: _isBusy == true
       ? const Center(
         child: CircularProgressIndicator(),
-      ) : Container(
+      ) 
+      
+      //SCAN TEXT
+      : Container(
         padding: const EdgeInsets.all(20),
         child: TextFormField(
           maxLines: MediaQuery.of(context).size.height.toInt(),
           controller: controller,
-        )
+          style: AppTheme.lightTheme.textTheme.titleMedium,
+        ),
       )
     );
   }

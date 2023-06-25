@@ -12,7 +12,7 @@ void optionOcrCam(BuildContext context){
     context:context, 
     builder: (context) {
       return Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.only(top: 35, bottom: 25, right: 20,left: 20),
         height: 220,
         child: Column(
           children: [
@@ -66,7 +66,7 @@ class OptionOCRCard extends StatelessWidget {
     return Card(
         child: Container(
           alignment: Alignment.center,
-          padding: const EdgeInsets.only(left:15, right: 15, top: 20),
+          padding: const EdgeInsets.all(15),
           decoration: const BoxDecoration(color: AppTheme.primary,),
           child: Column(
               children: <Widget>[
