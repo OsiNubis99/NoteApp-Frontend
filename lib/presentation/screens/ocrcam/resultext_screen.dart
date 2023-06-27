@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
-import '../../widgets/shared/appBarMenu.dart';
+import 'package:provider/provider.dart';
+import '../../providers/note/note_provider.dart';
+import '../note/noteList_screen.dart';
 
 class ResultScreen extends StatefulWidget {
   final String? path;
@@ -29,6 +31,9 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context){
+
+    final noteProvider = context.watch<NoteProvider>();
+
     return Scaffold(
       drawer: const SideBar(),
 
@@ -49,10 +54,13 @@ class _ResultScreenState extends State<ResultScreen> {
         iconTheme: const IconThemeData(color: AppTheme.text_dark),
         actions: [
           IconButton(
-            icon: const Icon(Icons.search, color: AppTheme.text_dark),
+            icon: const Icon(Icons.check, color: AppTheme.text_dark),
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Buscar Proximamente')));
+                noteProvider.addNote(controller.text);
+                controller.text = '';
+                setState(() {});
+                final route = MaterialPageRoute(builder: (context) => const NoteListScreen());
+                Navigator.pushReplacement(context, route);
             },
           ),
         ],
@@ -67,11 +75,11 @@ class _ResultScreenState extends State<ResultScreen> {
       : Container(
         padding: const EdgeInsets.all(20),
         child: TextFormField(
-          maxLines: MediaQuery.of(context).size.height.toInt(),
-          controller: controller,
-          style: AppTheme.lightTheme.textTheme.titleMedium,
+              maxLines: MediaQuery.of(context).size.height.toInt(),
+              controller: controller,
+              style: AppTheme.lightTheme.textTheme.titleMedium,
         ),
-      )
+      ),
     );
   }
 
