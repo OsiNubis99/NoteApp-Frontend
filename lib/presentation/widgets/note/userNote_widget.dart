@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:note_app_frontend/domain/entities/note.dart';
 import 'package:note_app_frontend/presentation/screens/home/home_screen.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
 
 import '../../../config/theme/app_theme.dart';
 
 class userNote extends StatelessWidget {
-  final String title;
-  final String body;
+  final NoteEntity note;
   final Color color;
 
   const userNote({
     super.key,
-    required this.title,
-    required this.body,
     required this.color,
+    required this.note,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        final route =
-            MaterialPageRoute(builder: (context) => NoteEditorScreen());
+        final route = MaterialPageRoute(
+            builder: (context) => NoteEditorScreen(
+                  note: note,
+                ));
         Navigator.push(context, route);
       },
       child: Card(
@@ -37,13 +38,13 @@ class userNote extends StatelessWidget {
                   children: [
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(title,
+                      child: Text(note.tituloNota,
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18)),
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(body),
+                      child: Text(note.descriptionNota),
                     ),
                   ],
                 ),

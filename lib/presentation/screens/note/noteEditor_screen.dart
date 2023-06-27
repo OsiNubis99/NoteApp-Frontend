@@ -2,12 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:note_app_frontend/config/helpers/location.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
+import 'package:note_app_frontend/domain/entities/note.dart';
+import 'package:note_app_frontend/presentation/providers/note/note_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
 import 'noteList_screen.dart';
 
 class NoteEditorScreen extends StatefulWidget {
-  NoteEditorScreen({Key? key}) : super(key: key);
+  NoteEditorScreen({NoteEntity? note}) {
+    if (note == null) {
+      currentNote = NoteEntity(
+          idNota: '',
+          tituloNota: '',
+          descriptionNota: '',
+          fechaNota: '',
+          estadoNota: '');
+    } else {
+      currentNote = note;
+    }
+  }
+
+  late NoteEntity currentNote;
 
   @override
   State<NoteEditorScreen> createState() => _NoteEditorScreenState();
@@ -43,6 +59,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   List<String> _values = [];
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
   late TabController _tabController;
   final List<Map<String, dynamic>> _tasksExamples = [
     {'id': 1, 'status': false, 'text': 'Task 1'},
@@ -61,6 +78,13 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
     });
   }
 
+  _initData() async {
+    _controller
+        .setText(widget.currentNote.descriptionNota)
+        .then((value) => print("PROBANDO $value"));
+    _titleController.text = widget.currentNote.tituloNota;
+  }
+
   @override
   void initState() {
     _controller = QuillEditorController();
@@ -71,6 +95,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
     print(LocationService.getCurrentLocation());
 
     _tabController = TabController(length: 2, vsync: this);
+    _initData();
     super.initState();
   }
 
@@ -82,14 +107,21 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
 
   @override
   Widget build(BuildContext context) {
+    final _noteProvider = context.watch<NoteProvider>();
     return Scaffold(
       backgroundColor: AppTheme.bgGray,
-      floatingActionButton: _tabSelected == 0
-          ? SpeedDial(
+      floatingActionButton: Container(
+        width: MediaQuery.of(context).size.width * 0.90,
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        height: 40,
+        child: Row(
+          children: [
+            SpeedDial(
               //Speed dial menu
               // marginBottom: 10,
               //margin bottom
               icon: Icons.menu,
+
               //icon on Floating action button
               activeIcon: Icons.close,
               //icon when menu is expanded on button
@@ -119,11 +151,13 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
 
               children: [
                 SpeedDialChild(
-                  //speed dial child
+                  //speed dial chil
+
                   child: Icon(Icons.accessibility),
                   backgroundColor: Colors.red,
                   foregroundColor: Colors.white,
                   label: 'First Menu Child',
+
                   labelStyle: TextStyle(fontSize: 18.0),
                   onTap: () => print('FIRST CHILD'),
                   onLongPress: () => print('FIRST CHILD LONG PRESS'),
@@ -149,67 +183,50 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
 
                 //add more menu item childs here
               ],
-            )
-          : Container(
-              width: MediaQuery.of(context).size.width * 0.95,
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              height: 40,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(35.0),
-                        boxShadow: [
-                          BoxShadow(
-                              offset: Offset(0, 3),
-                              blurRadius: 5,
-                              color: Colors.grey)
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                  hintText: "Type your task",
-                                  hintStyle: TextStyle(
-                                      color: Colors.black54, fontSize: 20),
-                                  border: InputBorder.none),
-                            ),
-                          ),
-                          // IconButton(
-                          //   icon: Icon(Icons.photo_camera,
-                          //       color: Colors.blueAccent),
-                          //   onPressed: () {},
-                          // ),
-                          // IconButton(
-                          //   icon: Icon(Icons.attach_file,
-                          //       color: Colors.blueAccent),
-                          //   onPressed: () {},
-                          // )
-                        ],
+            ),
+            SizedBox(width: 15),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(35.0),
+                  boxShadow: [
+                    BoxShadow(
+                        offset: Offset(0, 3), blurRadius: 5, color: Colors.grey)
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                            hintText: "Type your task",
+                            hintStyle:
+                                TextStyle(color: Colors.black54, fontSize: 20),
+                            border: InputBorder.none),
                       ),
                     ),
-                  ),
-                  SizedBox(width: 15),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                        color: AppTheme.note_1, shape: BoxShape.circle),
-                    child: InkWell(
-                      child: const Icon(
-                        Icons.send,
-                        color: Colors.white,
-                      ),
-                      onLongPress: () {},
-                    ),
-                  )
-                ],
+                  ],
+                ),
               ),
             ),
+            SizedBox(width: 15),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
+                  color: AppTheme.note_1, shape: BoxShape.circle),
+              child: InkWell(
+                child: const Icon(
+                  Icons.send,
+                  color: Colors.white,
+                ),
+                onLongPress: () {},
+              ),
+            )
+          ],
+        ),
+      ),
       appBar: AppBar(
         backgroundColor: AppTheme.lightTheme.appBarTheme.backgroundColor,
         leading: IconButton(
@@ -223,7 +240,11 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
         actions: [
           IconButton(
               onPressed: () async {
-                print(await _controller.getText());
+                _noteProvider
+                    .addNote(
+                        title: _titleController.text,
+                        description: await _controller.getPlainText())
+                    .then((e) {});
               },
               icon: const Icon(Icons.check)),
         ],
@@ -239,7 +260,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                           EdgeInsets.symmetric(vertical: 4, horizontal: 15),
                       child: TextField(
                         focusNode: FocusNode(),
-                        controller: TextEditingController(),
+                        controller: _titleController,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Title',
@@ -293,6 +314,8 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                               onTextChanged: (text) =>
                                   debugPrint('widget text change $text'),
                               onEditorCreated: () {
+                                _controller.setText(
+                                    widget.currentNote.descriptionNota);
                                 debugPrint('Editor has been loaded');
                               },
                               onEditorResized: (height) =>
@@ -412,33 +435,16 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                       style: const TextStyle(fontSize: 50),
                     ),
                   )
-                : Stack(
-                    children: [
-                      Positioned(
-                        top: 500 - 50,
-                        child: Container(
-                          height: 30,
-                          decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(5)),
-                          child: TextField(
-                            controller: TextEditingController(),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin:
-                            const EdgeInsets.only(top: 10, left: 5, right: 5),
-                        width: MediaQuery.of(context).size.width - 10,
-                        height: 600,
-                        alignment: Alignment.center,
-                        child: ListView(
-                          children: _tasksExamples
-                              .map((e) => TaskCard(e['status'], e['text']))
-                              .toList(),
-                        ),
-                      ),
-                    ],
+                : Container(
+                    margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
+                    width: MediaQuery.of(context).size.width - 10,
+                    height: 600,
+                    alignment: Alignment.center,
+                    child: ListView(
+                      children: _tasksExamples
+                          .map((e) => TaskCard(e['status'], e['text']))
+                          .toList(),
+                    ),
                   ),
           ],
         ),

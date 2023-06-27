@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_app_frontend/domain/entities/note.dart';
 import 'package:note_app_frontend/presentation/providers/note/note_provider.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/appBarMenu.dart';
@@ -18,52 +19,53 @@ class NoteListScreen extends StatefulWidget {
 class _NoteListScreenState extends State<NoteListScreen> {
   @override
   Widget build(BuildContext context) {
-
     final noteProvider = context.watch<NoteProvider>();
 
     final countNote = noteProvider.notes.length;
+
+    @override
+    void initState() {
+      noteProvider.getNotes();
+      super.initState();
+    }
 
     return Scaffold(
       backgroundColor: AppTheme.bgGray,
       drawer: const SideBar(),
       appBar: AppBarMenu(context),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-          child: GridView.count(
-            crossAxisCount: 2,
-            children: List.generate(countNote, (index) {
-              return Center(
-                child: 
-                 ListViewBuilder(noteProvider: noteProvider,index:index)
-              );
-            })
-            
-          )
-        )
-        ),
+          child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: GridView.count(
+                  crossAxisCount: 2,
+                  children: List.generate(countNote, (index) {
+                    return Center(
+                        child: ListViewBuilder(
+                            noteProvider: noteProvider, index: index));
+                  })))),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
             heroTag: "Update",
-            onPressed: (){
-              
+            onPressed: () {
               noteProvider.getNotes();
             },
             child: const Icon(Icons.update),
           ),
-          const SizedBox(height: 10,)
-           ,
-           FloatingActionButton(
-             heroTag: "Create",
-             onPressed: (){
-                final route = MaterialPageRoute(builder: (context) => NoteEditorScreen());
-                Navigator.pushReplacement(context, route);
-          
-             },
-             child: const Icon(Icons.add),
-           ),
+          const SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton(
+            heroTag: "Create",
+            onPressed: () {
+              final route = MaterialPageRoute(
+                builder: (context) => NoteEditorScreen(),
+              );
+              Navigator.pushReplacement(context, route);
+            },
+            child: const Icon(Icons.add),
+          ),
         ],
       ),
     );
@@ -82,7 +84,6 @@ class ListViewBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return userNote(title: noteProvider.notes[index].tituloNota, body: noteProvider.notes[index].cuerpoNotaText, color: AppTheme.note_1);
-    
+    return userNote(note: noteProvider.notes[index], color: AppTheme.note_1);
   }
 }
