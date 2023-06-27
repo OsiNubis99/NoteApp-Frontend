@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:note_app_frontend/config/helpers/location.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
-
-import 'package:material_tag_editor/tag_editor.dart';
 
 import 'noteList_screen.dart';
 
@@ -45,8 +43,18 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   List<String> _values = [];
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _textEditingController = TextEditingController();
-
   late TabController _tabController;
+  final List<Map<String, dynamic>> _tasksExamples = [
+    {'id': 1, 'status': false, 'text': 'Task 1'},
+    {'id': 2, 'status': true, 'text': 'Task 2'},
+    {'id': 3, 'status': false, 'text': 'Task 3'},
+    {'id': 4, 'status': true, 'text': 'Task 4'},
+    {'id': 5, 'status': false, 'text': 'Task 5'},
+    {'id': 6, 'status': false, 'text': 'Task 6'},
+    {'id': 7, 'status': false, 'text': 'Task 7'},
+    {'id': 8, 'status': false, 'text': 'Task 8'},
+  ];
+
   _onDelete(index) {
     setState(() {
       _values.removeAt(index);
@@ -76,11 +84,139 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.bgGray,
+      floatingActionButton: _tabSelected == 0
+          ? SpeedDial(
+              //Speed dial menu
+              // marginBottom: 10,
+              //margin bottom
+              icon: Icons.menu,
+              //icon on Floating action button
+              activeIcon: Icons.close,
+              //icon when menu is expanded on button
+              backgroundColor: Colors.deepOrangeAccent,
+              //background color of button
+              foregroundColor: Colors.white,
+              //font color, icon color in button
+              activeBackgroundColor: Colors.deepPurpleAccent,
+              //background color when menu is expanded
+              activeForegroundColor: Colors.white,
+              buttonSize: const Size(56, 56),
+              //button size
+              visible: true,
+              closeManually: false,
+              curve: Curves.bounceIn,
+              overlayColor: Colors.black,
+              overlayOpacity: 0.5,
+              onOpen: () => print('OPENING DIAL'),
+              // action when menu opens
+              onClose: () => print('DIAL CLOSED'),
+              //action when menu closes
+
+              elevation: 8.0,
+              //shadow elevation of button
+              shape: CircleBorder(),
+              //shape of button
+
+              children: [
+                SpeedDialChild(
+                  //speed dial child
+                  child: Icon(Icons.accessibility),
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                  label: 'First Menu Child',
+                  labelStyle: TextStyle(fontSize: 18.0),
+                  onTap: () => print('FIRST CHILD'),
+                  onLongPress: () => print('FIRST CHILD LONG PRESS'),
+                ),
+                SpeedDialChild(
+                  child: Icon(Icons.brush),
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                  label: 'Second Menu Child',
+                  labelStyle: TextStyle(fontSize: 18.0),
+                  onTap: () => print('SECOND CHILD'),
+                  onLongPress: () => print('SECOND CHILD LONG PRESS'),
+                ),
+                SpeedDialChild(
+                  child: Icon(Icons.keyboard_voice),
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.green,
+                  label: 'Third Menu Child',
+                  labelStyle: TextStyle(fontSize: 18.0),
+                  onTap: () => print('THIRD CHILD'),
+                  onLongPress: () => print('THIRD CHILD LONG PRESS'),
+                ),
+
+                //add more menu item childs here
+              ],
+            )
+          : Container(
+              width: MediaQuery.of(context).size.width * 0.95,
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              height: 40,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(35.0),
+                        boxShadow: [
+                          BoxShadow(
+                              offset: Offset(0, 3),
+                              blurRadius: 5,
+                              color: Colors.grey)
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              decoration: InputDecoration(
+                                  hintText: "Type your task",
+                                  hintStyle: TextStyle(
+                                      color: Colors.black54, fontSize: 20),
+                                  border: InputBorder.none),
+                            ),
+                          ),
+                          // IconButton(
+                          //   icon: Icon(Icons.photo_camera,
+                          //       color: Colors.blueAccent),
+                          //   onPressed: () {},
+                          // ),
+                          // IconButton(
+                          //   icon: Icon(Icons.attach_file,
+                          //       color: Colors.blueAccent),
+                          //   onPressed: () {},
+                          // )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 15),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: const BoxDecoration(
+                        color: AppTheme.note_1, shape: BoxShape.circle),
+                    child: InkWell(
+                      child: const Icon(
+                        Icons.send,
+                        color: Colors.white,
+                      ),
+                      onLongPress: () {},
+                    ),
+                  )
+                ],
+              ),
+            ),
       appBar: AppBar(
-        backgroundColor: AppTheme.lightTheme.appBarTheme.backgroundColor, leading: IconButton(
+        backgroundColor: AppTheme.lightTheme.appBarTheme.backgroundColor,
+        leading: IconButton(
           onPressed: () {
-                          final route = MaterialPageRoute(builder: (context) => const NoteListScreen());
-                          Navigator.pushReplacement(context, route);
+            final route =
+                MaterialPageRoute(builder: (context) => const NoteListScreen());
+            Navigator.pushReplacement(context, route);
           },
           icon: const Icon(Icons.arrow_back_ios, color: Color(0XFF000000)),
         ),
@@ -95,207 +231,215 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 15),
-              child: TextField(
-                focusNode: FocusNode(),
-                controller: TextEditingController(),
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Title',
-                  hintStyle: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-                minLines: 1,
-                maxLines: 2,
-                style: const TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 1),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 1),
-                    child: Text("Fecha: ${dateNow.substring(0, 10)}"),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 1),
-                    child: const Text("Ubicacion"),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              child: TagEditor(
-                length: _values.length,
-                controller: _textEditingController,
-                focusNode: _focusNode,
-                delimiters: const [',', ' '],
-                hasAddButton: true,
-                resetTextOnSubmitted: true,
-                // This is set to grey just to illustrate the `textStyle` prop
-                textStyle: const TextStyle(color: Colors.grey, fontSize: 16),
-                onSubmitted: (outstandingValue) {
-                  setState(() {
-                    _values.add(outstandingValue);
-                  });
-                },
-                inputDecoration: const InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Add tag',
-                ),
-                onTagChanged: (newValue) {
-                  setState(() {
-                    _values.add(newValue);
-                  });
-                },
-                tagBuilder: (context, index) => _Chip(
-                  index: index,
-                  label: _values[index],
-                  onDeleted: _onDelete,
-                ),
-                // InputFormatters example, this disallow \ and /
-                inputFormatters: [
-                  FilteringTextInputFormatter.deny(RegExp(r'[/\\]'))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Column(
-                children: [
-                  QuillHtmlEditor(
-                    hintText: 'Descripcion',
-                    controller: _controller,
-                    isEnabled: true,
-                    minHeight: 120,
-                    textStyle: _editorTextStyle,
-                    hintTextStyle: _hintTextStyle,
-                    hintTextAlign: TextAlign.start,
-                    padding: const EdgeInsets.only(left: 10, top: 10),
-                    hintTextPadding: const EdgeInsets.only(left: 20),
-                    onFocusChanged: (hasFocus) =>
-                        debugPrint('has focus $hasFocus'),
-                    onTextChanged: (text) =>
-                        debugPrint('widget text change $text'),
-                    onEditorCreated: () {
-                      debugPrint('Editor has been loaded');
-                    },
-                    onEditorResized: (height) =>
-                        debugPrint('Editor resized $height'),
-                    onSelectionChanged: (sel) =>
-                        debugPrint('index ${sel.index}, range ${sel.length}'),
-                  ),
-                  ToolBar.scroll(
-                    toolBarColor: _toolbarColor,
-                    padding: const EdgeInsets.all(8),
-                    iconSize: 20,
-                    iconColor: _toolbarIconColor,
-                    controller: _controller,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    direction: Axis.horizontal,
-                    toolBarConfig: customToolBarList,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
+            Column(
               children: [
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      _tabSelected = 0;
-                    });
-                  },
-                  child: Container(
-                    width: (MediaQuery.of(context).size.width / 2) - 5,
-                    padding: const EdgeInsets.symmetric(vertical: 3),
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(left: 5),
-                    decoration: BoxDecoration(
-                      color: _tabSelected == 0 ? AppTheme.note_1 : Colors.white,
-                      border: Border.all(
+                ExpansionTile(
+                    title: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 4, horizontal: 15),
+                      child: TextField(
+                        focusNode: FocusNode(),
+                        controller: TextEditingController(),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Title',
+                          hintStyle: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        minLines: 1,
+                        maxLines: 2,
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 1),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 1),
+                              child: Text("Fecha: ${dateNow.substring(0, 10)}"),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 1),
+                              child: Text("Ubicacion"),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        child: Column(
+                          children: [
+                            QuillHtmlEditor(
+                              hintText: 'Descripcion',
+                              controller: _controller,
+                              isEnabled: true,
+                              minHeight: 120,
+                              textStyle: _editorTextStyle,
+                              hintTextStyle: _hintTextStyle,
+                              hintTextAlign: TextAlign.start,
+                              padding: const EdgeInsets.only(left: 10, top: 10),
+                              hintTextPadding: const EdgeInsets.only(left: 20),
+                              onFocusChanged: (hasFocus) =>
+                                  debugPrint('has focus $hasFocus'),
+                              onTextChanged: (text) =>
+                                  debugPrint('widget text change $text'),
+                              onEditorCreated: () {
+                                debugPrint('Editor has been loaded');
+                              },
+                              onEditorResized: (height) =>
+                                  debugPrint('Editor resized $height'),
+                              onSelectionChanged: (sel) => debugPrint(
+                                  'index ${sel.index}, range ${sel.length}'),
+                            ),
+                            ToolBar.scroll(
+                              toolBarColor: _toolbarColor,
+                              padding: const EdgeInsets.all(8),
+                              iconSize: 20,
+                              iconColor: _toolbarIconColor,
+                              controller: _controller,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              direction: Axis.horizontal,
+                              toolBarConfig: customToolBarList,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ]),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          _tabSelected = 0;
+                        });
+                      },
+                      child: Container(
+                        width: (MediaQuery.of(context).size.width / 2) - 5,
+                        padding: const EdgeInsets.symmetric(vertical: 3),
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.only(left: 5),
+                        decoration: BoxDecoration(
                           color: _tabSelected == 0
-                              ? Colors.transparent
-                              : Colors.black54),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(5),
-                        bottomLeft: Radius.circular(5),
+                              ? AppTheme.note_1
+                              : Colors.white,
+                          border: Border.all(
+                              color: _tabSelected == 0
+                                  ? Colors.transparent
+                                  : Colors.black54),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(5),
+                            bottomLeft: Radius.circular(5),
+                          ),
+                        ),
+                        child: Text(
+                          'Contenido',
+                          style: TextStyle(
+                            color: _tabSelected == 0
+                                ? Colors.white
+                                : Colors.black54,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          _tabSelected = 1;
+                        });
+                      },
+                      child: Container(
+                        width: (MediaQuery.of(context).size.width / 2) - 5,
+                        padding: const EdgeInsets.symmetric(vertical: 3),
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.only(right: 5),
+                        decoration: BoxDecoration(
+                          color: _tabSelected == 1
+                              ? AppTheme.note_1
+                              : Colors.white,
+                          border: Border.all(
+                              color: _tabSelected == 1
+                                  ? Colors.transparent
+                                  : Colors.black54),
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(5),
+                            bottomRight: Radius.circular(5),
+                          ),
+                        ),
+                        child: Text(
+                          'Tareas',
+                          style: TextStyle(
+                            color: _tabSelected == 1
+                                ? Colors.white
+                                : Colors.black54,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            _tabSelected == 0
+                ? Container(
+                    margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
+                    width: MediaQuery.of(context).size.width - 10,
+                    height: 100,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black54),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(5),
                       ),
                     ),
                     child: Text(
                       'Chat',
-                      style: TextStyle(
-                        color:
-                            _tabSelected == 0 ? Colors.white : Colors.black54,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: const TextStyle(fontSize: 50),
                     ),
+                  )
+                : Stack(
+                    children: [
+                      Positioned(
+                        top: 500 - 50,
+                        child: Container(
+                          height: 30,
+                          decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(5)),
+                          child: TextField(
+                            controller: TextEditingController(),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin:
+                            const EdgeInsets.only(top: 10, left: 5, right: 5),
+                        width: MediaQuery.of(context).size.width - 10,
+                        height: 600,
+                        alignment: Alignment.center,
+                        child: ListView(
+                          children: _tasksExamples
+                              .map((e) => TaskCard(e['status'], e['text']))
+                              .toList(),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      _tabSelected = 1;
-                    });
-                  },
-                  child: Container(
-                    width: (MediaQuery.of(context).size.width / 2) - 5,
-                    padding: const EdgeInsets.symmetric(vertical: 3),
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(right: 5),
-                    decoration: BoxDecoration(
-                      color: _tabSelected == 1 ? AppTheme.note_1 : Colors.white,
-                      border: Border.all(
-                          color: _tabSelected == 1
-                              ? Colors.transparent
-                              : Colors.black54),
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(5),
-                        bottomRight: Radius.circular(5),
-                      ),
-                    ),
-                    child: Text(
-                      'Tareas',
-                      style: TextStyle(
-                        color:
-                            _tabSelected == 1 ? Colors.white : Colors.black54,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
-              width: MediaQuery.of(context).size.width - 10,
-              height: 100,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black54),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              child: Text(
-                _tabSelected == 0 ? 'Chat' : 'Tareas',
-                style: const TextStyle(fontSize: 50),
-              ),
-            )
           ],
         ),
       ),
@@ -328,5 +472,37 @@ class _Chip extends StatelessWidget {
         onDeleted(index);
       },
     );
+  }
+}
+
+class TaskCard extends StatefulWidget {
+  TaskCard(this.status, this.description);
+
+  bool status = false;
+  String description;
+
+  @override
+  State<TaskCard> createState() => _TaskCardState();
+}
+
+class _TaskCardState extends State<TaskCard> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 5),
+      child: Row(
+        children: [
+          Checkbox(
+              value: widget.status,
+              onChanged: (value) {
+                setState(() {
+                  widget.status = value!;
+                });
+              }),
+          Expanded(flex: 5, child: Text(widget.description))
+        ],
+      ),
+    );
+    ;
   }
 }
