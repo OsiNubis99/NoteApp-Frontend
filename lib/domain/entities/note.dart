@@ -1,29 +1,23 @@
 class NoteEntity {
-    final String idNota;
-    final String cuerpoNotaText;
-    final String cuerpoNotaImg;
-    final String estadoNota;
-    final String etiquetaNota;
-    final String fechaNota;
-    final String tituloNota;
+  final String idNota;
+  final String tituloNota;
+  final String descriptionNota;
+  final String fechaNota;
+  final String estadoNota;
 
-    NoteEntity({
-        required this.idNota,
-        required this.cuerpoNotaText,
-        required this.cuerpoNotaImg,
-        required this.estadoNota,
-        required this.etiquetaNota,
-        required this.fechaNota,
-        required this.tituloNota,
-    });
+  NoteEntity({
+    required this.idNota,
+    required this.tituloNota,
+    required this.descriptionNota,
+    required this.fechaNota,
+    required this.estadoNota,
+  });
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "idNota": idNota,
-        "cuerpoNotaText": cuerpoNotaText,
-        "cuerpoNotaImg": cuerpoNotaImg,
-        "estadoNota": estadoNota,
-        "etiquetaNota": etiquetaNota,
-        "fechaNota": fechaNota,
         "tituloNota": tituloNota,
-    };
+        "cuerpoNotaText": descriptionNota,
+        "fechaNota": fechaNota,
+        "estadoNota": estadoNota,
+      };
 }

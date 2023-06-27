@@ -1,30 +1,19 @@
 import 'package:dio/dio.dart';
 
-class CreateNote{
+class CreateNote {
   final _dio = Dio();
 
-
-  Future<void> createNote({
-    required  String text,
-              String img      = 'img',
-              String etiquet  = 'Etiqueta',
-    required  String titulo,
-              String fechaC   = '2023-06-21',
-              String est      = 'Active',
-  }) async{
-
-    final response = await _dio.post('https://mynoteapp-prod.up.railway.app/note',
-             data:{
-              "text"   : text,
-              "img"    : img,
-              "etiquet": etiquet,
-              "titulo" : titulo,
-              "fechaC" : fechaC,
-              "est"    : est 
-             }
-             );  
-
+  Future<bool> createNote({
+    required String description,
+    required String title,
+  }) async {
+    final response =
+        await _dio.post('https://mynoteapp-dev.up.railway.app/note', data: {
+      "desc": description,
+      "titulo": title,
+      "fechaC": DateTime.now().toString().substring(0, 10),
+      "est": 'Active',
+    });
+    return response.data != null;
   }
-
-  
 }

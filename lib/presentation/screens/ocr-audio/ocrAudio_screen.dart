@@ -16,15 +16,13 @@ class OcrAudioScreen extends StatefulWidget {
 }
 
 class _OcrAudioScreenState extends State<OcrAudioScreen> {
-
   bool openCapture = false;
 
   SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   String _lastWords = '';
 
-
-@override
+  @override
   void initState() {
     super.initState();
     _initSpeech();
@@ -61,142 +59,134 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
     final noteProvider = context.watch<NoteProvider>();
-
 
     return Scaffold(
       drawer: const SideBar(),
       appBar: AppBarMenu(context),
-      body:  SafeArea(child: 
-      Center(child: 
-      (!openCapture) ? 
-          ( _lastWords == "") ? 
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children:  [
-              const SizedBox(height: 180),
-              Image.asset("assets/audioCollector.png",width: 200,),
-              const SizedBox(height: 20),
-              const Text('Presiona el microfono',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
-              const SizedBox(height: 10),
-              const Text('Para comenzar a recolectar texto por audio'), 
-              
-          ],)
-          :
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children:  [
-              const SizedBox(height: 320),
-              Container(
-                padding: EdgeInsets.all(8),
-                color: AppTheme.primary,
-                child: 
-                  
-                   Text(_lastWords),
-                         
-              ),
-               const SizedBox(height: 20),
-              FilledButton(
-                  onPressed: (){
-                      noteProvider.addNote(_lastWords);
-                       _lastWords = '';
-                       setState(() {});
+      body: SafeArea(
+          child: Center(
+              child: (!openCapture)
+                  ? (_lastWords == "")
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 180),
+                            Image.asset(
+                              "assets/audioCollector.png",
+                              width: 200,
+                            ),
+                            const SizedBox(height: 20),
+                            const Text(
+                              'Presiona el microfono',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                            const SizedBox(height: 10),
+                            const Text(
+                                'Para comenzar a recolectar texto por audio'),
+                          ],
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 320),
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              color: AppTheme.primary,
+                              child: Text(_lastWords),
+                            ),
+                            const SizedBox(height: 20),
+                            FilledButton(
+                                onPressed: () {
+                                  noteProvider.addNote(
+                                      title: "Titulo de nota con audio",
+                                      description: _lastWords);
+                                  _lastWords = '';
+                                  setState(() {});
+                                },
+                                child: const Text('Guardar Nota')),
+                          ],
+                        )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 180),
+                        Image.asset(
+                          "assets/record_2.gif",
+                          width: 200,
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Grabando...',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                        Text(
+                          // If listening is active show the recognized words
+                          _speechToText.isListening
+                              ? _lastWords
+                              // If listening isn't active but could be tell the user
+                              // how to start it, otherwise indicate that speech
+                              // recognition is not yet ready or not supported on
+                              // the target device
+                              : _speechEnabled
+                                  ? 'Precione pausa o stop para detener el microfono...'
+                                  : 'El microfono no esta habilitado',
+                        ),
+                      ],
+                    ))),
+      floatingActionButton: (!openCapture)
+          ? FabButton(
+              tagName: "Play",
+              onPressed: () {
+                _startListening();
+                openCapture = true;
+                setState(() {});
+              },
+              icon: _speechToText.isNotListening ? Icons.mic_off : Icons.mic,
+              bgColor: AppTheme.primary,
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                FabButton(
+                  tagName: "Stop",
+                  onPressed: () {
+                    openCapture = false;
+                    setState(() {});
                   },
-                  child: const Text('Guardar Nota')),
-             
-              
-          ],)
-
-      :
-      Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children:  [
-           const SizedBox(height: 180),
-          Image.asset("assets/record_2.gif",width: 200,),
-          const SizedBox(height: 20),
-          const Text('Grabando...',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
-          Text(
-                  // If listening is active show the recognized words
-                  _speechToText.isListening
-                      ? _lastWords
-                      // If listening isn't active but could be tell the user
-                      // how to start it, otherwise indicate that speech
-                      // recognition is not yet ready or not supported on
-                      // the target device
-                      : _speechEnabled
-                          ? 'Precione pausa o stop para detener el microfono...'
-                          : 'El microfono no esta habilitado',
+                  icon: Icons.stop,
+                  bgColor: Color.fromARGB(255, 255, 27, 27),
                 ),
-
-      ],)
-      
-      )
-      )
-      ,
-     floatingActionButton: ( !openCapture ) ? 
-          FabButton(
-          tagName: "Play",  
-          onPressed: (){
-
-             _startListening();
-             openCapture = true;
-             setState(() {});
-
-          },
-           
-          icon: _speechToText.isNotListening ? Icons.mic_off : Icons.mic, 
-           bgColor: AppTheme.primary,
-         )
-           :  
-       Row(
-           mainAxisAlignment: MainAxisAlignment.spaceAround,
-           children: [
-            
-          FabButton(
-          tagName: "Stop",  
-          onPressed: (){
-             openCapture = false;
-             setState(() {});
-          },      
-          icon: Icons.stop, 
-           bgColor: Color.fromARGB(255, 255, 27, 27),
-         ),
-         
-           
-         ],)
-         ,
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-
+              ],
+            ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
-      
   }
 }
 
-
-
 class FabButton extends StatelessWidget {
-
   final VoidCallback onPressed;
   final String tagName;
   final IconData icon;
   final Color bgColor;
 
-  const FabButton({super.key, required this.onPressed, required this.tagName, required this.icon, required this.bgColor});
+  const FabButton(
+      {super.key,
+      required this.onPressed,
+      required this.tagName,
+      required this.icon,
+      required this.bgColor});
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-          heroTag: tagName,
-          onPressed: onPressed,
-          shape: const StadiumBorder(),
-          backgroundColor: bgColor,
-          child: Icon(icon, color: AppTheme.text_dark),
-          
-          );
+      heroTag: tagName,
+      onPressed: onPressed,
+      shape: const StadiumBorder(),
+      backgroundColor: bgColor,
+      child: Icon(icon, color: AppTheme.text_dark),
+    );
   }
 }
-
-
-
