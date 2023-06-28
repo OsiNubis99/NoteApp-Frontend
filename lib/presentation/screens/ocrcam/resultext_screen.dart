@@ -3,25 +3,26 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 import 'package:provider/provider.dart';
+
 import '../../providers/note/note_provider.dart';
 import '../note/noteList_screen.dart';
 
 class ResultScreen extends StatefulWidget {
   final String? path;
-  const ResultScreen({Key? key,this.path}) :super(key: key);
+
+  const ResultScreen({Key? key, this.path}) : super(key: key);
 
   @override
   State<ResultScreen> createState() => _ResultScreenState();
 }
 
 class _ResultScreenState extends State<ResultScreen> {
-
   bool _isBusy = false;
 
   TextEditingController controller = TextEditingController();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
 
     final InputImage inputImage = InputImage.fromFilePath(widget.path!);
@@ -30,13 +31,11 @@ class _ResultScreenState extends State<ResultScreen> {
   }
 
   @override
-  Widget build(BuildContext context){
-
+  Widget build(BuildContext context) {
     final noteProvider = context.watch<NoteProvider>();
 
     return Scaffold(
       drawer: const SideBar(),
-
       appBar: AppBar(
         backgroundColor: AppTheme.bgGray,
         elevation: 0,
@@ -56,51 +55,48 @@ class _ResultScreenState extends State<ResultScreen> {
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
             onPressed: () {
-                noteProvider.addNote(controller.text);
-                controller.text = '';
-                setState(() {});
-                final route = MaterialPageRoute(builder: (context) => const NoteListScreen());
-                Navigator.pushReplacement(context, route);
+              noteProvider.addNote(
+                  title: "New Voice Note", description: controller.text);
+              controller.text = '';
+              setState(() {});
+              final route = MaterialPageRoute(
+                  builder: (context) => const NoteListScreen());
+              Navigator.pushReplacement(context, route);
             },
           ),
         ],
       ),
-      
       body: _isBusy == true
-      ? const Center(
-        child: CircularProgressIndicator(),
-      ) 
-      
-      //SCAN TEXT
-      : Container(
-        padding: const EdgeInsets.all(20),
-        child: TextFormField(
-              maxLines: MediaQuery.of(context).size.height.toInt(),
-              controller: controller,
-              style: AppTheme.lightTheme.textTheme.titleMedium,
-        ),
-      ),
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+
+          //SCAN TEXT
+          : Container(
+              padding: const EdgeInsets.all(20),
+              child: TextFormField(
+                maxLines: MediaQuery.of(context).size.height.toInt(),
+                controller: controller,
+                style: AppTheme.lightTheme.textTheme.titleMedium,
+              ),
+            ),
     );
   }
 
   void processImage(InputImage image) async {
-
     final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
-
 
     setState(() {
       _isBusy = true;
     });
 
-    final RecognizedText recognizedText = await textRecognizer.processImage(image);
+    final RecognizedText recognizedText =
+        await textRecognizer.processImage(image);
 
     controller.text = recognizedText.text;
-
 
     setState(() {
       _isBusy = false;
     });
   }
-
 }
-
