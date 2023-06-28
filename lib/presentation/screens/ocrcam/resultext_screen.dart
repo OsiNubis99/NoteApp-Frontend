@@ -36,6 +36,7 @@ class _ResultScreenState extends State<ResultScreen> {
 
     return Scaffold(
       drawer: const SideBar(),
+      
       appBar: AppBar(
         backgroundColor: AppTheme.bgGray,
         elevation: 0,
@@ -56,7 +57,7 @@ class _ResultScreenState extends State<ResultScreen> {
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
             onPressed: () {
               noteProvider.addNote(
-                  title: "New Voice Note", description: controller.text);
+                  title: "Título de transcripción imagen", description: controller.text);
               controller.text = '';
               setState(() {});
               final route = MaterialPageRoute(
@@ -66,20 +67,21 @@ class _ResultScreenState extends State<ResultScreen> {
           ),
         ],
       ),
-      body: _isBusy == true
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
 
-          //SCAN TEXT
-          : Container(
-              padding: const EdgeInsets.all(20),
-              child: TextFormField(
-                maxLines: MediaQuery.of(context).size.height.toInt(),
-                controller: controller,
-                style: AppTheme.lightTheme.textTheme.titleMedium,
-              ),
+      body: _isBusy == true
+        ? const Center(
+          child: CircularProgressIndicator(),
+        )
+
+        //SCAN TEXT
+        : Container(
+          padding: const EdgeInsets.all(20),
+            child: TextFormField(
+              maxLines: MediaQuery.of(context).size.height.toInt(),
+              controller: controller,
+              style: AppTheme.lightTheme.textTheme.titleMedium,
             ),
+        ),
     );
   }
 

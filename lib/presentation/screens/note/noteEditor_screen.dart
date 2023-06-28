@@ -53,7 +53,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   final _editorTextStyle = const TextStyle(
       fontSize: 18, color: Colors.black, fontWeight: FontWeight.normal);
   final _hintTextStyle = const TextStyle(
-      fontSize: 18, color: Colors.black12, fontWeight: FontWeight.normal);
+      fontSize: 18, color: Colors.black26, fontWeight: FontWeight.normal);
   final dateNow = DateTime.now().toString();
 
   List<String> _values = [];
@@ -112,7 +112,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
       backgroundColor: AppTheme.bgGray,
       floatingActionButton: Container(
         width: MediaQuery.of(context).size.width * 0.90,
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 5),
         height: 40,
         child: Row(
           children: [
@@ -125,11 +125,11 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
               //icon on Floating action button
               activeIcon: Icons.close,
               //icon when menu is expanded on button
-              backgroundColor: Colors.deepOrangeAccent,
+              backgroundColor: AppTheme.primary,
               //background color of button
               foregroundColor: Colors.white,
               //font color, icon color in button
-              activeBackgroundColor: Colors.deepPurpleAccent,
+              activeBackgroundColor: AppTheme.primary,
               //background color when menu is expanded
               activeForegroundColor: Colors.white,
               buttonSize: const Size(56, 56),
@@ -149,12 +149,11 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
               shape: CircleBorder(),
               //shape of button
 
+              //OPTIONS MENU
               children: [
                 SpeedDialChild(
-                  //speed dial chil
-
                   child: Icon(Icons.accessibility),
-                  backgroundColor: Colors.red,
+                  backgroundColor: AppTheme.note_1,
                   foregroundColor: Colors.white,
                   label: 'First Menu Child',
 
@@ -164,7 +163,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                 ),
                 SpeedDialChild(
                   child: Icon(Icons.brush),
-                  backgroundColor: Colors.blue,
+                  backgroundColor: AppTheme.note_5,
                   foregroundColor: Colors.white,
                   label: 'Second Menu Child',
                   labelStyle: TextStyle(fontSize: 18.0),
@@ -174,7 +173,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                 SpeedDialChild(
                   child: Icon(Icons.keyboard_voice),
                   foregroundColor: Colors.white,
-                  backgroundColor: Colors.green,
+                  backgroundColor: AppTheme.note_3,
                   label: 'Third Menu Child',
                   labelStyle: TextStyle(fontSize: 18.0),
                   onTap: () => print('THIRD CHILD'),
@@ -201,9 +200,9 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                     Expanded(
                       child: TextField(
                         decoration: InputDecoration(
-                            hintText: "Type your task",
+                            hintText: "Escribe tu tarea",
                             hintStyle:
-                                TextStyle(color: Colors.black54, fontSize: 20),
+                                TextStyle(color: Colors.black26, fontSize: 20),
                             border: InputBorder.none),
                       ),
                     ),
@@ -215,7 +214,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
             Container(
               padding: const EdgeInsets.all(8),
               decoration: const BoxDecoration(
-                  color: AppTheme.note_1, shape: BoxShape.circle),
+                  color: AppTheme.primary, shape: BoxShape.circle),
               child: InkWell(
                 child: const Icon(
                   Icons.send,
@@ -227,28 +226,40 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
           ],
         ),
       ),
+
       appBar: AppBar(
-        backgroundColor: AppTheme.lightTheme.appBarTheme.backgroundColor,
+        backgroundColor: AppTheme.bgGray,
+        elevation: 0,
         leading: IconButton(
           onPressed: () {
             final route =
-                MaterialPageRoute(builder: (context) => const NoteListScreen());
-            Navigator.pushReplacement(context, route);
+              MaterialPageRoute(builder: (context) => const NoteListScreen());
+              Navigator.pushReplacement(context, route);
           },
-          icon: const Icon(Icons.arrow_back_ios, color: Color(0XFF000000)),
+          icon: Icon(Icons.arrow_back_ios, color: Color(0XFF000000)),
         ),
+        title: Image.asset(
+          "assets/my_notes_app.png",
+          width: 130,
+        ),
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: AppTheme.text_dark),
         actions: [
           IconButton(
-              onPressed: () async {
+            icon: const Icon(Icons.check, color: AppTheme.text_dark),
+            onPressed: () async {
                 _noteProvider
                     .addNote(
                         title: _titleController.text,
                         description: await _controller.getPlainText())
                     .then((e) {});
-              },
-              icon: const Icon(Icons.check)),
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('¡Nota guardada con exito!')));
+            },
+          ),
         ],
       ),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -263,7 +274,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                         controller: _titleController,
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Title',
+                          hintText: 'Título',
                           hintStyle: TextStyle(
                             fontSize: 40,
                             fontWeight: FontWeight.w300,
@@ -289,7 +300,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                             ),
                             Container(
                               padding: EdgeInsets.symmetric(vertical: 1),
-                              child: Text("Ubicacion"),
+                              child: Text("Ubicación"),
                             ),
                           ],
                         ),
@@ -300,7 +311,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                         child: Column(
                           children: [
                             QuillHtmlEditor(
-                              hintText: 'Descripcion',
+                              hintText: 'Descripción',
                               controller: _controller,
                               isEnabled: true,
                               minHeight: 120,
@@ -355,7 +366,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                         margin: const EdgeInsets.only(left: 5),
                         decoration: BoxDecoration(
                           color: _tabSelected == 0
-                              ? AppTheme.note_1
+                              ? AppTheme.primary
                               : Colors.white,
                           border: Border.all(
                               color: _tabSelected == 0
@@ -391,7 +402,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                         margin: const EdgeInsets.only(right: 5),
                         decoration: BoxDecoration(
                           color: _tabSelected == 1
-                              ? AppTheme.note_1
+                              ? AppTheme.primary
                               : Colors.white,
                           border: Border.all(
                               color: _tabSelected == 1
