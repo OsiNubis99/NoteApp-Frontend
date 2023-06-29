@@ -9,7 +9,7 @@ class GetNotes {
     List<NoteEntity> notes = [];
 
     final response =
-        await _dio.get('https://mynoteapp-dev.up.railway.app/user/1/notes');
+        await _dio.get('https://mynoteapp-prod.up.railway.app/user/1/notes');
 
     for (final item in response.data['notes']) {
       NoteEntity noteIn = NoteEntity(

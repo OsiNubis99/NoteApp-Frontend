@@ -8,7 +8,7 @@ class CreateNoteService {
     required String title,
   }) async {
     final response =
-        await _dio.post('https://mynoteapp-dev.up.railway.app/note', data: {
+        await _dio.post('https://mynoteapp-prod.up.railway.app/note', data: {
       "desc": description,
       "titulo": title,
       "fechaC": DateTime.now().toString().substring(0, 10),
