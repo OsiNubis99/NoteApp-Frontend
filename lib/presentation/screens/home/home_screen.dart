@@ -84,8 +84,8 @@ GridView.count(
                   mainAxisSpacing:  20,
                   children:   [
                      MenuItem( title: 'Lista de Notas     ',    bodyText: 'Cree, edite o elimine sus notas', color: AppTheme.note_1, icon: Icons.edit_note,               onPressed: () {final route = MaterialPageRoute(builder: (context) => const NoteListScreen());  Navigator.pushReplacement(context, route); },),
-                     MenuItem( title: 'Lector de imagenes  ',bodyText: '¡Convierta una imagen en texto!', color: AppTheme.note_2, icon: Icons.photo_camera,               onPressed: () {final route = MaterialPageRoute(builder: (context) => const NoteListScreen());  Navigator.pushReplacement(context, route); },),
-                     MenuItem( title: 'Redactor de audio   ', bodyText: '¡Convierta un audio en texto!',   color: AppTheme.note_3, icon: Icons.multitrack_audio_outlined, onPressed: () {final route = MaterialPageRoute(builder: (context) => const NoteListScreen());  Navigator.pushReplacement(context, route); },),
+                     MenuItem( title: 'Lector de imagenes  ',bodyText: '¡Convierta una imagen en texto!', color: AppTheme.note_2, icon: Icons.photo_camera,               onPressed: () { optionOcrCam(context); },),
+                     MenuItem( title: 'Redactor de audio   ', bodyText: '¡Convierta un audio en texto!',   color: AppTheme.note_3, icon: Icons.multitrack_audio_outlined, onPressed: () {final route = MaterialPageRoute(builder: (context) => const OcrAudioScreen());  Navigator.pushReplacement(context, route); },),
                     
                     ]
                   );
