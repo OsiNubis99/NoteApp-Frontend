@@ -31,7 +31,7 @@ class NoteEditorScreen extends StatefulWidget {
 
 class _NoteEditorScreenState extends State<NoteEditorScreen>
     with SingleTickerProviderStateMixin {
-  late QuillEditorController _controller;
+  late QuillEditorController _quillController;
   int _tabSelected = 0;
 
   ///[customToolBarList] pass the custom toolbarList to show only selected styles in the editor
@@ -61,6 +61,16 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   final TextEditingController _textEditingController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   late TabController _tabController;
+    final List<Map<String, dynamic>> _contentExamples = [
+    {'id': 1, 'status': false, 'text': 'Task 1'},
+    {'id': 2, 'status': true, 'text': 'Task 2'},
+    {'id': 3, 'status': false, 'text': 'Task 3'},
+    {'id': 4, 'status': true, 'text': 'Task 4'},
+    {'id': 5, 'status': false, 'text': 'Task 5'},
+    {'id': 6, 'status': false, 'text': 'Task 6'},
+    {'id': 7, 'status': false, 'text': 'Task 7'},
+    {'id': 8, 'status': false, 'text': 'Task 8'},
+  ];
   final List<Map<String, dynamic>> _tasksExamples = [
     {'id': 1, 'status': false, 'text': 'Task 1'},
     {'id': 2, 'status': true, 'text': 'Task 2'},
@@ -79,7 +89,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   }
 
   _initData() async {
-    _controller
+    _quillController
         .setText(widget.currentNote.descriptionNota)
         .then((value) => print("PROBANDO $value"));
     _titleController.text = widget.currentNote.tituloNota;
@@ -87,8 +97,8 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
 
   @override
   void initState() {
-    _controller = QuillEditorController();
-    _controller.onTextChanged((text) {
+    _quillController = QuillEditorController();
+    _quillController.onTextChanged((text) {
       debugPrint('listening to $text');
     });
     print('LOCATION:');
@@ -240,11 +250,22 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
         actions: [
           IconButton(
               onPressed: () async {
-                _noteProvider
+                if( widget.currentNote.idNota =='') {
+                  _noteProvider
                     .addNote(
                         title: _titleController.text,
-                        description: await _controller.getPlainText())
+                        description: await _quillController.getPlainText())
                     .then((e) {});
+                } else {
+                  widget.currentNote.tituloNota = _titleController.text;
+                  widget.currentNote.descriptionNota = await _quillController.getPlainText();
+                  _noteProvider
+                      .updateNote(widget.currentNote)
+                      .then((e) {});
+                }
+                final route =
+                MaterialPageRoute(builder: (context) => const NoteListScreen());
+                Navigator.pushReplacement(context, route);
               },
               icon: const Icon(Icons.check)),
         ],
@@ -301,7 +322,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                           children: [
                             QuillHtmlEditor(
                               hintText: 'Descripcion',
-                              controller: _controller,
+                              controller: _quillController,
                               isEnabled: true,
                               minHeight: 120,
                               textStyle: _editorTextStyle,
@@ -314,7 +335,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                               onTextChanged: (text) =>
                                   debugPrint('widget text change $text'),
                               onEditorCreated: () {
-                                _controller.setText(
+                                _quillController.setText(
                                     widget.currentNote.descriptionNota);
                                 debugPrint('Editor has been loaded');
                               },
@@ -328,7 +349,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                               padding: const EdgeInsets.all(8),
                               iconSize: 20,
                               iconColor: _toolbarIconColor,
-                              controller: _controller,
+                              controller: _quillController,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               direction: Axis.horizontal,
                               toolBarConfig: customToolBarList,

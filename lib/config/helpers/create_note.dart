@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 
-class CreateNote {
+class CreateNoteService {
   final _dio = Dio();
 
-  Future<bool> createNote({
+  Future<dynamic> execute({
     required String description,
     required String title,
   }) async {
@@ -14,6 +14,6 @@ class CreateNote {
       "fechaC": DateTime.now().toString().substring(0, 10),
       "est": 'Active',
     });
-    return response.data != null;
+    return response.data;
   }
 }
