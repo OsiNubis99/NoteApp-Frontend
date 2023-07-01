@@ -30,16 +30,37 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 10),
                   child: Column(
                     children: const [
-                      Align(
+
+                      // Primera sección : Menu de opciones
+                       Align(
                         alignment: Alignment.center,
                         child: Text('Opciones de Menú',textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                      ),
+                      ),                   
+                       Text('El poder de la I.A. en tus manos'),
+                       SizedBox(height: 20,),
+                
+                
+                       MenuOptions(),
+
+                      // Primera sección : Últimas 3 notas
+                       SizedBox(height: 20,),
+                       Align(
+                        alignment: Alignment.center,
+                        child: Text('Últimas Notas',textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                      ),                   
+                       Text('Continua el trabajo donde lo dejaste'),
+                       SizedBox(height: 20,),
+
+
+                     LastNotes(),
+
+
+                    SizedBox(height: 50,),
+
                       
-                      Text('El poder de la I.A. en tus manos'),
-                      SizedBox(height: 20,),
-                
-                
-                      MenuOptions(),
+
+
+
                     ],
                   ),
                 ),
@@ -66,6 +87,51 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+class LastNotes extends StatelessWidget {
+  const LastNotes({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      //padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemBuilder: (BuildContext context, int index) {
+        return const NoteItem() ;
+      }, 
+      separatorBuilder: (BuildContext context, int index) => const Divider(thickness: 5,), 
+      itemCount: 2);
+  }
+}
+
+class NoteItem extends StatelessWidget {
+  const NoteItem({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: MaterialButton(   
+        onPressed: () {  },
+        child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+         Text('Fecha Nota', textAlign: TextAlign.left ,style: TextStyle(fontSize: 10),),
+         Text('Titulo Nota',textAlign: TextAlign.left , style: TextStyle(fontSize: 16 , fontWeight: FontWeight.bold),),
+         Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent a massa at sapien.',textAlign: TextAlign.left, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),),
+         Text('Etiqueta',textAlign: TextAlign.left, style: TextStyle(fontSize: 14,color: AppTheme.note_3),),
+        
+        
+        ],), )
+    );
+  }
+}
+
 class MenuOptions extends StatelessWidget {
   const MenuOptions({
     super.key,
@@ -79,7 +145,7 @@ GridView.count(
                   crossAxisCount: 2,
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  childAspectRatio: 1.15,
+                  childAspectRatio: 1.30,
                   crossAxisSpacing: 0,
                   mainAxisSpacing:  20,
                   children:   [
