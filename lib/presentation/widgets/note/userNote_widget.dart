@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:note_app_frontend/domain/entities/note.dart';
 import 'package:note_app_frontend/presentation/screens/home/home_screen.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
+import 'package:quill_html_editor/quill_html_editor.dart';
 
 import '../../../config/theme/app_theme.dart';
 
 class userNote extends StatelessWidget {
+  final QuillEditorController _quillController = QuillEditorController();
   final NoteEntity note;
   final Color color;
 
-  const userNote({
+  userNote({
     super.key,
     required this.color,
     required this.note,
@@ -23,7 +25,7 @@ class userNote extends StatelessWidget {
             builder: (context) => NoteEditorScreen(
                   note: note,
                 ));
-        Navigator.push(context, route);
+        Navigator.pushReplacement(context, route);
       },
       child: Card(
         color: color,
@@ -42,9 +44,24 @@ class userNote extends StatelessWidget {
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18)),
                     ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(note.descriptionNota),
+                    SizedBox(
+                      height: 80,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: QuillHtmlEditor(
+                          hintText: '',
+                          controller: _quillController,
+                          isEnabled: false,
+                          textStyle: const TextStyle(
+                                fontWeight: FontWeight.normal, fontSize: 16, overflow: TextOverflow.ellipsis),
+                          hintTextAlign: TextAlign.start,
+                          padding: const EdgeInsets.only(top: 4),
+                          backgroundColor: Color(0xFFF19976),
+                          onEditorCreated: () {
+                            _quillController.setText(note.descriptionNota);
+                          }, minHeight: 1,
+                        ),
+                      ),
                     ),
                   ],
                 ),

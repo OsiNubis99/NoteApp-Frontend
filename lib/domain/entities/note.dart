@@ -1,9 +1,9 @@
 class NoteEntity {
-  final String idNota;
-  final String tituloNota;
-  final String descriptionNota;
-  final String fechaNota;
-  final String estadoNota;
+  String idNota;
+  String tituloNota;
+  String descriptionNota;
+  String fechaNota;
+  String estadoNota;
 
   NoteEntity({
     required this.idNota,

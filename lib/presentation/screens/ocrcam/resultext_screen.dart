@@ -36,7 +36,7 @@ class _ResultScreenState extends State<ResultScreen> {
 
     return Scaffold(
       drawer: const SideBar(),
-      
+
       appBar: AppBar(
         backgroundColor: AppTheme.bgGray,
         elevation: 0,
@@ -67,7 +67,6 @@ class _ResultScreenState extends State<ResultScreen> {
           ),
         ],
       ),
-
       body: _isBusy == true
         ? const Center(
           child: CircularProgressIndicator(),

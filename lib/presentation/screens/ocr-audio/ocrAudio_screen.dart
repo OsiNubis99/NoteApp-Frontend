@@ -100,7 +100,7 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
                             FilledButton(
                                 onPressed: () {
                                   noteProvider.addNote(
-                                      title: "Titulo de nota con audio",
+                                      title: "Titulo de transcripción audio",
                                       description: _lastWords);
                                   _lastWords = '';
                                   setState(() {});
