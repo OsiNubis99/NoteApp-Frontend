@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:note_app_frontend/domain/entities/note.dart';
 import 'package:note_app_frontend/presentation/providers/note/note_provider.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
@@ -12,22 +13,32 @@ import '../../widgets/note/userNote_widget.dart';
 class NoteListScreen extends StatefulWidget {
   const NoteListScreen({super.key});
 
+ 
+
   @override
   State<NoteListScreen> createState() => _NoteListScreenState();
 }
 
 class _NoteListScreenState extends State<NoteListScreen> {
+
+  
+
   @override
   Widget build(BuildContext context) {
     final noteProvider = context.watch<NoteProvider>();
 
     final countNote = noteProvider.notes.length;
 
-    @override
-    void initState() {
-      noteProvider.getNotes();
-      super.initState();
-    }
+     @override
+      void setState(fn) {
+        if(mounted) {
+          super.setState(fn);
+          if (SchedulerBinding.instance.schedulerPhase == SchedulerPhase.persistentCallbacks) { 
+            SchedulerBinding.instance.addPostFrameCallback((_) =>  noteProvider.getNotes()); }
+
+        }
+      }
+
 
     return Scaffold(
       backgroundColor: AppTheme.bgGray,

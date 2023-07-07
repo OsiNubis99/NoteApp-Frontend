@@ -8,7 +8,7 @@ class UpdateNote {
     required NoteEntity note,
   }) async {
     final response =
-        await _dio.put('https://mynoteapp-prod.up.railway.app/note/${note.idNota}', data: {
+        await _dio.put('https://noteapp-backend-prod.up.railway.app/note/${note.idNota}', data: {
       "desc": note.descriptionNota,
       "titulo": note.tituloNota,
       "fechaC": note.fechaNota,

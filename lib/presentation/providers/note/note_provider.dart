@@ -16,6 +16,7 @@ class NoteProvider extends ChangeNotifier {
     final notesAnswer = await getNotesAnswer.getAnswer();
     notes = [];
     notes.addAll(notesAnswer);
+    notes = List.from(notes.reversed);
     notifyListeners();
   }
 
