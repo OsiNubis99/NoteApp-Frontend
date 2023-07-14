@@ -7,7 +7,7 @@ import 'package:note_app_frontend/presentation/providers/note/note_provider.dart
 import 'package:provider/provider.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
-import '../../widgets/note/imageNote/optionImage.dart';
+import '../../widgets/imageNote/optionImage.dart';
 import 'noteList_screen.dart';
 
 class NoteEditorScreen extends StatefulWidget {
@@ -178,6 +178,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                   foregroundColor: Colors.white,
                   label: 'Second Menu Child',
                   labelStyle: TextStyle(fontSize: 18.0),
+                  //onTap: () => print('SECOND CHILD'),
                   onTap: () => optionAddImage(context),
                   onLongPress: () => print('SECOND CHILD LONG PRESS'),
                 ),

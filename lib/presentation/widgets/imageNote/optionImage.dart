@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/presentation/screens/ocrcam/resultext_screen.dart';
 
-import '../../ocrcam/image_cropper.dart';
+import '../ocrcam/image_cropper.dart';
 import 'imageNote_widget.dart';
 
 void optionAddImage(BuildContext context){
@@ -17,33 +17,15 @@ void optionAddImage(BuildContext context){
         child: Column(
           children: [
             MaterialButton(
-              onPressed: (){
-                addImage(source: ImageSource.camera).then((value) {
-                  if (value != ''){
-                    imageCropper(value, context).then((value) {
-                      if(value != ''){
-                        Navigator.push(context, CupertinoPageRoute(
-                          builder: (_) => ResultScreen(path: value,)
-                        ));
-                    }
-                  });}
-                });
+              onPressed: () async {
+                final imagen = await addImage(source: ImageSource.gallery);
               },
               child: const OptionImageCard(title: "Cámara"),
             ),
             const SizedBox(height:15),
             MaterialButton(
-              onPressed: (){
-                addImage(source: ImageSource.gallery).then((value) {
-                  if (value != ''){
-                    imageCropper(value, context).then((value) {
-                      if(value != ''){
-                        Navigator.push(context, CupertinoPageRoute(
-                          builder: (_) => ResultScreen(path: value,)
-                        ));
-                    }
-                  });}
-                });
+              onPressed: () async {
+                final imagen = await addImage(source: ImageSource.gallery);
               },
               child: const OptionImageCard(title: "Galería"),
             ),
