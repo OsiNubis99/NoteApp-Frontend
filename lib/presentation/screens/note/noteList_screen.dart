@@ -13,32 +13,28 @@ import '../../widgets/note/userNote_widget.dart';
 class NoteListScreen extends StatefulWidget {
   const NoteListScreen({super.key});
 
- 
-
   @override
   State<NoteListScreen> createState() => _NoteListScreenState();
 }
 
 class _NoteListScreenState extends State<NoteListScreen> {
-
-  
-
   @override
   Widget build(BuildContext context) {
     final noteProvider = context.watch<NoteProvider>();
 
     final countNote = noteProvider.notes.length;
 
-     @override
-      void setState(fn) {
-        if(mounted) {
-          super.setState(fn);
-          if (SchedulerBinding.instance.schedulerPhase == SchedulerPhase.persistentCallbacks) { 
-            SchedulerBinding.instance.addPostFrameCallback((_) =>  noteProvider.getNotes()); }
+    noteProvider.initNotes();
 
-        }
-      }
+    //  @override
+    //   void setState(fn) {
+    //     if(mounted) {
+    //       super.setState(fn);
+    //       if (SchedulerBinding.instance.schedulerPhase == SchedulerPhase.persistentCallbacks) {
+    //         SchedulerBinding.instance.addPostFrameCallback((_) =>  noteProvider.getNotes()); }
 
+    //     }
+    //   }
 
     return Scaffold(
       backgroundColor: AppTheme.bgGray,

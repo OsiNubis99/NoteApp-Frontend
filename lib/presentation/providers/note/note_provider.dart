@@ -12,6 +12,10 @@ class NoteProvider extends ChangeNotifier {
 
   List<NoteEntity> notes = [];
 
+  void initNotes() async {
+    await getNotes();
+  }
+
   Future<void> getNotes() async {
     final notesAnswer = await getNotesAnswer.getAnswer();
     notes = [];
