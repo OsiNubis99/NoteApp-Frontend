@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       
       body: SafeArea(
-        child: Padding(padding:const EdgeInsets.only(top: 55, bottom: 100.0),
+        child: Padding(padding:const EdgeInsets.only(top: 30, bottom: 50.0),
           child: Column(
               children: <Widget> [
           
@@ -73,9 +73,63 @@ class _LoginScreenState extends State<LoginScreen> {
                   fit: BoxFit.cover,
                 ),const Spacer(),
                 
+                //Input 'Usuario o correo'
+                Padding(padding: EdgeInsets.only(top:30, left:20.0, right: 20.0, bottom: 25),
+                  child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[ 
+                    Text(
+                      "Usuario o correo electrónico",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFFFFF),
+                        border: Border.all(
+                          color: Color(0x3F000000),
+                        ),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: TextFormField(
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: '  Ingrese su usuario o correo',
+                            hintStyle: TextStyle(color: Color(0x3B000000),),
+                          ),),
+                      ),
+                    ],
+                  ),), 
+
+                //Input 'Contraseña'
+                Padding(padding: EdgeInsets.only(top:10, left:20.0, right: 20.0, bottom: 10),
+                  child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[ 
+                    Text(
+                      "Contraseña",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFFFFF),
+                        border: Border.all(
+                          color: Color(0x3F000000),
+                        ),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: TextFormField(
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: '  Ingrese su contraseña',
+                            hintStyle: TextStyle(color: Color(0x3B000000),),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),), const Spacer(),
 
                 //Button 'iniciar sesion'
-                Padding(padding: const EdgeInsets.only(top: 50.0, left: 20, right: 20, bottom: 15),
+                Padding(padding: const EdgeInsets.only(top: 40.0, left: 20, right: 20, bottom: 15),
                 child: Row(
                   children: [ Expanded(
                       child: MaterialButton(
@@ -103,40 +157,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-              ), //const Spacer(),
-
-
-              //Button 'iniciar sesion premium'
-                Padding(padding: const EdgeInsets.only(top: 15.0, left: 20, right: 20, bottom: 30),
-                child: Row(
-                  children: [ Expanded(
-                      child: MaterialButton(
-                        color: const Color(0xFFEDC123),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-
-                        //Navigator
-                        onPressed: () {
-                          /* final Future<Usuario> user = getUser();
-                          final route = MaterialPageRoute(builder: (context) => const HomeScreen());
-                          Navigator.pushReplacement(context, route); */
-                        },
-
-                        child: Padding(padding: const EdgeInsets.all(12.0),
-                          child: Column(children: <Widget>[ 
-                              Text(
-                                "Iniciar Sesión Premium",
-                                style: Theme.of(context).textTheme.displaySmall,
-                              ),],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ), const Spacer(),
-              
+
 
               ],
             ),
