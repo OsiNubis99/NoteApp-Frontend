@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
 import '../../widgets/imageNote/addimage_picker_widget.dart';
+import '../../widgets/imageNote/modal_optionimage.dart';
 import '../image/imageTest_screen.dart';
 import 'noteList_screen.dart';
 
@@ -494,34 +495,36 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
 
 ///////////////////////////////////////ADD IMAGE////////////////////////////////////////
   void PopupOptions(File? image_to_upload, List<String> popList) {
-  showModalBottomSheet(
-    context:context, 
-    builder: (context) {
-      return PopupMenuButton(
-      onSelected: (title) async {
-        if (title == "Cámara"){
-          final imagen = await addImage(source: ImageSource.camera);
-          setState(() {
-            image_to_upload = File(imagen!.path);
-          });
-          final route = MaterialPageRoute(builder: (context) => imageScreen(context, image_to_upload));  Navigator.pushReplacement(context, route);
-        }
-        else if (title == "Galería"){
-          final imagen = await addImage(source: ImageSource.gallery);
-          setState(() {
-            image_to_upload = File(imagen!.path);
-          });
-          final route = MaterialPageRoute(builder: (context) => imageScreen(context, image_to_upload));  Navigator.pushReplacement(context, route);
-        }
+    showModalBottomSheet(
+      context:context, 
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.only(top: 35, bottom: 25, right: 20,left: 20),
+          height: 220,
+          child: Column(
+            children: [
+              MaterialButton(
+                onPressed: () async { 
+                  final imagen = await addImage(source: ImageSource.camera);
+                  setState(() {image_to_upload = File(imagen!.path); });
+                  final route = MaterialPageRoute(builder: (context) => imageScreen(context, image_to_upload));  Navigator.pushReplacement(context, route);
+                },
+                child: const OptionImageCard(title: "Cámara"),
+              ),const SizedBox(height:15),
+              MaterialButton(
+                onPressed: () async {
+                  final imagen = await addImage(source: ImageSource.gallery);
+                  setState(() {image_to_upload = File(imagen!.path);});
+                  final route = MaterialPageRoute(builder: (context) => imageScreen(context, image_to_upload));  Navigator.pushReplacement(context, route);
+                },
+                child: const OptionImageCard(title: "Galería"),
+              ),
+            ],
+          )
+        );
       },
-      itemBuilder: (context){
-        return popList.map((e) => PopupMenuItem(
-          value: e,
-          child: Text(e, style: AppTheme.lightTheme.textTheme.displaySmall,),)).toList();
-      },
-      );
-    }
-  );}
+    );
+  }
 ////////////////////////////////////////////////////////////////////////////////////////
   
 
