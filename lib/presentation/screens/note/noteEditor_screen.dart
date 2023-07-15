@@ -10,7 +10,7 @@ import 'package:note_app_frontend/presentation/providers/note/note_provider.dart
 import 'package:provider/provider.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
-import '../../widgets/imageNote/imageNote_widget.dart';
+import '../../widgets/imageNote/addimage_picker_widget.dart';
 import '../imageTest_screen.dart';
 import 'noteList_screen.dart';
 
@@ -187,7 +187,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                   label: 'Second Menu Child',
                   labelStyle: TextStyle(fontSize: 18.0),
                   //onTap: () => print('SECOND CHILD'),
-                  onTap: () {PopupOptions(image_to_upload, popList);
+                  onTap: () {PopupOptions(image_to_upload, popList); //prueba para agregar imagen
                   } ,
                   onLongPress: () => print('SECOND CHILD LONG PRESS'),
                 ),
@@ -492,6 +492,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
     );
   }
 
+///////////////////////////////////////ADD IMAGE////////////////////////////////////////
   void PopupOptions(File? image_to_upload, List<String> popList) {
   showModalBottomSheet(
     context:context, 
@@ -521,8 +522,9 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
       );
     }
   );}
-
+////////////////////////////////////////////////////////////////////////////////////////
   
+
 }
 
 class _Chip extends StatelessWidget {

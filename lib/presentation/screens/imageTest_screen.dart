@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 
+import '../widgets/imageNote/addImage_widget.dart';
 import '../widgets/shared/appBarMenu.dart';
 import '../widgets/shared/sidebar_menu.dart';
   
@@ -29,22 +30,25 @@ import '../widgets/shared/sidebar_menu.dart';
         actions: [
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
-            onPressed: () {},
+            onPressed: () {uploadImage(imagen);},
           ),
         ],
       ),
 
-      body: Column(
-        children: [
-          imagen!= null
-          ? Image.file(imagen)
-          : Container(
-            margin: EdgeInsets.all(5),
-            height: 200,
-            color: AppTheme.primary,
-          )
-        ],
-
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            imagen!= null
+            ? Image.file(imagen, fit: BoxFit.cover,)
+            : Container(
+              margin: EdgeInsets.all(5),
+              height: 500,
+              color: AppTheme.primary,
+            )
+          ],
+      
+        ),
       )
     );
   }
