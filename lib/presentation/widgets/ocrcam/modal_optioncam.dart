@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/presentation/screens/ocrcam/resultext_screen.dart';
 
-import '../../screens/ocrcam/ocrcam_screen.dart';
+import 'image_picker_widget.dart';
 import 'image_cropper.dart';
 
 void optionOcrCam(BuildContext context){

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:note_app_frontend/config/helpers/location.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/domain/entities/note.dart';
@@ -7,7 +10,8 @@ import 'package:note_app_frontend/presentation/providers/note/note_provider.dart
 import 'package:provider/provider.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
-import '../../widgets/imageNote/optionImage.dart';
+import '../../widgets/imageNote/imageNote_widget.dart';
+import '../imageTest_screen.dart';
 import 'noteList_screen.dart';
 
 class NoteEditorScreen extends StatefulWidget {
@@ -118,6 +122,10 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
 
   @override
   Widget build(BuildContext context) {
+
+    List <String> popList=["Cámara","Galería"];
+    File? image_to_upload;
+
     final _noteProvider = context.watch<NoteProvider>();
     return Scaffold(
       backgroundColor: AppTheme.bgGray,
@@ -179,7 +187,8 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                   label: 'Second Menu Child',
                   labelStyle: TextStyle(fontSize: 18.0),
                   //onTap: () => print('SECOND CHILD'),
-                  onTap: () => optionAddImage(context),
+                  onTap: () {PopupOptions(image_to_upload, popList);
+                  } ,
                   onLongPress: () => print('SECOND CHILD LONG PRESS'),
                 ),
                 SpeedDialChild(
@@ -482,6 +491,38 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
       ),
     );
   }
+
+  void PopupOptions(File? image_to_upload, List<String> popList) {
+  showModalBottomSheet(
+    context:context, 
+    builder: (context) {
+      return PopupMenuButton(
+      onSelected: (title) async {
+        if (title == "Cámara"){
+          final imagen = await addImage(source: ImageSource.camera);
+          setState(() {
+            image_to_upload = File(imagen!.path);
+          });
+          final route = MaterialPageRoute(builder: (context) => imageScreen(context, image_to_upload));  Navigator.pushReplacement(context, route);
+        }
+        else if (title == "Galería"){
+          final imagen = await addImage(source: ImageSource.gallery);
+          setState(() {
+            image_to_upload = File(imagen!.path);
+          });
+          final route = MaterialPageRoute(builder: (context) => imageScreen(context, image_to_upload));  Navigator.pushReplacement(context, route);
+        }
+      },
+      itemBuilder: (context){
+        return popList.map((e) => PopupMenuItem(
+          value: e,
+          child: Text(e, style: AppTheme.lightTheme.textTheme.displaySmall,),)).toList();
+      },
+      );
+    }
+  );}
+
+  
 }
 
 class _Chip extends StatelessWidget {
