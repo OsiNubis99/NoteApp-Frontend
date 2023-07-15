@@ -24,9 +24,10 @@ class HomeItem extends StatelessWidget {
     Container(
         height: 150,
         width: double.maxFinite,
-        decoration: const BoxDecoration(
-           borderRadius: BorderRadius.all(Radius.circular(10)),
-           color : Color.fromARGB(255, 237, 237, 237),
+        decoration:  const BoxDecoration(
+           borderRadius:  BorderRadius.all(Radius.circular(10)),
+           color : AppTheme.white,
+          
         ),
        
       child: 

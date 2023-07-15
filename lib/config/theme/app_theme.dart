@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class AppTheme{
 
   static const Color primary    = Color(0xFFEDC123);
-  static const Color bgGray     = Color(0XFFFAFAFA);
+  static const Color bgGray     = Color.fromARGB(255, 228, 228, 228);
   static const Color text_dark  = Color(0XFF000000);
+  static const Color white      = Color.fromARGB(255, 255, 255, 255);
 
   static const Color note_1     = Color(0XFFFF9B73);
   static const Color note_2     = Color(0XFFFFC972);

@@ -48,19 +48,22 @@ class userNote extends StatelessWidget {
                       height: 80,
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: QuillHtmlEditor(
-                          hintText: '',
-                          controller: _quillController,
-                          isEnabled: false,
-                          textStyle: const TextStyle(
-                                fontWeight: FontWeight.normal, fontSize: 16, overflow: TextOverflow.ellipsis),
-                          hintTextAlign: TextAlign.start,
-                          padding: const EdgeInsets.only(top: 4),
-                          backgroundColor: Color(0xFFF19976),
-                          onEditorCreated: () {
-                            _quillController.setText(note.descriptionNota);
-                          }, minHeight: 1,
-                        ),
+                        child: 
+                            Text(note.descriptionNota),
+
+                        // QuillHtmlEditor(
+                        //   hintText: '',
+                        //   controller: _quillController,
+                        //   isEnabled: false,
+                        //   textStyle: const TextStyle(
+                        //         fontWeight: FontWeight.normal, fontSize: 16, overflow: TextOverflow.ellipsis),
+                        //   hintTextAlign: TextAlign.start,
+                        //   padding: const EdgeInsets.only(top: 4),
+                        //   backgroundColor: Color(0xFFF19976),
+                        //   onEditorCreated: () {
+                        //     _quillController.setText(note.descriptionNota);
+                        //   }, minHeight: 1,
+                        // ),
                       ),
                     ),
                   ],
