@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
 import '../../widgets/imageNote/addimage_picker_widget.dart';
-import '../imageTest_screen.dart';
+import '../image/imageTest_screen.dart';
 import 'noteList_screen.dart';
 
 class NoteEditorScreen extends StatefulWidget {

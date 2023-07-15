@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 
-import '../widgets/imageNote/addImage_widget.dart';
-import '../widgets/shared/appBarMenu.dart';
-import '../widgets/shared/sidebar_menu.dart';
+import '../../widgets/imageNote/uploadImage_widget.dart';
   
+  //Visualizar la imagen antes de agregarla a la nota
+
   @override
   Widget imageScreen(BuildContext context, File? imagen) {
 
@@ -30,7 +30,10 @@ import '../widgets/shared/sidebar_menu.dart';
         actions: [
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
-            onPressed: () {uploadImage(imagen);},
+            onPressed: () {
+              uploadImage(imagen); //File to Base64 -- Upload to db
+              //final route = MaterialPageRoute(builder: (context) => const NoteEditorScreenScreen()); Navigator.pushReplacement(context, route)
+              },
           ),
         ],
       ),
@@ -40,7 +43,11 @@ import '../widgets/shared/sidebar_menu.dart';
         child: Column(
           children: [
             imagen!= null
+
+            //Image
             ? Image.file(imagen, fit: BoxFit.cover,)
+
+          
             : Container(
               margin: EdgeInsets.all(5),
               height: 500,
