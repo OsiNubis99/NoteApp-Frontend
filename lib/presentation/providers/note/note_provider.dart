@@ -17,7 +17,7 @@ class NoteProvider extends ChangeNotifier {
   }
 
   Future<void> getNotes() async {
-    final notesAnswer = await getNotesAnswer.getAnswer();
+    final notesAnswer = await getNotesAnswer.execute();
     notes = [];
     notes.addAll(notesAnswer);
     notes = List.from(notes.reversed);

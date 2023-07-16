@@ -1,15 +1,16 @@
 import 'package:dio/dio.dart';
+import 'package:note_app_frontend/infrastructure/models/user_data.dart';
 
 import '../../domain/entities/note.dart';
 
 class GetNotes {
   final _dio = Dio();
 
-  Future<List<NoteEntity>> execute() async {
+  Future<List<NoteEntity>> execute(String idNote) async {
     List<NoteEntity> notes = [];
 
-    final response = await _dio
-        .get('https://noteapp-backend-prod.up.railway.app/user/1/notes');
+    final response = await _dio.get(
+        'https://noteapp-backend-prod.up.railway.app/user/${UserData.id}/notes/${idNote}');
 
     for (final item in response.data['notes']) {
       NoteEntity noteIn = NoteEntity(

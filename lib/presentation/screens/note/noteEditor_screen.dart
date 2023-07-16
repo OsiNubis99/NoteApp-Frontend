@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/domain/entities/note.dart';
+import 'package:note_app_frontend/infrastructure/models/task_model.dart';
 import 'package:note_app_frontend/presentation/providers/note/note_provider.dart';
 import 'package:note_app_frontend/presentation/screens/note/quilll_editor_screen.dart';
 import 'package:provider/provider.dart';
@@ -36,27 +37,28 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   final dateNow = DateTime.now().toString();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _taskTextController = TextEditingController();
   late TabController _tabController;
 
   /// CREAR CONEXION CON EL BACK PARA LAS TAREAS ///
   /// RELLENAR CON LA DATA DE LAS TAREAS ///
-  final List<Map<String, dynamic>> _tasks = [
-    {'id': 1, 'status': false, 'text': 'Task 1'},
-    {'id': 2, 'status': true, 'text': 'Task 2'},
-    {'id': 3, 'status': false, 'text': 'Task 3'},
-    {'id': 4, 'status': true, 'text': 'Task 4'},
-    {'id': 5, 'status': false, 'text': 'Task 5'},
-    {'id': 6, 'status': false, 'text': 'Task 6'},
-    {'id': 7, 'status': false, 'text': 'Task 7'},
-    {'id': 8, 'status': false, 'text': 'Task 8'},
-    {'id': 1, 'status': false, 'text': 'Task 1'},
-    {'id': 2, 'status': true, 'text': 'Task 2'},
-    {'id': 3, 'status': false, 'text': 'Task 3'},
-    {'id': 4, 'status': true, 'text': 'Task 4'},
-    {'id': 5, 'status': false, 'text': 'Task 5'},
-    {'id': 6, 'status': false, 'text': 'Task 6'},
-    {'id': 7, 'status': false, 'text': 'Task 7'},
-    {'id': 8, 'status': false, 'text': 'Task 8'},
+  final List<Task> _tasks = [
+    Task(id: 1, status: false, text: 'Task 1'),
+    Task(id: 2, status: true, text: 'Task 2'),
+    Task(id: 3, status: false, text: 'Task 3'),
+    Task(id: 4, status: true, text: 'Task 4'),
+    Task(id: 5, status: false, text: 'Task 5'),
+    Task(id: 6, status: false, text: 'Task 6'),
+    Task(id: 7, status: false, text: 'Task 7'),
+    Task(id: 8, status: false, text: 'Task 8'),
+    Task(id: 1, status: false, text: 'Task 1'),
+    Task(id: 2, status: true, text: 'Task 2'),
+    Task(id: 3, status: false, text: 'Task 3'),
+    Task(id: 4, status: true, text: 'Task 4'),
+    Task(id: 5, status: false, text: 'Task 5'),
+    Task(id: 6, status: false, text: 'Task 6'),
+    Task(id: 7, status: false, text: 'Task 7'),
+    Task(id: 8, status: false, text: 'Task 8'),
   ];
 
   /// LISTA DE BURBUJAS ///
@@ -114,7 +116,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(35.0),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                               offset: Offset(0, 3),
                               blurRadius: 5,
@@ -125,7 +127,8 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                         children: [
                           Expanded(
                             child: TextField(
-                              decoration: InputDecoration(
+                              controller: _taskTextController,
+                              decoration: const InputDecoration(
                                   hintText: "Escribe tu tarea",
                                   hintStyle: TextStyle(
                                       color: Colors.black26, fontSize: 20),
@@ -136,17 +139,24 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                       ),
                     ),
                   ),
-                  SizedBox(width: 15),
+                  const SizedBox(width: 15),
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: const BoxDecoration(
                         color: AppTheme.primary, shape: BoxShape.circle),
                     child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          _tasks.add(Task(
+                              id: _tasks.length + 1,
+                              status: false,
+                              text: _taskTextController.text));
+                        });
+                      },
                       child: const Icon(
                         Icons.send,
                         color: Colors.white,
                       ),
-                      onLongPress: () {},
                     ),
                   )
                 ],
@@ -439,7 +449,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                     alignment: Alignment.center,
                     child: ListView(
                       children: _tasks
-                          .map((e) => TaskCard(e['status'], e['text']))
+                          .map((e) => TaskCard(e.status!, e.text!))
                           .toList(),
                     ),
                   ),

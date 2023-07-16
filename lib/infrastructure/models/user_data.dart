@@ -1,3 +1,3 @@
 class UserData {
-  int id = 0;
+  static int id = 0;
 }
