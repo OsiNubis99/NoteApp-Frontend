@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/presentation/screens/home/home_screen.dart';
-import 'package:note_app_frontend/presentation/screens/login/login_screen.dart';
+import 'package:note_app_frontend/presentation/screens/start/login_screen.dart';
+import 'package:note_app_frontend/presentation/screens/start/start_screen.dart';
 
 import '../../../config/theme/app_theme.dart';
 
@@ -77,7 +78,7 @@ class SideBar extends StatelessWidget {
           //'Cerrar sesión'
           GestureDetector(
             onTap: () {
-              final route = MaterialPageRoute(builder: (context) => const LoginScreen());
+              final route = MaterialPageRoute(builder: (context) => const StartScreen());
               Navigator.push(context, route);
               },
             child: const ListTile(

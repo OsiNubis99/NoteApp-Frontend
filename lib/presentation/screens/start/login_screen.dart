@@ -47,16 +47,16 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: AppTheme.bgGray,
         elevation: 0,
         automaticallyImplyLeading: false,
-        /* leading: IconButton(
+        leading: IconButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
           icon: const Icon(Icons.arrow_back_ios, color: Color(0XFF000000)),
-        ), */
+        ),
       ),
       
       body: SafeArea(
-        child: Padding(padding:const EdgeInsets.only(top: 30, bottom: 50.0),
+        child: Padding(padding:const EdgeInsets.only(top: 20, bottom: 50.0),
           child: Column(
               children: <Widget> [
           
@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Image.asset("assets/NoteAppD.png",
                   width: 235,
                   fit: BoxFit.cover,
-                ),const Spacer(),
+                ),
               
           
                 //Imagen Nombre App
@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),const Spacer(),
                 
                 //Input 'Usuario o correo'
-                Padding(padding: EdgeInsets.only(top:30, left:20.0, right: 20.0, bottom: 25),
+                Padding(padding: EdgeInsets.only(top:30, left:20.0, right: 20.0, bottom: 20),
                   child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[ 
@@ -98,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),),
                       ),
                     ],
-                  ),), 
+                  ),), const Spacer(),
 
                 //Input 'Contraseña'
                 Padding(padding: EdgeInsets.only(top:10, left:20.0, right: 20.0, bottom: 10),
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),), const Spacer(),
 
                 //Button 'iniciar sesion'
-                Padding(padding: const EdgeInsets.only(top: 40.0, left: 20, right: 20, bottom: 15),
+                Padding(padding: const EdgeInsets.only(top: 35.0, left: 20, right: 20, bottom: 30),
                 child: Row(
                   children: [ Expanded(
                       child: MaterialButton(
@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.pushReplacement(context, route); 
                         },
 
-                        child: Padding(padding: const EdgeInsets.all(12.0),
+                        child: Padding(padding: const EdgeInsets.all(15.0),
                           child: Column(children: <Widget>[ 
                               Text(
                                 "Iniciar Sesión",
