@@ -7,6 +7,7 @@ import 'package:note_app_frontend/presentation/providers/note/note_provider.dart
 import 'package:provider/provider.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
+import '../tag/tag_screen.dart';
 import 'noteList_screen.dart';
 
 class NoteEditorScreen extends StatefulWidget {
@@ -237,6 +238,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
         ),
       ),
 
+      //APPBAR
       appBar: AppBar(
         backgroundColor: AppTheme.bgGray,
         elevation: 0,
@@ -255,6 +257,14 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
         centerTitle: true,
         iconTheme: const IconThemeData(color: AppTheme.text_dark),
         actions: [
+          //Tag
+          IconButton(
+            icon: const Icon(Icons.sell_outlined, color: AppTheme.text_dark,),
+              onPressed: () async {
+              final route = MaterialPageRoute(builder: (context) => TagScreen());
+              Navigator.pushReplacement(context, route);},
+          ),
+          //Check
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
               onPressed: () async {
