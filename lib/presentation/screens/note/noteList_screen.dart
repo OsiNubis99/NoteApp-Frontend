@@ -8,6 +8,7 @@ import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart'
 import 'package:provider/provider.dart';
 
 import '../../../config/theme/app_theme.dart';
+import '../../widgets/note/createNoteFAB_widget.dart';
 import '../../widgets/note/userNote_widget.dart';
 
 class NoteListScreen extends StatefulWidget {
@@ -44,31 +45,8 @@ class _NoteListScreenState extends State<NoteListScreen> {
                         child: ListViewBuilder(
                             noteProvider: noteProvider, index: index));
                   })))),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            heroTag: "Update",
-            onPressed: () {
-              noteProvider.getNotes();
-            },
-            child: const Icon(Icons.update),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          FloatingActionButton(
-            heroTag: "Create",
-            onPressed: () {
-              final route = MaterialPageRoute(
-                builder: (context) => NoteEditorScreen(),
-              );
-              Navigator.pushReplacement(context, route);
-            },
-            child: const Icon(Icons.add),
-          ),
-        ],
-      ),
+      floatingActionButton:         const CreateNoteFAB(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,  
     );
   }
 }
