@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../config/theme/app_theme.dart';
@@ -10,19 +11,19 @@ class TagScreen extends StatefulWidget {
 }
 
 class _TagScreenState extends State<TagScreen> {
-  late TextEditingController  controller;
-  String tagName = '';
+  late TextEditingController  tagcontroller;
+  String name = '';
   
   @override
   void initState(){
     super.initState();
 
-    controller = TextEditingController();
+    tagcontroller = TextEditingController();
   }
 
   @override
   void dispose(){
-    controller.dispose();
+    tagcontroller.dispose();
 
     super.dispose();
   }
@@ -68,9 +69,13 @@ class _TagScreenState extends State<TagScreen> {
           padding: const EdgeInsets.only(top: 20, right:5, left:5, bottom: 10),
           child: Column(
             children: [
-              GestureDetector(
-                onTap: () { final tagName = newTagDialog(); 
-                  setState(() => this.tagName = tagName as String);
+
+              //add tag buttom
+              GestureDetector( 
+                onTap: () { 
+                  final name = newTagDialog(); 
+                  setState(() => this.name = name as String);
+
                 },
                 child: const ListTile(
                   title: Text(
@@ -83,11 +88,15 @@ class _TagScreenState extends State<TagScreen> {
                   leading: Icon(Icons.new_label),
                 ),
               ),
+
+              //lista de etiquetas ya guardadas
+            
+
+
             ],
           ),
         ),
 
-        //lista de etiquetas ya guardadas
       ),
     );
   }
@@ -95,16 +104,16 @@ class _TagScreenState extends State<TagScreen> {
   Future<String?> newTagDialog() => showDialog <String>(
     context: context, builder: (context) =>  AlertDialog(
       title: Text("Nueva etiqueta", style: AppTheme.lightTheme.textTheme.titleLarge,),
-      icon: Icon(Icons.new_label), iconColor: AppTheme.text_dark,
+      icon: const Icon(Icons.new_label), iconColor: AppTheme.text_dark,
       backgroundColor: AppTheme.bgGray,
       surfaceTintColor: AppTheme.bgGray,
       content: TextField(
-        decoration: InputDecoration(
+        controller: tagcontroller,
+        onSubmitted: (_) => addTag(),
+        decoration: const InputDecoration(
           hintText: 'Nombre de etiqueta',
           hintStyle: TextStyle(color: Color(0x3B000000),),
         ),
-        controller: controller,
-        onSubmitted: (_) => addTag(),
       ),
       actions: [
         TextButton(
@@ -121,9 +130,9 @@ class _TagScreenState extends State<TagScreen> {
   );
 
   void addTag(){
-    Navigator.of(context).pop(controller.text);
+    Navigator.of(context).pop(tagcontroller.text);
 
-    controller.clear();
+    tagcontroller.clear();
   }
   
 }
