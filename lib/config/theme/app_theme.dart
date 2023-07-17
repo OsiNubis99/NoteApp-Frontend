@@ -75,6 +75,18 @@ class AppTheme{
               color: Color(0XFF1F1F1F),
           ),
 
+          titleLarge: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 20,
+            color: Color.fromARGB(255, 23, 23, 23)
+          ),
+
+          titleSmall: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+            color: Color(0xFFEDC123),
+          )
+
         ),
       );
 
