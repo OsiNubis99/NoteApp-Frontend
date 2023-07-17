@@ -38,8 +38,7 @@ class _TagScreenState extends State<TagScreen> {
         elevation: 0,
         leading: IconButton(
           onPressed: () {
-            final route =
-              MaterialPageRoute(builder: (context) => NoteEditorScreen());
+            final route = MaterialPageRoute(builder: (context) => NoteEditorScreen());
               Navigator.pushReplacement(context, route);
           },
           icon: Icon(Icons.arrow_back_ios, color: Color(0XFF000000)),
@@ -54,8 +53,7 @@ class _TagScreenState extends State<TagScreen> {
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
               onPressed: () async {
-            final route =
-              MaterialPageRoute(builder: (context) => NoteEditorScreen());
+            final route = MaterialPageRoute(builder: (context) => NoteEditorScreen());
               Navigator.pushReplacement(context, route);
           },
           ),
@@ -66,9 +64,35 @@ class _TagScreenState extends State<TagScreen> {
 
         //NEW TAG
         child: Container(
-          padding: const EdgeInsets.only(top: 20, right:5, left:5, bottom: 10),
+          padding: const EdgeInsets.only(top: 10, right:5, left:5, bottom: 10),
           child: Column(
             children: [
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(1.5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: AppTheme.primary.withOpacity(0.10)),
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          AppTheme.primary.withOpacity(0.25),
+                          AppTheme.primary.withOpacity(0.25),
+                        ]
+                      ),
+                    ),
+                    child: Text(
+                      "Etiqueta agregada", 
+                      style: TextStyle(fontSize: 12.5,fontWeight: FontWeight.normal,
+                      color: Color.fromARGB(255, 148, 148, 148),)
+                    ),
+                  ),
+                ],
+              ),
 
               //add tag buttom
               GestureDetector( 
@@ -88,13 +112,28 @@ class _TagScreenState extends State<TagScreen> {
                       fontWeight: FontWeight.normal,
                       color: AppTheme.text_dark,),
                   ),
-                  leading: Icon(Icons.new_label),
+                  leading: Icon(Icons.new_label,),
                 ),
               ),
 
               //lista de etiquetas ya guardadas
-            
-
+              const ListTile(
+                  title: Text(
+                    'Etiquetas anteriores',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.normal,
+                      color: AppTheme.text_dark,),
+                  ),
+                  leading: Icon(Icons.label,),
+                ),
+              const Text(
+                'Lista de etiquetas guardadas anteriormente',
+                style: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.normal,
+                  color: Color.fromARGB(255, 148, 148, 148),),
+              ),
 
             ],
           ),
