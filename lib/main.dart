@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
-import 'package:note_app_frontend/presentation/providers/note/note_provider.dart';
 import 'package:provider/provider.dart';
 import 'config/routes/app_routes.dart';
 import 'config/theme/app_theme.dart';
@@ -38,7 +37,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => NoteProvider())],
+      providers: [ChangeNotifierProvider(create: (_) => LocalNoteProvider())],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'MyNoteApp',

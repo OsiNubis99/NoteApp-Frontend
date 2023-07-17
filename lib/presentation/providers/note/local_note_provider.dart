@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
+import 'package:note_app_frontend/config/helpers/get_notes.dart';
 import 'package:note_app_frontend/domain/entities/body.dart';
 import 'package:note_app_frontend/domain/entities/task.dart';
 import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
@@ -20,28 +21,40 @@ class LocalNoteProvider extends ChangeNotifier {
     localNotes = _box.values.toList();
   }
 
+  // Get Notes from server
+  void getNotesServer() async {
+    getNotes();
+    final notesServer = await GetNotes.execute();
+    // Logica para que guarde las notas que no existan en el box
+    for (var note in notesServer) {
+      if (!localNotes.any((element) => element.id == note.id)) {
+        _box.add(note);
+      }
+    }
+  }
+
   // Create Note
   void addNote(Note newNote) async {
     await _box.add(newNote);
   }
 
   // Create Note Body
-  void addNoteBody(String noteId, BodyEntity newBody) {
+  void addNoteBody(String noteId, BodyEntity newBody) async {
     final note = _box.get(noteId);
     if (note != null) {
       newBody.offlineStatus = OfflineStatus.created;
       note.body.add(newBody);
-      note.save();
+      await note.save();
     }
   }
 
   // Create Note Task
-  void addNoteTask(String noteId, TaskEntity newTask) {
+  void addNoteTask(String noteId, TaskEntity newTask) async {
     final note = _box.get(noteId);
     if (note != null) {
       newTask.offlineStatus = OfflineStatus.created;
       note.tasks.add(newTask);
-      note.save();
+      await note.save();
     }
   }
 
@@ -57,22 +70,22 @@ class LocalNoteProvider extends ChangeNotifier {
   }
 
   // Update Note Body
-  void editNoteBody(String noteId, int index, BodyEntity editedBody) {
+  void editNoteBody(String noteId, int index, BodyEntity editedBody) async {
     final note = _box.get(noteId);
     if (note != null && index >= 0 && index < note.body.length) {
       editedBody.offlineStatus = OfflineStatus.edited;
       note.body[index] = editedBody;
-      note.save();
+      await note.save();
     }
   }
 
   // Update Note Task
-  void editNoteTask(String noteId, int index, TaskEntity editedTask) {
+  void editNoteTask(String noteId, int index, TaskEntity editedTask) async {
     final note = _box.get(noteId);
     if (note != null && index >= 0 && index < note.tasks.length) {
       editedTask.offlineStatus = OfflineStatus.edited;
       note.tasks[index] = editedTask;
-      note.save();
+      await note.save();
     }
   }
 
@@ -82,20 +95,20 @@ class LocalNoteProvider extends ChangeNotifier {
   }
 
   // Delete Note Body
-  void deleteNoteBody(String noteId, int index) {
+  void deleteNoteBody(String noteId, int index) async {
     final note = _box.get(noteId);
     if (note != null && index >= 0 && index < note.body.length) {
       note.body.removeAt(index);
-      note.save();
+      await note.save();
     }
   }
 
   // Delete Note Task
-  void deleteNoteTask(String noteId, int index) {
+  void deleteNoteTask(String noteId, int index) async {
     final note = _box.get(noteId);
     if (note != null && index >= 0 && index < note.tasks.length) {
       note.tasks.removeAt(index);
-      note.save();
+      await note.save();
     }
   }
 }

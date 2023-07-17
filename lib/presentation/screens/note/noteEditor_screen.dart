@@ -5,6 +5,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/domain/entities/task.dart';
 import 'package:note_app_frontend/infrastructure/models/note_model.dart';
+import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
 import 'package:note_app_frontend/presentation/providers/note/note_provider.dart';
 import 'package:note_app_frontend/presentation/screens/note/quilll_editor_screen.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +42,6 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _taskTextController = TextEditingController();
-  late TabController _tabController;
 
   /// CREAR CONEXION CON EL BACK PARA LAS TAREAS ///
   /// RELLENAR CON LA DATA DE LAS TAREAS ///
@@ -53,6 +53,12 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   _initData() async {
     _titleController.text = widget.currentNote.title;
     _descriptionController.text = widget.currentNote.description;
+  }
+
+  _saveData() async {
+    widget.currentNote.title = _titleController.text;
+    widget.currentNote.description = _descriptionController.text;
+    widget.currentNote.date = dateNow;
   }
 
   @override
@@ -80,14 +86,8 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   }
 
   @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final _noteProvider = context.watch<NoteProvider>();
+    final _noteProvider = context.watch<LocalNoteProvider>();
     return Scaffold(
       backgroundColor: AppTheme.bgGray,
       floatingActionButton: _tabSelected == 1
@@ -133,12 +133,8 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                         color: AppTheme.primary, shape: BoxShape.circle),
                     child: InkWell(
                       onTap: () {
-                        setState(() {
-                          _tasks.add(Task(
-                              idNota: (_tasks.length + 1).toString(),
-                              status: false,
-                              text: _taskTextController.text));
-                        });
+                        _saveData();
+                        _noteProvider.addNote(widget.currentNote);
                       },
                       child: const Icon(
                         Icons.send,
@@ -257,11 +253,11 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
             onPressed: () async {
               if (widget.currentNote.id == '') {
-                _noteProvider
-                    .addNote(
-                        title: _titleController.text,
-                        description: _descriptionController.text)
-                    .then((e) {});
+                // _noteProvider
+                //     .addNote(
+                //         title: _titleController.text,
+                //         description: _descriptionController.text)
+                //     .then((e) {});
               } else {
                 widget.currentNote.title = _titleController.text;
                 widget.currentNote.description = _descriptionController.text;
