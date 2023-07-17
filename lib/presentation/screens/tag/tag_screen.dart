@@ -4,13 +4,19 @@ import '../../../config/theme/app_theme.dart';
 import '../../widgets/shared/appBarMenu.dart';
 import '../../widgets/shared/sidebar_menu.dart';
 import '../note/noteEditor_screen.dart';
+import 'new_tag_screen.dart';
 
-class TagScreen extends StatelessWidget{
+class TagScreen extends StatefulWidget {
+
+  @override
+  State<TagScreen> createState() => _TagScreenState();
+}
+
+class _TagScreenState extends State<TagScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.bgGray,
-      drawer: const SideBar(),
       appBar: AppBar(
         backgroundColor: AppTheme.bgGray,
         elevation: 0,
@@ -35,8 +41,35 @@ class TagScreen extends StatelessWidget{
           ),
         ],
       ),
+
       body: SafeArea(
-          child: Padding(padding: EdgeInsets.all(5),),
+
+        //NEW TAG
+        child: Container(
+          padding: const EdgeInsets.only(top: 20, right:5, left:5, bottom: 10),
+          child: Column(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  final route = MaterialPageRoute(builder: (context) => NewTagScreen());
+                  Navigator.push(context, route);
+                },
+                child: const ListTile(
+                  title: Text(
+                    'Nueva etiqueta',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.normal,
+                      color: AppTheme.text_dark,),
+                  ),
+                  leading: Icon(Icons.new_label),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        //lista de etiquetas ya guardadas
       ),
     );
   }
