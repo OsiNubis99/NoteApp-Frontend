@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:note_app_frontend/infrastructure/models/user_data.dart';
 
 import '../../domain/entities/note.dart';
 
@@ -9,8 +8,8 @@ class GetNotes {
   Future<List<NoteEntity>> execute(String idNote) async {
     List<NoteEntity> notes = [];
 
-    final response = await _dio.get(
-        'https://noteapp-backend-prod.up.railway.app/user/${UserData.id}/notes/${idNote}');
+    final response = await _dio
+        .get('https://noteapp-backend-prod.up.railway.app/note/${idNote}');
 
     for (final item in response.data['notes']) {
       NoteEntity noteIn = NoteEntity(

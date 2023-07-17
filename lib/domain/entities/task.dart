@@ -1,23 +1,35 @@
 class TaskEntity {
-  int? id = 8;
-  bool? status = false;
-  String? text = 'Task 8';
+  String id;
+  String idNota;
+  String title;
+  bool status;
+  DateTime date;
 
-  TaskEntity({this.id, this.status, this.text});
+  TaskEntity({
+    required this.id,
+    required this.idNota,
+    required this.status,
+    required this.title,
+    required this.date,
+  });
 
   factory TaskEntity.fromJson(Map<String, dynamic> json) {
     return TaskEntity(
-      id: json['id'],
-      status: json['status'],
-      text: json['text'],
+      id: json['id']['id'],
+      idNota: json['idNota']['idNota'],
+      title: json['title']['title'],
+      status: json['status'] == 'listo',
+      date: json['date'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'status': status,
-      'text': text,
+      'idNota': idNota,
+      'text': title,
+      'status': status ? 'listo' : 'por hacer',
+      'fechaCreacion': date,
     };
   }
 }

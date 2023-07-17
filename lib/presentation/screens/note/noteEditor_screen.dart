@@ -43,22 +43,22 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   /// CREAR CONEXION CON EL BACK PARA LAS TAREAS ///
   /// RELLENAR CON LA DATA DE LAS TAREAS ///
   final List<Task> _tasks = [
-    Task(id: 1, status: false, text: 'Task 1'),
-    Task(id: 2, status: true, text: 'Task 2'),
-    Task(id: 3, status: false, text: 'Task 3'),
-    Task(id: 4, status: true, text: 'Task 4'),
-    Task(id: 5, status: false, text: 'Task 5'),
-    Task(id: 6, status: false, text: 'Task 6'),
-    Task(id: 7, status: false, text: 'Task 7'),
-    Task(id: 8, status: false, text: 'Task 8'),
-    Task(id: 1, status: false, text: 'Task 1'),
-    Task(id: 2, status: true, text: 'Task 2'),
-    Task(id: 3, status: false, text: 'Task 3'),
-    Task(id: 4, status: true, text: 'Task 4'),
-    Task(id: 5, status: false, text: 'Task 5'),
-    Task(id: 6, status: false, text: 'Task 6'),
-    Task(id: 7, status: false, text: 'Task 7'),
-    Task(id: 8, status: false, text: 'Task 8'),
+    Task(idNota: '1', status: false, text: 'Task 1'),
+    Task(idNota: '1', status: true, text: 'Task 2'),
+    Task(idNota: '1', status: false, text: 'Task 3'),
+    Task(idNota: '1', status: true, text: 'Task 4'),
+    Task(idNota: '1', status: false, text: 'Task 5'),
+    Task(idNota: '1', status: false, text: 'Task 6'),
+    Task(idNota: '1', status: false, text: 'Task 7'),
+    Task(idNota: '1', status: false, text: 'Task 8'),
+    Task(idNota: '1', status: false, text: 'Task 1'),
+    Task(idNota: '1', status: true, text: 'Task 2'),
+    Task(idNota: '1', status: false, text: 'Task 3'),
+    Task(idNota: '1', status: true, text: 'Task 4'),
+    Task(idNota: '1', status: false, text: 'Task 5'),
+    Task(idNota: '1', status: false, text: 'Task 6'),
+    Task(idNota: '1', status: false, text: 'Task 7'),
+    Task(idNota: '1', status: false, text: 'Task 8'),
   ];
 
   /// LISTA DE BURBUJAS ///
@@ -148,7 +148,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                       onTap: () {
                         setState(() {
                           _tasks.add(Task(
-                              id: _tasks.length + 1,
+                              idNota: (_tasks.length + 1).toString(),
                               status: false,
                               text: _taskTextController.text));
                         });
@@ -434,7 +434,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                     width: MediaQuery.of(context).size.width - 10,
                     alignment: Alignment.center,
                     child: ListView(
-                      children: [
+                      children: const [
                         BubbleSpecialThree(
                           tail: false,
                           text: 'Hola',
