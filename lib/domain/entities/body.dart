@@ -1,16 +1,21 @@
+import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
+
 class BodyEntity {
   String id;
   String idNota;
   String text;
   String image; // Base64
   DateTime date;
+  OfflineStatus? offlineStatus;
 
-  BodyEntity(
-      {required this.id,
-      required this.idNota,
-      required this.text,
-      required this.image,
-      required this.date});
+  BodyEntity({
+    required this.id,
+    required this.idNota,
+    required this.text,
+    required this.image,
+    required this.date,
+    this.offlineStatus,
+  });
 
   factory BodyEntity.fromJson(Map<String, dynamic> json) {
     return BodyEntity(

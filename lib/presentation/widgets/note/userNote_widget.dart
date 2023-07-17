@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/domain/entities/note.dart';
+import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 import 'package:note_app_frontend/presentation/screens/home/home_screen.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
@@ -8,7 +9,7 @@ import '../../../config/theme/app_theme.dart';
 
 class userNote extends StatelessWidget {
   final QuillEditorController _quillController = QuillEditorController();
-  final NoteEntity note;
+  final Note note;
   final Color color;
 
   userNote({
@@ -40,7 +41,7 @@ class userNote extends StatelessWidget {
                   children: [
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(note.tituloNota,
+                      child: Text(note.title,
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18)),
                     ),
@@ -48,7 +49,7 @@ class userNote extends StatelessWidget {
                       height: 80,
                       child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(note.descriptionNota)),
+                          child: Text(note.description)),
                     ),
                   ],
                 ),

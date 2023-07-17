@@ -3,8 +3,8 @@ import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
-import 'package:note_app_frontend/domain/entities/note.dart';
-import 'package:note_app_frontend/infrastructure/models/task_model.dart';
+import 'package:note_app_frontend/domain/entities/task.dart';
+import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 import 'package:note_app_frontend/presentation/providers/note/note_provider.dart';
 import 'package:note_app_frontend/presentation/screens/note/quilll_editor_screen.dart';
 import 'package:provider/provider.dart';
@@ -12,20 +12,23 @@ import 'package:provider/provider.dart';
 import 'noteList_screen.dart';
 
 class NoteEditorScreen extends StatefulWidget {
-  NoteEditorScreen({NoteEntity? note}) {
+  NoteEditorScreen({Note? note}) {
     if (note == null) {
-      currentNote = NoteEntity(
-          idNota: '',
-          tituloNota: '',
-          descriptionNota: '',
-          fechaNota: '',
-          estadoNota: '');
+      currentNote = Note(
+        id: '',
+        title: '',
+        description: '',
+        date: '',
+        status: '',
+        tasks: [],
+        body: [],
+      );
     } else {
       currentNote = note;
     }
   }
 
-  late NoteEntity currentNote;
+  late Note currentNote;
 
   @override
   State<NoteEditorScreen> createState() => _NoteEditorScreenState();
@@ -42,35 +45,19 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
 
   /// CREAR CONEXION CON EL BACK PARA LAS TAREAS ///
   /// RELLENAR CON LA DATA DE LAS TAREAS ///
-  final List<Task> _tasks = [
-    Task(idNota: '1', status: false, text: 'Task 1'),
-    Task(idNota: '1', status: true, text: 'Task 2'),
-    Task(idNota: '1', status: false, text: 'Task 3'),
-    Task(idNota: '1', status: true, text: 'Task 4'),
-    Task(idNota: '1', status: false, text: 'Task 5'),
-    Task(idNota: '1', status: false, text: 'Task 6'),
-    Task(idNota: '1', status: false, text: 'Task 7'),
-    Task(idNota: '1', status: false, text: 'Task 8'),
-    Task(idNota: '1', status: false, text: 'Task 1'),
-    Task(idNota: '1', status: true, text: 'Task 2'),
-    Task(idNota: '1', status: false, text: 'Task 3'),
-    Task(idNota: '1', status: true, text: 'Task 4'),
-    Task(idNota: '1', status: false, text: 'Task 5'),
-    Task(idNota: '1', status: false, text: 'Task 6'),
-    Task(idNota: '1', status: false, text: 'Task 7'),
-    Task(idNota: '1', status: false, text: 'Task 8'),
-  ];
+  late List<TaskEntity> _tasks;
 
   /// LISTA DE BURBUJAS ///
   final List<Widget> _bubbles = [];
 
   _initData() async {
-    _titleController.text = widget.currentNote.tituloNota;
-    _descriptionController.text = widget.currentNote.descriptionNota;
+    _titleController.text = widget.currentNote.title;
+    _descriptionController.text = widget.currentNote.description;
   }
 
   @override
   void initState() {
+    _tasks = widget.currentNote.tasks;
     _initData();
     super.initState();
   }
@@ -269,17 +256,16 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
             onPressed: () async {
-              if (widget.currentNote.idNota == '') {
+              if (widget.currentNote.id == '') {
                 _noteProvider
                     .addNote(
                         title: _titleController.text,
                         description: _descriptionController.text)
                     .then((e) {});
               } else {
-                widget.currentNote.tituloNota = _titleController.text;
-                widget.currentNote.descriptionNota =
-                    _descriptionController.text;
-                _noteProvider.updateNote(widget.currentNote).then((e) {});
+                widget.currentNote.title = _titleController.text;
+                widget.currentNote.description = _descriptionController.text;
+                // _noteProvider.updateNote(widget.currentNote).then((e) {});
               }
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('¡Nota guardada con exito!')));
@@ -449,7 +435,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                     alignment: Alignment.center,
                     child: ListView(
                       children: _tasks
-                          .map((e) => TaskCard(e.status!, e.text!))
+                          .map((e) => TaskCard(e.status, e.title))
                           .toList(),
                     ),
                   ),

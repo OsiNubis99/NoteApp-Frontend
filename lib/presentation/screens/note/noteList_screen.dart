@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:note_app_frontend/domain/entities/note.dart';
+import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
 import 'package:note_app_frontend/presentation/providers/note/note_provider.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/appBarMenu.dart';
@@ -20,11 +21,9 @@ class NoteListScreen extends StatefulWidget {
 class _NoteListScreenState extends State<NoteListScreen> {
   @override
   Widget build(BuildContext context) {
-    final noteProvider = context.watch<NoteProvider>();
-
-    final countNote = noteProvider.notes.length;
-
-    noteProvider.initNotes();
+    final _noteProvider = context.watch<LocalNoteProvider>();
+    _noteProvider.getNotes();
+    final countNote = _noteProvider.localNotes.length;
 
     //  @override
     //   void setState(fn) {
@@ -48,7 +47,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
                   children: List.generate(countNote, (index) {
                     return Center(
                         child: ListViewBuilder(
-                            noteProvider: noteProvider, index: index));
+                            noteProvider: _noteProvider, index: index));
                   })))),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -56,7 +55,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
           FloatingActionButton(
             heroTag: "Update",
             onPressed: () {
-              noteProvider.getNotes();
+              _noteProvider.getNotes();
             },
             child: const Icon(Icons.update),
           ),
@@ -86,11 +85,12 @@ class ListViewBuilder extends StatelessWidget {
     required this.index,
   });
 
-  final NoteProvider noteProvider;
+  final LocalNoteProvider noteProvider;
   final int index;
 
   @override
   Widget build(BuildContext context) {
-    return userNote(note: noteProvider.notes[index], color: AppTheme.note_1);
+    return userNote(
+        note: noteProvider.localNotes[index], color: AppTheme.note_1);
   }
 }

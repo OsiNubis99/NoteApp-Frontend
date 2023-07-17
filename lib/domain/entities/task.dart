@@ -1,9 +1,12 @@
+import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
+
 class TaskEntity {
   String id;
   String idNota;
   String title;
   bool status;
   DateTime date;
+  OfflineStatus? offlineStatus;
 
   TaskEntity({
     required this.id,
@@ -11,6 +14,7 @@ class TaskEntity {
     required this.status,
     required this.title,
     required this.date,
+    this.offlineStatus,
   });
 
   factory TaskEntity.fromJson(Map<String, dynamic> json) {
