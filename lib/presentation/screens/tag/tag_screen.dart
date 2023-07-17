@@ -12,7 +12,7 @@ class TagScreen extends StatefulWidget {
 
 class _TagScreenState extends State<TagScreen> {
   late TextEditingController  tagcontroller;
-  String name = '';
+  String nameTag = '';
   
   @override
   void initState(){
@@ -73,8 +73,11 @@ class _TagScreenState extends State<TagScreen> {
               //add tag buttom
               GestureDetector( 
                 onTap: () { 
-                  final name = newTagDialog(); 
-                  setState(() => this.name = name as String);
+                  final nameTag = newTagDialog(); 
+
+                  if (nameTag == null) return;
+
+                  setState(() => this.nameTag = nameTag as String);
 
                 },
                 child: const ListTile(
@@ -101,33 +104,39 @@ class _TagScreenState extends State<TagScreen> {
     );
   }
 
-  Future<String?> newTagDialog() => showDialog <String>(
-    context: context, builder: (context) =>  AlertDialog(
-      title: Text("Nueva etiqueta", style: AppTheme.lightTheme.textTheme.titleLarge,),
-      icon: const Icon(Icons.new_label), iconColor: AppTheme.text_dark,
-      backgroundColor: AppTheme.bgGray,
-      surfaceTintColor: AppTheme.bgGray,
-      content: TextField(
-        controller: tagcontroller,
-        onSubmitted: (_) => addTag(),
-        decoration: const InputDecoration(
-          hintText: 'Nombre de etiqueta',
-          hintStyle: TextStyle(color: Color(0x3B000000),),
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: (){
-              Navigator.of(context).pop();}, 
-          child: Text("Cancelar", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFFEDC123),),)
-        ),
-        TextButton(
-          onPressed: addTag, 
-          child: Text("Agregar", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFFEDC123),)),
-        )
-      ],
-    ),
-  );
+  newTagDialog(){
+    showDialog(context: context, builder: (context){
+      return StatefulBuilder(
+        builder: ((context, setState) {
+          return AlertDialog(
+            title: Text("Nueva etiqueta", style: AppTheme.lightTheme.textTheme.titleLarge,),
+            icon: const Icon(Icons.new_label), iconColor: AppTheme.text_dark,
+            backgroundColor: AppTheme.bgGray,
+            surfaceTintColor: AppTheme.bgGray,
+            content: TextField(
+              controller: tagcontroller,
+              onSubmitted: (_) => addTag(),
+              decoration: const InputDecoration(
+                hintText: 'Nombre de etiqueta',
+                hintStyle: TextStyle(color: Color(0x3B000000),),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: (){
+                    Navigator.of(context).pop();}, 
+                child: Text("Cancelar", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFFEDC123),),)
+              ),
+              TextButton(
+                onPressed: addTag, 
+                child: Text("Agregar", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFFEDC123),)),
+              )
+            ],
+          );
+        })
+      );
+    });
+  }
 
   void addTag(){
     Navigator.of(context).pop(tagcontroller.text);
