@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:note_app_frontend/domain/entities/note.dart';
 import 'package:note_app_frontend/presentation/screens/home/home_screen.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
 import '../../../config/theme/app_theme.dart';
+import '../../providers/note/note_provider.dart';
 
 class userNote extends StatelessWidget {
   final QuillEditorController _quillController = QuillEditorController();
@@ -19,6 +21,9 @@ class userNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final noteProvider = context.watch<NoteProvider>();
+    
     return InkWell(
       onTap: () {
         final route = MaterialPageRoute(
@@ -38,14 +43,16 @@ class userNote extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Align(
+
+                       Align(
                       alignment: Alignment.centerLeft,
                       child: Text(note.tituloNota,
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18)),
                     ),
+                               
                     SizedBox(
-                      height: 80,
+                      height: 60,
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: 
@@ -66,6 +73,19 @@ class userNote extends StatelessWidget {
                         // ),
                       ),
                     ),
+
+                      Align(
+                      alignment: Alignment.bottomLeft,
+                      child: IconButton(
+                        onPressed: (){
+
+                         // noteProvider.updateNoteService();
+
+                        },
+                        icon: const Icon(Icons.delete_forever),
+                      ),
+                    ),
+
                   ],
                 ),
               ]),

@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 
 class AppTheme{
 
+  final int selectedColor; 
+
+  AppTheme({
+    this.selectedColor = 0
+  });
+
   static const Color primary    = Color(0xFFEDC123);
   static const Color bgGray     = Color.fromARGB(255, 228, 228, 228);
   static const Color text_dark  = Color(0XFF000000);
@@ -12,6 +18,24 @@ class AppTheme{
   static const Color note_3     = Color(0XFFB692FE);
   static const Color note_4     = Color(0XFFE4EE90);
   static const Color note_5     = Color(0XFF00D4FF);
+
+  static const List<Color> colorTheme = [
+    note_1,
+    note_2,
+    note_3,
+    note_4,
+    note_5,
+    note_1,
+    note_2,
+    note_3,
+    note_4,
+    note_5,
+    note_1,
+    note_2,
+    note_3,
+    note_4,
+    note_5,
+  ];
 
   static final ThemeData lightTheme = ThemeData(
         useMaterial3: true,

@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/appBarMenu.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
-
 import '../../../config/theme/app_theme.dart';
 import '../../widgets/home/last_note.dart';
-
-import '../../widgets/home/menu_item.dart';
 import '../../widgets/home/menu_options.dart';
 import '../../widgets/note/createNoteFAB_widget.dart';
-import '../../widgets/ocrcam/modal_optioncam.dart';
 import '../../widgets/shared/sidebar_menu.dart';
 
-import '../note/noteList_screen.dart';
-import '../ocr-audio/ocrAudio_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +28,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+
+// Body Content 
 
 class BodyContent extends StatelessWidget {
   const BodyContent({

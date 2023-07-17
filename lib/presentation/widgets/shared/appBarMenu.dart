@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../config/theme/app_theme.dart';
+import '../../screens/trash/trash_screen.dart';
 
 AppBar AppBarMenu(BuildContext context) {
   return AppBar(
@@ -13,10 +14,12 @@ AppBar AppBarMenu(BuildContext context) {
       iconTheme: const IconThemeData(color: AppTheme.text_dark),
       actions: [
         IconButton(
-          icon: const Icon(Icons.search, color: AppTheme.text_dark),
+          icon: const Icon(Icons.delete, color: AppTheme.text_dark),
           onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Buscar Proximamente')));
+           final route = MaterialPageRoute(
+             builder: (context) => const TrashScreen(),
+           );
+           Navigator.pushReplacement(context, route);
           },
         ),
       ],

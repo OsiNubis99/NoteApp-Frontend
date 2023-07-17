@@ -8,7 +8,9 @@ import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart'
 import 'package:provider/provider.dart';
 
 import '../../../config/theme/app_theme.dart';
+import '../../widgets/note/ListViewBuilder_widget.dart';
 import '../../widgets/note/createNoteFAB_widget.dart';
+import '../../widgets/note/noteGridBuilder_widget.dart';
 import '../../widgets/note/userNote_widget.dart';
 
 class NoteListScreen extends StatefulWidget {
@@ -38,31 +40,13 @@ class _NoteListScreenState extends State<NoteListScreen> {
       body: SafeArea(
           child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: GridView.count(
-                  crossAxisCount: 2,
-                  children: List.generate(countNote, (index) {
-                    return Center(
-                        child: ListViewBuilder(
-                            noteProvider: noteProvider, index: index));
-                  })))),
+              child: NoteGridBuilderWidget(countNote: countNote, noteProvider: noteProvider))),
       floatingActionButton:         const CreateNoteFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,  
     );
   }
 }
 
-class ListViewBuilder extends StatelessWidget {
-  const ListViewBuilder({
-    super.key,
-    required this.noteProvider,
-    required this.index,
-  });
 
-  final NoteProvider noteProvider;
-  final int index;
 
-  @override
-  Widget build(BuildContext context) {
-    return userNote(note: noteProvider.notes[index], color: AppTheme.note_1);
-  }
-}
+

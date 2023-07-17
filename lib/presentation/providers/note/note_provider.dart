@@ -11,12 +11,17 @@ class NoteProvider extends ChangeNotifier {
   final UpdateNote updateNoteService = UpdateNote();
 
   List<NoteEntity> notes = [];
+  List<NoteEntity> notesInactive = [];
 
   Future<void> getNotes() async {
     final notesAnswer = await getNotesAnswer.getAnswer();
     notes = [];
     notes.addAll(notesAnswer);
     notes = List.from(notes.reversed);
+
+    notesInactive = notes.where((note) => note.estadoNota == 'Inactive').toList();
+    notes = notes.where((note) => note.estadoNota == 'Active').toList();
+
     notifyListeners();
   }
 
