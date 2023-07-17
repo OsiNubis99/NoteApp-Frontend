@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../config/theme/app_theme.dart';
-import '../../widgets/shared/appBarMenu.dart';
-import '../../widgets/shared/sidebar_menu.dart';
 import '../note/noteEditor_screen.dart';
-import 'new_tag_screen.dart';
 
 class TagScreen extends StatefulWidget {
 
@@ -13,10 +10,28 @@ class TagScreen extends StatefulWidget {
 }
 
 class _TagScreenState extends State<TagScreen> {
+  late TextEditingController  controller;
+  String tagName = '';
+  
+  @override
+  void initState(){
+    super.initState();
+
+    controller = TextEditingController();
+  }
+
+  @override
+  void dispose(){
+    controller.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.bgGray,
+
       appBar: AppBar(
         backgroundColor: AppTheme.bgGray,
         elevation: 0,
@@ -37,7 +52,11 @@ class _TagScreenState extends State<TagScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
-              onPressed: () async {},
+              onPressed: () async {
+            final route =
+              MaterialPageRoute(builder: (context) => NoteEditorScreen());
+              Navigator.pushReplacement(context, route);
+          },
           ),
         ],
       ),
@@ -50,9 +69,8 @@ class _TagScreenState extends State<TagScreen> {
           child: Column(
             children: [
               GestureDetector(
-                onTap: () {
-                  final route = MaterialPageRoute(builder: (context) => NewTagScreen());
-                  Navigator.push(context, route);
+                onTap: () { final tagName = newTagDialog(); 
+                  setState(() => this.tagName = tagName as String);
                 },
                 child: const ListTile(
                   title: Text(
@@ -74,4 +92,38 @@ class _TagScreenState extends State<TagScreen> {
     );
   }
 
+  Future<String?> newTagDialog() => showDialog <String>(
+    context: context, builder: (context) =>  AlertDialog(
+      title: Text("Nueva etiqueta", style: AppTheme.lightTheme.textTheme.titleLarge,),
+      icon: Icon(Icons.new_label), iconColor: AppTheme.text_dark,
+      backgroundColor: AppTheme.bgGray,
+      surfaceTintColor: AppTheme.bgGray,
+      content: TextField(
+        decoration: InputDecoration(
+          hintText: 'Nombre de etiqueta',
+          hintStyle: TextStyle(color: Color(0x3B000000),),
+        ),
+        controller: controller,
+        onSubmitted: (_) => addTag(),
+      ),
+      actions: [
+        TextButton(
+          onPressed: (){
+              Navigator.of(context).pop();}, 
+          child: Text("Cancelar", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFFEDC123),),)
+        ),
+        TextButton(
+          onPressed: addTag, 
+          child: Text("Agregar", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFFEDC123),)),
+        )
+      ],
+    ),
+  );
+
+  void addTag(){
+    Navigator.of(context).pop(controller.text);
+
+    controller.clear();
+  }
+  
 }
