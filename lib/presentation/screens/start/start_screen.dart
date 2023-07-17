@@ -17,7 +17,7 @@ class _StartScreenState extends State<StartScreen> {
     return Scaffold(
       backgroundColor: AppTheme.bgGray,
       body: SafeArea(
-        child: Padding(padding:const EdgeInsets.only(top: 100, bottom: 30.0),
+        child: Padding(padding:const EdgeInsets.only(top: 145, bottom: 5.0),
           child: Column(
             children: <Widget> [
 
@@ -25,18 +25,18 @@ class _StartScreenState extends State<StartScreen> {
                 Image.asset("assets/NoteAppD.png",
                   width: 235,
                   fit: BoxFit.cover,
-                ),
+                ),const Spacer(),
               
           
               //Imagen Nombre App
                 Image.asset("assets/my_notes_app.png",
-                  width: 140,
+                  width: 155,
                   fit: BoxFit.cover,
                 ),const Spacer(),
 
               //'Iniciar sesion'
               Padding(
-                padding: const EdgeInsets.only(top: 40.0, left: 20, right: 20, bottom: 25.0),
+                padding: const EdgeInsets.only(top: 80.0, left: 20, right: 20, bottom: 5.0),
                 child: Row(
                   children: [ Expanded(
                       child: MaterialButton(
@@ -68,7 +68,7 @@ class _StartScreenState extends State<StartScreen> {
 
               //'Crear cuenta'
               Padding(
-                padding: const EdgeInsets.only(top: 25.0, left: 20, right: 20, bottom: 20.0),
+                padding: const EdgeInsets.only(top: 15.0, left: 20, right: 20, bottom: 5.0),
                 child: Row(
                   children: [ Expanded(
                       child: MaterialButton(
