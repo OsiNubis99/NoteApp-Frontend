@@ -73,6 +73,60 @@ class _LoginScreenState extends State<LoginScreen> {
                   fit: BoxFit.cover,
                 ),const Spacer(),
                 
+                //Input 'Usuario o correo'
+                Padding(padding: EdgeInsets.only(top:30, left:20.0, right: 20.0, bottom: 20),
+                  child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[ 
+                    Text(
+                      "Usuario o correo electrónico",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFFFFF),
+                        border: Border.all(
+                          color: Colors.grey,
+                        ),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: TextFormField(
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: '  Ingrese su usuario o correo',
+                            hintStyle: TextStyle(color: Color(0x3B000000),),
+                          ),),
+                      ),
+                    ],
+                  ),), const Spacer(),
+
+                //Input 'Contraseña'
+                Padding(padding: EdgeInsets.only(top:10, left:20.0, right: 20.0, bottom: 10),
+                  child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[ 
+                    Text(
+                      "Contraseña",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFFFFF),
+                        border: Border.all(
+                          color: Colors.grey,
+                        ),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: TextFormField(
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: '  Ingrese su contraseña',
+                            hintStyle: TextStyle(color: Color(0x3B000000),),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),), const Spacer(),
 
                 //Button 'iniciar sesion'
                 Padding(padding: const EdgeInsets.only(top: 50.0, left: 20, right: 20, bottom: 15),
