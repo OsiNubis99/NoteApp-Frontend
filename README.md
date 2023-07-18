@@ -40,3 +40,4 @@ $ flutter build apk
 - [image to text](https://pub.dev/packages/google_mlkit_text_recognition) 
 - [image picker](https://pub.dev/packages/image_picker) 
 - [image cropper](https://pub.dev/packages/image_cropper) 
+- [alert](https://pub.dev/packages/awesome_snackbar_content)

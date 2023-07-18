@@ -2,7 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../config/theme/app_theme.dart';
+import '../../widgets/shared/alertSnackBar.dart';
 import '../note/noteEditor_screen.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class TagScreen extends StatefulWidget {
 
@@ -181,6 +183,12 @@ class _TagScreenState extends State<TagScreen> {
     Navigator.of(context).pop(tagcontroller.text);
 
     tagcontroller.clear();
+    
+    SnackBar snackBar = AlertSnackBar(titulo: "¡Etiqueta creada!", mensaje: "Tu nueva etiqueta a sido creada con éxito", tipo: ContentType.success);
+
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackBar);
   }
   
 }

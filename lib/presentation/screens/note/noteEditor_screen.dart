@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:note_app_frontend/config/helpers/location.dart';
@@ -7,6 +8,7 @@ import 'package:note_app_frontend/presentation/providers/note/note_provider.dart
 import 'package:provider/provider.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
+import '../../widgets/shared/alertSnackBar.dart';
 import '../tag/tag_screen.dart';
 import 'noteList_screen.dart';
 
@@ -281,9 +283,12 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                       .updateNote(widget.currentNote)
                       .then((e) {});
                 }
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('¡Nota guardada con exito!')));
-              },
+                SnackBar snackBar = AlertSnackBar(titulo: "¡Nota guardada!", mensaje: "Nota guardada con éxito", tipo: ContentType.success);
+
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(snackBar);
+                },
           ),
         ],
       ),
