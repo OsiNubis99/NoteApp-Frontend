@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../../config/theme/app_theme.dart';
 import '../../widgets/note/ListViewBuilder_widget.dart';
+import '../../widgets/note/NoteNoteFound.dart';
 import '../../widgets/note/createNoteFAB_widget.dart';
 import '../../widgets/note/noteGridBuilder_widget.dart';
 import '../../widgets/note/userNote_widget.dart';
@@ -40,7 +41,8 @@ class _NoteListScreenState extends State<NoteListScreen> {
       body: SafeArea(
           child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: NoteGridBuilderWidget(countNote: countNote, noteProvider: noteProvider))),
+              child: (countNote != 0) ? NoteGridBuilderWidget(countNote: countNote, noteProvider: noteProvider) : const Center(child: NoteNotFound())
+              )),
       floatingActionButton:         const CreateNoteFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,  
     );

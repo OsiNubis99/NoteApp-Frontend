@@ -13,6 +13,9 @@ class CreateNoteService {
       "titulo": title,
       "fechaC": DateTime.now().toString().substring(0, 10),
       "est": 'Active',
+      "descripcionGPS": 'Casa',
+      "latitud": 0,
+      "longitud": 0,
     });
     return response.data;
   }

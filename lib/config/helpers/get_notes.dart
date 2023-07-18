@@ -17,8 +17,10 @@ class GetNotes {
           descriptionNota: item['descripcionNota'],
           estadoNota: item['estadoNota'],
           fechaNota: item['fechaNota'],
-          tituloNota: item['tituloNota']);
-
+          tituloNota: item['tituloNota'],
+          descripcionGPS: item['descripcionGPS'],
+          latitud: item['latitud'],
+          longitud: item['longitud']);
       notes.add(noteIn);
     }
 
