@@ -9,8 +9,6 @@ class GetNotes {
   static Future<List<Note>> execute() async {
     List<Note> notes = [];
 
-    print('/// USER ID ///');
-    print(UserData.id);
     final response = await _dio
         .get('https://noteapp-backend-prod.up.railway.app/user/1/notes');
 

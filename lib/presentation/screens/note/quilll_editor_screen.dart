@@ -13,12 +13,12 @@ class QuillEditorScreen extends StatefulWidget {
   QuillEditorScreen({Body? body, this.idNote = ''}) {
     if (body == null) {
       currentBody = Body(
-        id: '',
-        idNota: idNote,
-        date: DateTime.now(),
-        image: {},
-        text: '',
-      );
+          id: '',
+          idNota: idNote,
+          date: DateTime.now(),
+          image: {},
+          text: '',
+          ocr: false);
     } else {
       currentBody = body;
     }

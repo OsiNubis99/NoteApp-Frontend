@@ -37,7 +37,17 @@ class Task extends HiveObject {
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toCreateJson() {
+    return {
+      'id': id,
+      'idNota': idNota,
+      'text': title,
+      'status': status ? 'listo' : 'por hacer',
+      'fechaCreacion': date,
+    };
+  }
+
+  Map<String, dynamic> toUpdateJson() {
     return {
       'id': id,
       'idNota': idNota,

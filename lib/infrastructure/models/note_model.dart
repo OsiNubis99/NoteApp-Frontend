@@ -55,11 +55,21 @@ class Note extends HiveObject {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        "idNota": id,
+  Map<String, dynamic> toCreateJson() => {
+        "titulo": title,
+        "fechaC": date,
+        "latitud": 0,
+        "longitud": 0,
+        "descripcionGPS": "Caracas",
+        "est": status,
+        "desc": description,
+        "idUsuario": 1
+      };
+
+  Map<String, dynamic> toUpdateJson() => {
         "tituloNota": title,
-        "descripcion": description,
         "fechaCreacion": date,
         "estado": status,
+        "descrip": description
       };
 }

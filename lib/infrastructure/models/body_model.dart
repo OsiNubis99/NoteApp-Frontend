@@ -16,6 +16,8 @@ class Body extends HiveObject {
   @HiveField(4)
   DateTime date;
   @HiveField(5)
+  bool ocr;
+  @HiveField(6)
   String? offlineStatus;
 
   Body({
@@ -24,6 +26,7 @@ class Body extends HiveObject {
     required this.text,
     required this.image,
     required this.date,
+    required this.ocr,
     this.offlineStatus,
   });
 
@@ -34,16 +37,18 @@ class Body extends HiveObject {
       text: json['text'],
       image: json['imagen'],
       date: DateTime.parse(json['fecha']),
+      ocr: false,
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toCreateJson() {
+    return {"fecha": date, "text": text, "imagen": image, "ocr": ocr};
+  }
+
+  Map<String, dynamic> toUpdateJson() {
     return {
-      'Idbody': id,
-      'idNota': idNota,
       'text': text,
       'image': image,
-      'fecha': date,
     };
   }
 }

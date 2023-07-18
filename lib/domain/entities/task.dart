@@ -6,7 +6,7 @@ class TaskEntity {
   String title;
   bool status;
   DateTime date;
-  OfflineStatus? offlineStatus;
+  String? offlineStatus;
 
   TaskEntity({
     required this.id,

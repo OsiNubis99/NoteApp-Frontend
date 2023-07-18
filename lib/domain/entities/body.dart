@@ -6,7 +6,7 @@ class BodyEntity {
   String text;
   Map<String, dynamic> image; // Base64
   DateTime date;
-  OfflineStatus? offlineStatus;
+  String? offlineStatus;
 
   BodyEntity({
     required this.id,

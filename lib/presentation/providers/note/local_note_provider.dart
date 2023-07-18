@@ -25,11 +25,27 @@ class LocalNoteProvider extends ChangeNotifier {
     localNotes = _box.values.toList();
   }
 
+  // Get Note By id
+  Note? getNoteById(String noteId) {
+    return _box.get(noteId);
+  }
+
+  // Get Note By id
+  List<Note> getNoteUnSync() {
+    return _box.values
+        .where((note) =>
+            note.offlineStatus != OfflineStatus.ok ||
+            note.tasks
+                .any((element) => element.offlineStatus != OfflineStatus.ok) ||
+            note.body
+                .any((element) => element.offlineStatus != OfflineStatus.ok))
+        .toList();
+  }
+
   // Get Notes from server
   void getNotesServer() async {
     getNotes();
     final notesServer = await GetNotes.execute();
-    // Logica para que guarde las notas que no existan en el box
     for (var note in notesServer) {
       if (!localNotes.any((element) => element.id == note.id)) {
         _box.add(note);
@@ -47,7 +63,7 @@ class LocalNoteProvider extends ChangeNotifier {
     final note = _box.get(noteId);
     if (note != null) {
       newBody.offlineStatus = OfflineStatus.created;
-      newBody.id = _uuid.v1();
+      newBody.id = "local_${_uuid.v4()}";
       note.body.add(newBody);
       await note.save();
     }
