@@ -22,14 +22,15 @@ class BodyAdapter extends TypeAdapter<Body> {
       text: fields[2] as String,
       image: (fields[3] as Map).cast<String, dynamic>(),
       date: fields[4] as DateTime,
-      offlineStatus: fields[5] as String?,
+      ocr: fields[5] as bool,
+      offlineStatus: fields[6] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Body obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,6 +42,8 @@ class BodyAdapter extends TypeAdapter<Body> {
       ..writeByte(4)
       ..write(obj.date)
       ..writeByte(5)
+      ..write(obj.ocr)
+      ..writeByte(6)
       ..write(obj.offlineStatus);
   }
 

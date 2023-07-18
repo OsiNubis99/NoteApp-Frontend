@@ -1,7 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
 import 'package:note_app_frontend/infrastructure/models/body_model.dart';
 import 'package:note_app_frontend/infrastructure/models/task_model.dart';
+import 'package:note_app_frontend/infrastructure/models/user_data.dart';
 
 part 'note_model.g.dart';
 
@@ -57,19 +57,19 @@ class Note extends HiveObject {
 
   Map<String, dynamic> toCreateJson() => {
         "titulo": title,
-        "fechaC": date,
+        "fechaC": date.toString(),
         "latitud": 0,
         "longitud": 0,
         "descripcionGPS": "Caracas",
         "est": status,
         "desc": description,
-        "idUsuario": 1
+        "idUsuario": UserData.id
       };
 
   Map<String, dynamic> toUpdateJson() => {
-        "tituloNota": title,
-        "fechaCreacion": date,
-        "estado": status,
-        "descrip": description
+        "titulo": title,
+        "fechaC": date.toString(),
+        "est": status,
+        "desc": description
       };
 }

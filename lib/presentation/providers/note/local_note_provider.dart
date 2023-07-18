@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:note_app_frontend/config/helpers/get_notes.dart';
+import 'package:note_app_frontend/config/helpers/sync_helper.dart';
 import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
 import 'package:note_app_frontend/infrastructure/models/body_model.dart';
 import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 import 'package:note_app_frontend/infrastructure/models/task_model.dart';
+import 'package:note_app_frontend/infrastructure/models/user_data.dart';
 import 'package:uuid/uuid.dart';
 
 class LocalNoteProvider extends ChangeNotifier {
@@ -12,7 +14,7 @@ class LocalNoteProvider extends ChangeNotifier {
   final _uuid = const Uuid();
 
   // Box name
-  static String boxName = 'notes';
+  static String boxName = 'notesOf_${UserData.id}';
 
   // Notes list
   List<Note> localNotes = [];
@@ -30,7 +32,7 @@ class LocalNoteProvider extends ChangeNotifier {
     return _box.get(noteId);
   }
 
-  // Get Note By id
+  // Get notes unsync
   List<Note> getNoteUnSync() {
     return _box.values
         .where((note) =>
@@ -42,20 +44,27 @@ class LocalNoteProvider extends ChangeNotifier {
         .toList();
   }
 
+  List<Note> getNotesInactive() {
+    return _box.values.where((note) => note.status != 'active').toList();
+  }
+
   // Get Notes from server
   void getNotesServer() async {
     getNotes();
     final notesServer = await GetNotes.execute();
     for (var note in notesServer) {
+      note.offlineStatus = OfflineStatus.ok;
       if (!localNotes.any((element) => element.id == note.id)) {
-        _box.add(note);
+        await _box.put(note.id, note);
       }
     }
   }
 
   // Create Note
   void addNote(Note newNote) async {
+    newNote.offlineStatus = OfflineStatus.created;
     await _box.put(newNote.id, newNote);
+    await SyncHelper.execute();
   }
 
   // Create Note Body
@@ -66,6 +75,7 @@ class LocalNoteProvider extends ChangeNotifier {
       newBody.id = "local_${_uuid.v4()}";
       note.body.add(newBody);
       await note.save();
+      await SyncHelper.execute();
     }
   }
 
@@ -77,6 +87,7 @@ class LocalNoteProvider extends ChangeNotifier {
       newTask.id = _uuid.v1();
       note.tasks.add(newTask);
       await note.save();
+      await SyncHelper.execute();
     }
   }
 
@@ -88,7 +99,14 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Update Note
   void editNote(Note note, String noteKey) async {
-    await _box.put(noteKey, note);
+    note.offlineStatus = OfflineStatus.edited;
+    _box.put(noteKey, note);
+    await SyncHelper.execute();
+  }
+
+  // Update Note
+  void saveNote(Note note, String noteKey) async {
+    _box.put(noteKey, note);
   }
 
   // Update Note Body
@@ -102,6 +120,7 @@ class LocalNoteProvider extends ChangeNotifier {
         }
       }
       await note.save();
+      await SyncHelper.execute();
     }
   }
 
@@ -116,6 +135,7 @@ class LocalNoteProvider extends ChangeNotifier {
         }
       }
       await note.save();
+      await SyncHelper.execute();
     }
   }
 

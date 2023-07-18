@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/infrastructure/models/body_model.dart';
 import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
-import 'package:provider/provider.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 import 'package:uuid/uuid.dart';
 
@@ -23,6 +20,7 @@ class QuillEditorScreen extends StatefulWidget {
       currentBody = body;
     }
   }
+
   String idNote;
   late Body currentBody;
 
@@ -32,6 +30,7 @@ class QuillEditorScreen extends StatefulWidget {
 
 class _QuillEditorScreenState extends State<QuillEditorScreen> {
   late QuillEditorController controller;
+  final _uuid = const Uuid();
   final _noteProvider = LocalNoteProvider();
 
   final customToolBarList = [
@@ -63,6 +62,7 @@ class _QuillEditorScreenState extends State<QuillEditorScreen> {
   _saveData(context) async {
     widget.currentBody.text = await controller.getText();
     if (widget.currentBody.id == '') {
+      widget.currentBody.id = 'offline_${_uuid.v4()}';
       _noteProvider.addNoteBody(widget.idNote, widget.currentBody);
     } else {
       _noteProvider.editNoteBody(widget.idNote, widget.currentBody);

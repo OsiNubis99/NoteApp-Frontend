@@ -1,5 +1,4 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
 
 part 'body_model.g.dart';
 
@@ -42,7 +41,12 @@ class Body extends HiveObject {
   }
 
   Map<String, dynamic> toCreateJson() {
-    return {"fecha": date, "text": text, "imagen": image, "ocr": ocr};
+    return {
+      "fecha": date.toString(),
+      "text": text,
+      "imagen": image,
+      "ocr": ocr
+    };
   }
 
   Map<String, dynamic> toUpdateJson() {

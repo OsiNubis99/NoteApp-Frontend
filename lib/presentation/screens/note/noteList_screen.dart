@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:note_app_frontend/domain/entities/note.dart';
 import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
-import 'package:note_app_frontend/presentation/providers/note/note_provider.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/appBarMenu.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 import 'package:provider/provider.dart';
 
 import '../../../config/theme/app_theme.dart';
-import '../../widgets/note/userNote_widget.dart';
+import '../../widgets/note/ListViewBuilder_widget.dart';
 
 class NoteListScreen extends StatefulWidget {
   const NoteListScreen({super.key});
@@ -74,26 +71,6 @@ class _NoteListScreenState extends State<NoteListScreen> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class ListViewBuilder extends StatelessWidget {
-  const ListViewBuilder({
-    super.key,
-    required this.noteProvider,
-    required this.index,
-  });
-
-  final LocalNoteProvider noteProvider;
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return userNote(
-      note: noteProvider.localNotes[index],
-      color: AppTheme.note_1,
-      index: index,
     );
   }
 }

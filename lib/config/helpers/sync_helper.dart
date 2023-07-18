@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:note_app_frontend/config/helpers/get_note_content.dart';
 import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
 import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
@@ -13,33 +12,61 @@ class SyncHelper {
     List<Note> unSyncNotes = _noteProvider.getNoteUnSync();
 
     for (final note in unSyncNotes) {
+      print(note.toCreateJson());
+      print(note.offlineStatus);
       if (note.offlineStatus == OfflineStatus.created) {
-        // todo decidir si ocr o si bat
+        await _dio
+            .post('https://noteapp-backend-prod.up.railway.app/note',
+                data: note.toCreateJson())
+            .then((value) {
+          print(value);
+          note.offlineStatus = OfflineStatus.ok;
+        });
       } else {
         if (note.offlineStatus == OfflineStatus.edited) {
-          await _dio.put('https://noteapp-backend-prod.up.railway.app/note/',
-              data: note.toUpdateJson());
+          await _dio
+              .put(
+                  'https://noteapp-backend-prod.up.railway.app/note/${note.id}',
+                  data: note.toUpdateJson())
+              .then((value) => note.offlineStatus = OfflineStatus.ok);
         }
-        for (final body in note.body) {
-          if (body.offlineStatus == OfflineStatus.created) {
-            await _dio.put('https://noteapp-backend-prod.up.railway.app/body/',
-                data: body.toUpdateJson());
+        for (var i = 0; i < note.body.length; i++) {
+          if (note.body[i].offlineStatus == OfflineStatus.created ||
+              note.body[i].id.startsWith('offline_')) {
+            await _dio
+                .post(
+                    'https://noteapp-backend-prod.up.railway.app/body/${note.id}',
+                    data: note.body[i].toCreateJson())
+                .then((value) => note.body[i].offlineStatus = OfflineStatus.ok);
           }
-          if (body.offlineStatus == OfflineStatus.edited) {
-            await _dio.put('https://noteapp-backend-prod.up.railway.app/body/',
-                data: body.toUpdateJson());
-          }
-        }
-        for (final task in note.tasks) {
-          if (task.offlineStatus == OfflineStatus.created) {
-            await _dio.put('https://noteapp-backend-prod.up.railway.app/task/',
-                data: task.toUpdateJson());
-          }
-          if (task.offlineStatus == OfflineStatus.edited) {
-            await _dio.put('https://noteapp-backend-prod.up.railway.app/task/',
-                data: task.toUpdateJson());
+          if (note.body[i].offlineStatus == OfflineStatus.edited) {
+            await _dio
+                .put(
+                    'https://noteapp-backend-prod.up.railway.app/body/${note.body[i].id}',
+                    data: note.body[i].toUpdateJson())
+                .then((value) => note.body[i].offlineStatus = OfflineStatus.ok);
           }
         }
+        for (var i = 0; i < note.tasks.length; i++) {
+          if (note.tasks[i].offlineStatus == OfflineStatus.created ||
+              note.tasks[i].id.startsWith('offline_')) {
+            await _dio
+                .post(
+                    'https://noteapp-backend-prod.up.railway.app/task/${note.id}',
+                    data: note.tasks[i].toCreateJson())
+                .then(
+                    (value) => note.tasks[i].offlineStatus = OfflineStatus.ok);
+          }
+          if (note.tasks[i].offlineStatus == OfflineStatus.edited) {
+            await _dio
+                .put(
+                    'https://noteapp-backend-prod.up.railway.app/task/${note.tasks[i].id}',
+                    data: note.tasks[i].toUpdateJson())
+                .then(
+                    (value) => note.tasks[i].offlineStatus = OfflineStatus.ok);
+          }
+        }
+        _noteProvider.saveNote(note, note.id);
       }
     }
   }
