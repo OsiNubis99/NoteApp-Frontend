@@ -2,11 +2,29 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
+import 'package:note_app_frontend/infrastructure/models/body_model.dart';
+import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
+import 'package:uuid/uuid.dart';
 
 class QuillEditorScreen extends StatefulWidget {
-  const QuillEditorScreen({super.key});
+  QuillEditorScreen({Body? body, this.idNote = ''}) {
+    if (body == null) {
+      currentBody = Body(
+        id: '',
+        idNota: idNote,
+        date: DateTime.now(),
+        image: {},
+        text: '',
+      );
+    } else {
+      currentBody = body;
+    }
+  }
+  String idNote;
+  late Body currentBody;
 
   @override
   State<QuillEditorScreen> createState() => _QuillEditorScreenState();
@@ -14,8 +32,7 @@ class QuillEditorScreen extends StatefulWidget {
 
 class _QuillEditorScreenState extends State<QuillEditorScreen> {
   late QuillEditorController controller;
-
-  ///[customToolBarList] pass the custom toolbarList to show only selected styles in the editor
+  final _noteProvider = LocalNoteProvider();
 
   final customToolBarList = [
     ToolBarStyle.bold,
@@ -42,6 +59,21 @@ class _QuillEditorScreenState extends State<QuillEditorScreen> {
       fontSize: 18, color: Colors.black12, fontWeight: FontWeight.normal);
 
   bool _hasFocus = false;
+
+  _saveData(context) async {
+    widget.currentBody.text = await controller.getText();
+    if (widget.currentBody.id == '') {
+      _noteProvider.addNoteBody(widget.idNote, widget.currentBody);
+    } else {
+      _noteProvider.editNoteBody(widget.idNote, widget.currentBody);
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('¡Contenido guardado con exito!'),
+      ),
+    );
+  }
+
   @override
   void initState() {
     controller = QuillEditorController();
@@ -53,7 +85,6 @@ class _QuillEditorScreenState extends State<QuillEditorScreen> {
 
   @override
   void dispose() {
-    /// please do not forget to dispose the controller
     controller.dispose();
     super.dispose();
   }
@@ -68,11 +99,13 @@ class _QuillEditorScreenState extends State<QuillEditorScreen> {
         elevation: 0,
         leading: IconButton(
           onPressed: () {
-            final route =
-                MaterialPageRoute(builder: (context) => NoteEditorScreen());
+            final route = MaterialPageRoute(
+                builder: (context) => NoteEditorScreen(
+                      idNote: widget.idNote,
+                    ));
             Navigator.pushReplacement(context, route);
           },
-          icon: Icon(Icons.arrow_back_ios, color: Color(0XFF000000)),
+          icon: const Icon(Icons.arrow_back_ios, color: Color(0XFF000000)),
         ),
         title: Image.asset(
           "assets/my_notes_app.png",
@@ -83,9 +116,7 @@ class _QuillEditorScreenState extends State<QuillEditorScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
-            onPressed: () async {
-              /// CODIGO QUE GUARDA EN DATA DE USUARIO ///
-            },
+            onPressed: () async => _saveData(context),
           ),
         ],
       ),
@@ -136,8 +167,8 @@ class _QuillEditorScreenState extends State<QuillEditorScreen> {
           Flexible(
             fit: FlexFit.tight,
             child: QuillHtmlEditor(
-              text: "<h1>Hello</h1>This is a quill html editor example 😊",
-              hintText: 'Hint text goes here',
+              text: widget.currentBody.text,
+              hintText: 'Agrega contenido a la nota',
               controller: controller,
               isEnabled: true,
               minHeight: 200,

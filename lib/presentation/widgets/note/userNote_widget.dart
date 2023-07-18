@@ -26,8 +26,7 @@ class userNote extends StatelessWidget {
       onTap: () {
         final route = MaterialPageRoute(
             builder: (context) => NoteEditorScreen(
-                  note: note,
-                  index: index,
+                  idNote: note.id,
                 ));
         Navigator.pushReplacement(context, route);
       },

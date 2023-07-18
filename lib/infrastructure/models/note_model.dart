@@ -1,7 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:note_app_frontend/domain/entities/body.dart';
-import 'package:note_app_frontend/domain/entities/task.dart';
 import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
+import 'package:note_app_frontend/infrastructure/models/body_model.dart';
+import 'package:note_app_frontend/infrastructure/models/task_model.dart';
 
 part 'note_model.g.dart';
 
@@ -9,20 +9,27 @@ part 'note_model.g.dart';
 class Note extends HiveObject {
   @HiveField(0)
   String id;
+
   @HiveField(1)
   String title;
+
   @HiveField(2)
   String description;
+
   @HiveField(3)
   String date;
+
   @HiveField(4)
   String status;
+
   @HiveField(5)
-  List<TaskEntity> tasks;
+  List<Task> tasks;
+
   @HiveField(6)
-  List<BodyEntity> body;
+  List<Body> body;
+
   @HiveField(7)
-  OfflineStatus? offlineStatus;
+  String? offlineStatus;
 
   Note({
     required this.id,
@@ -41,9 +48,10 @@ class Note extends HiveObject {
       title: json['tituloNota']['tituloNota'],
       description: json['descripcion']['descripcion'],
       date: json['fechaCreacion']['fecha'],
-      status: json['estado'],
-      tasks: json['tasks'].map((e) => TaskEntity.fromJson(e)).toList(),
-      body: json['body'].map((e) => BodyEntity.fromJson(e)).toList(),
+      status: json['estado']['estado'],
+      tasks:
+          List<Task>.from(json['tareas'].map((e) => Task.fromJson(e)).toList()),
+      body: List<Body>.from(json['body'].map((e) => Body.fromJson(e)).toList()),
     );
   }
 

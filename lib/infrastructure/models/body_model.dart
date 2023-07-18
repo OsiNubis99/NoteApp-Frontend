@@ -1,14 +1,24 @@
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
 
-class BodyEntity {
-  String id;
-  String idNota;
-  String text;
-  Map<String, dynamic> image; // Base64
-  DateTime date;
-  OfflineStatus? offlineStatus;
+part 'body_model.g.dart';
 
-  BodyEntity({
+@HiveType(typeId: 1)
+class Body extends HiveObject {
+  @HiveField(0)
+  String id;
+  @HiveField(1)
+  String idNota;
+  @HiveField(2)
+  String text;
+  @HiveField(3)
+  Map<String, dynamic> image; // Base64
+  @HiveField(4)
+  DateTime date;
+  @HiveField(5)
+  String? offlineStatus;
+
+  Body({
     required this.id,
     required this.idNota,
     required this.text,
@@ -17,8 +27,8 @@ class BodyEntity {
     this.offlineStatus,
   });
 
-  factory BodyEntity.fromJson(Map<String, dynamic> json) {
-    return BodyEntity(
+  factory Body.fromJson(Map<String, dynamic> json) {
+    return Body(
       id: json['IDbody'],
       idNota: json['idNota'],
       text: json['text'],

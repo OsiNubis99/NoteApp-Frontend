@@ -1,12 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:note_app_frontend/config/helpers/get_notes.dart';
-import 'package:note_app_frontend/domain/entities/body.dart';
-import 'package:note_app_frontend/domain/entities/task.dart';
 import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
+import 'package:note_app_frontend/infrastructure/models/body_model.dart';
 import 'package:note_app_frontend/infrastructure/models/note_model.dart';
+import 'package:note_app_frontend/infrastructure/models/task_model.dart';
+import 'package:uuid/uuid.dart';
 
 class LocalNoteProvider extends ChangeNotifier {
+  // Utils
+  final _uuid = const Uuid();
+
   // Box name
   static String boxName = 'notes';
 
@@ -35,58 +39,66 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Create Note
   void addNote(Note newNote) async {
-    await _box.add(newNote);
-    print('////// Added note /////');
-    print(_box.values);
+    await _box.put(newNote.id, newNote);
   }
 
   // Create Note Body
-  void addNoteBody(String noteId, BodyEntity newBody) async {
+  void addNoteBody(String noteId, Body newBody) async {
     final note = _box.get(noteId);
     if (note != null) {
       newBody.offlineStatus = OfflineStatus.created;
+      newBody.id = _uuid.v1();
       note.body.add(newBody);
       await note.save();
     }
   }
 
   // Create Note Task
-  void addNoteTask(String noteId, TaskEntity newTask) async {
+  void addNoteTask(String noteId, Task newTask) async {
     final note = _box.get(noteId);
     if (note != null) {
       newTask.offlineStatus = OfflineStatus.created;
+      newTask.id = _uuid.v1();
       note.tasks.add(newTask);
       await note.save();
     }
   }
 
   // Read Note
-  Note getNote(index) {
+  Note getNote(String id) {
     getNotes();
-    return localNotes[index];
+    return localNotes.firstWhere((element) => element.id == id);
   }
 
   // Update Note
-  void editNote(Note note, int noteKey) async {
+  void editNote(Note note, String noteKey) async {
     await _box.put(noteKey, note);
   }
 
   // Update Note Body
-  void editNoteBody(String noteId, int index, BodyEntity editedBody) async {
+  void editNoteBody(String noteId, Body editedBody) async {
     final note = _box.get(noteId);
-    if (note != null && index >= 0 && index < note.body.length) {
+    if (note != null) {
       editedBody.offlineStatus = OfflineStatus.edited;
-      note.body[index] = editedBody;
+      for (var bdy in note.body) {
+        if (bdy.id == editedBody.id) {
+          bdy = editedBody;
+        }
+      }
       await note.save();
     }
   }
 
   // Update Note Task
-  void editNoteTask(String noteId, int index, TaskEntity editedTask) async {
+  void editNoteTask(String noteId, Task editedTask) async {
     final note = _box.get(noteId);
-    if (note != null && index >= 0 && index < note.tasks.length) {
+    if (note != null) {
       editedTask.offlineStatus = OfflineStatus.edited;
-      note.tasks[index] = editedTask;
+      for (var tsk in note.tasks) {
+        if (tsk.id == editedTask.id) {
+          tsk = editedTask;
+        }
+      }
       await note.save();
     }
   }

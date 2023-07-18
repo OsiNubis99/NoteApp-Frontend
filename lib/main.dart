@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:note_app_frontend/infrastructure/models/body_model.dart';
 import 'package:note_app_frontend/infrastructure/models/note_model.dart';
+import 'package:note_app_frontend/infrastructure/models/task_model.dart';
 import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
 import 'package:provider/provider.dart';
 import 'config/routes/app_routes.dart';
@@ -12,6 +14,8 @@ void main() async {
 
   // Register Hive adapters
   Hive.registerAdapter(NoteAdapter());
+  Hive.registerAdapter(BodyAdapter());
+  Hive.registerAdapter(TaskAdapter());
 
   // Open HIVE boxes for storing data
   await Hive.openBox<Note>(LocalNoteProvider.boxName);

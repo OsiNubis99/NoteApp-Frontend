@@ -3,20 +3,22 @@ import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
-import 'package:note_app_frontend/domain/entities/task.dart';
 import 'package:note_app_frontend/infrastructure/models/note_model.dart';
+import 'package:note_app_frontend/infrastructure/models/task_model.dart';
 import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
-import 'package:note_app_frontend/presentation/providers/note/note_provider.dart';
 import 'package:note_app_frontend/presentation/screens/note/quilll_editor_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 import 'noteList_screen.dart';
 
 class NoteEditorScreen extends StatefulWidget {
-  NoteEditorScreen({Note? note, this.index}) {
-    if (note == null) {
+  final _uuid = const Uuid();
+  final _noteProvier = LocalNoteProvider();
+  NoteEditorScreen({String idNote = ''}) {
+    if (idNote == '') {
       currentNote = Note(
-        id: '',
+        id: _uuid.v4(),
         title: '',
         description: '',
         date: '',
@@ -24,12 +26,12 @@ class NoteEditorScreen extends StatefulWidget {
         tasks: [],
         body: [],
       );
+      _noteProvier.addNote(currentNote);
     } else {
-      currentNote = note;
+      currentNote = _noteProvier.getNote(idNote);
     }
   }
 
-  int? index;
   late Note currentNote;
 
   @override
@@ -38,22 +40,54 @@ class NoteEditorScreen extends StatefulWidget {
 
 class _NoteEditorScreenState extends State<NoteEditorScreen>
     with SingleTickerProviderStateMixin {
+  final _uuid = const Uuid();
   int _tabSelected = 0;
   final dateNow = DateTime.now().toString();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _taskTextController = TextEditingController();
+  final ScrollController _taskScrollController = ScrollController();
 
   /// CREAR CONEXION CON EL BACK PARA LAS TAREAS ///
   /// RELLENAR CON LA DATA DE LAS TAREAS ///
-  late List<TaskEntity> _tasks;
+  late List<Task> _tasks;
 
   /// LISTA DE BURBUJAS ///
   final List<Widget> _bubbles = [];
 
   _initData() async {
+    final ntP = LocalNoteProvider();
+    ntP.getNotes();
     _titleController.text = widget.currentNote.title;
     _descriptionController.text = widget.currentNote.description;
+
+    for (var e in widget.currentNote.body) {
+      // if (e.image['buffer']?.length > 0) {
+      //   // _bubbles.add(BubbleNormalImage(id: e.id, image: Image.));
+      // } else {
+      _bubbles.add(InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => QuillEditorScreen(
+                idNote: widget.currentNote.id,
+                body: e,
+              ),
+            ),
+          );
+        },
+        child: BubbleSpecialThree(
+          text: e.text,
+          tail: false,
+          color: AppTheme.primary,
+          textStyle: const TextStyle(color: Colors.white),
+        ),
+      ));
+      // }
+    }
+
+    setState(() {});
   }
 
   _saveData() async {
@@ -67,23 +101,6 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
     _tasks = widget.currentNote.tasks;
     _initData();
     super.initState();
-  }
-
-  void _createBubble(type, content) {
-    /// NOTA DE TEXTO
-    if (type == 1) {
-      _bubbles.add(BubbleSpecialThree(
-        text: content,
-        tail: false,
-        color: Colors.blue,
-      ));
-
-      /// NOTA DE IMAGEN
-    } else {
-      _bubbles.add(BubbleNormalImage(id: "293846298374", image: content));
-    }
-
-    setState(() {});
   }
 
   @override
@@ -134,8 +151,19 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                         color: AppTheme.primary, shape: BoxShape.circle),
                     child: InkWell(
                       onTap: () {
-                        _saveData();
-                        _noteProvider.addNote(widget.currentNote);
+                        final createdTask = Task(
+                          id: _uuid.v1(),
+                          idNota: widget.currentNote.id,
+                          status: false,
+                          title: _taskTextController.text,
+                          date: DateTime.now(),
+                        );
+                        _noteProvider.addNoteTask(
+                            widget.currentNote.id, createdTask);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('¡Tarea guardada con exito!')));
+                        _taskTextController.text = '';
                       },
                       child: const Icon(
                         Icons.send,
@@ -191,7 +219,9 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => QuillEditorScreen(),
+                        builder: (context) => QuillEditorScreen(
+                          idNote: widget.currentNote.id,
+                        ),
                       ),
                     );
                   },
@@ -241,7 +271,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                 MaterialPageRoute(builder: (context) => const NoteListScreen());
             Navigator.pushReplacement(context, route);
           },
-          icon: Icon(Icons.arrow_back_ios, color: Color(0XFF000000)),
+          icon: const Icon(Icons.arrow_back_ios, color: Color(0XFF000000)),
         ),
         title: Image.asset(
           "assets/my_notes_app.png",
@@ -254,13 +284,11 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
             onPressed: () async {
               _saveData();
-              if (widget.currentNote.id == '') {
-                _noteProvider.addNote(widget.currentNote);
-              } else {
-                _noteProvider.editNote(widget.currentNote, widget.index!);
-              }
+              _noteProvider.editNote(widget.currentNote, widget.currentNote.id);
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('¡Nota guardada con exito!')));
+              _taskScrollController
+                  .jumpTo(_taskScrollController.position.maxScrollExtent);
             },
           ),
         ],
@@ -269,11 +297,11 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
         children: [
           ExpansionTile(
               title: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: TextField(
                   focusNode: FocusNode(),
                   controller: _titleController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Título',
                     hintStyle: TextStyle(
@@ -283,7 +311,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                   ),
                   minLines: 1,
                   maxLines: 2,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w400,
                   ),
@@ -310,17 +338,17 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 1),
+                  padding: const EdgeInsets.symmetric(horizontal: 1),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 1),
+                        padding: const EdgeInsets.symmetric(vertical: 1),
                         child: Text("Fecha: ${dateNow.substring(0, 10)}"),
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 1),
-                        child: Text("Ubicación"),
+                        padding: const EdgeInsets.symmetric(vertical: 1),
+                        child: const Text("Ubicación"),
                       ),
                     ],
                   ),
@@ -412,20 +440,16 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                     width: MediaQuery.of(context).size.width - 10,
                     alignment: Alignment.center,
                     child: ListView(
-                      children: const [
-                        BubbleSpecialThree(
-                          tail: false,
-                          text: 'Hola',
-                          color: Colors.red,
-                        )
-                      ],
-                    ))
+                      children: _bubbles,
+                    ),
+                  )
                 : Container(
                     margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
                     padding: const EdgeInsets.only(bottom: 60),
                     width: MediaQuery.of(context).size.width - 10,
                     alignment: Alignment.center,
                     child: ListView(
+                      controller: _taskScrollController,
                       children: _tasks
                           .map((e) => TaskCard(e.status, e.title))
                           .toList(),
