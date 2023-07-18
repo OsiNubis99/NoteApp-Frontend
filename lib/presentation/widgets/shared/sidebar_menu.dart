@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/presentation/screens/home/home_screen.dart';
-import 'package:note_app_frontend/presentation/screens/start/login_screen.dart';
 import 'package:note_app_frontend/presentation/screens/start/start_screen.dart';
 
 import '../../../config/theme/app_theme.dart';
+import '../payment platform/payment_modal_widget.dart';
 
 class SideBar extends StatelessWidget {
   const SideBar({super.key});
@@ -70,6 +70,23 @@ class SideBar extends StatelessWidget {
                   color: Color(0XFF1F1F1F),),
               ),
             leading: Icon(Icons.home),
+            ),
+          ),
+
+
+
+          //Plan Premium
+          GestureDetector(
+            onTap: () {paymentModal(context);},
+            child: const ListTile(
+              title: Text(
+                'Premium',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0XFF1F1F1F),),
+              ),
+              leading: Icon(Icons.card_membership),
             ),
           ),
 
