@@ -1,4 +1,3 @@
-import 'package:chat_bubbles/bubbles/bubble_normal_image.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -15,14 +14,15 @@ import 'noteList_screen.dart';
 class NoteEditorScreen extends StatefulWidget {
   final _uuid = const Uuid();
   final _noteProvier = LocalNoteProvider();
+
   NoteEditorScreen({String idNote = ''}) {
     if (idNote == '') {
       currentNote = Note(
-        id: _uuid.v4(),
-        title: '',
+        id: 'offline_${_uuid.v4()}',
+        title: 'Nueva Nota',
         description: '',
-        date: '',
-        status: '',
+        date: DateTime.now().toString(),
+        status: 'active',
         tasks: [],
         body: [],
       );
@@ -152,7 +152,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                     child: InkWell(
                       onTap: () {
                         final createdTask = Task(
-                          id: _uuid.v1(),
+                          id: 'offline_${_uuid.v4()}',
                           idNota: widget.currentNote.id,
                           status: false,
                           title: _taskTextController.text,
@@ -284,7 +284,12 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
             onPressed: () async {
               _saveData();
-              _noteProvider.editNote(widget.currentNote, widget.currentNote.id);
+              if (widget.currentNote.id.startsWith('offline_')) {
+                _noteProvider.addNote(widget.currentNote);
+              } else {
+                _noteProvider.editNote(
+                    widget.currentNote, widget.currentNote.id);
+              }
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('¡Nota guardada con exito!')));
               _taskScrollController

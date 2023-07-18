@@ -1,5 +1,4 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
 
 part 'task_model.g.dart';
 
@@ -43,7 +42,7 @@ class Task extends HiveObject {
       'idNota': idNota,
       'text': title,
       'status': status ? 'listo' : 'por hacer',
-      'fechaCreacion': date,
+      'fechaCreacion': date.toString(),
     };
   }
 
@@ -53,7 +52,7 @@ class Task extends HiveObject {
       'idNota': idNota,
       'text': title,
       'status': status ? 'listo' : 'por hacer',
-      'fechaCreacion': date,
+      'fechaCreacion': date.toString(),
     };
   }
 }
