@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../config/theme/app_theme.dart';
+import '../../screens/ocr-no-try-left/ocrNoTryLeft_screen.dart';
 import '../../screens/trash/trash_screen.dart';
 
 AppBar AppBarMenu(BuildContext context) {
@@ -18,6 +19,15 @@ AppBar AppBarMenu(BuildContext context) {
           onPressed: () {
            final route = MaterialPageRoute(
              builder: (context) => const TrashScreen(),
+           );
+           Navigator.pushReplacement(context, route);
+          },
+        ),
+        IconButton(
+          icon: const Icon(Icons.hourglass_empty, color: AppTheme.text_dark),
+          onPressed: () {
+           final route = MaterialPageRoute(
+             builder: (context) => const NoTryLeftOCRScreen(),
            );
            Navigator.pushReplacement(context, route);
           },

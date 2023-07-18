@@ -57,7 +57,19 @@ class EmptyTrashWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('No hay basura'));
+    return  Center(child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset("assets/trash@4x.png",
+                  width: 320,
+                  fit: BoxFit.cover,
+                ),
+        
+        const SizedBox(height: 20),
+        const Text('No se encontro alguna nota', style:  TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Color.fromARGB(255, 23, 23, 23))), 
+        const Text('Crear una nota en el boton de más'),
+        ],
+    ));
   }
 }
 
