@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/presentation/screens/home/home_screen.dart';
-import 'package:note_app_frontend/presentation/screens/start/login_screen.dart';
 import 'package:note_app_frontend/presentation/screens/start/start_screen.dart';
 
 import '../../../config/theme/app_theme.dart';
@@ -76,12 +75,12 @@ class SideBar extends StatelessWidget {
 
 
 
-          //Planes - Prueba
+          //Plan Premium
           GestureDetector(
             onTap: () {paymentModal(context);},
             child: const ListTile(
               title: Text(
-                'Planes',
+                'Premium',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,

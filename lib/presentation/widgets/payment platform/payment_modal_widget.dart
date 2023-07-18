@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 
+import '../../screens/payment-platform/payment_screen.dart';
+
 void paymentModal(BuildContext context){
   showModalBottomSheet(
     context:context, 
@@ -28,7 +30,10 @@ void paymentModal(BuildContext context){
 
             //ADD CREDIT OR DEBIT CARD
             MaterialButton(
-              onPressed: (){},
+              onPressed: (){
+                final route = MaterialPageRoute(builder: (context) => const PaymentScreen());
+                Navigator.pushReplacement(context, route);
+              },
               child: const PaymentModalCard(title: "    Agregar tarjeta de crédito o débito"),
             ),
           ],
