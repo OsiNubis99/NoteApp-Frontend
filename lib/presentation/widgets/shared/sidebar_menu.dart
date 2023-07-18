@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/presentation/screens/home/home_screen.dart';
-import 'package:note_app_frontend/presentation/screens/start/login_screen.dart';
 import 'package:note_app_frontend/presentation/screens/start/start_screen.dart';
 
 import '../../../config/theme/app_theme.dart';
+import '../../screens/trash/trash_screen.dart';
 import '../payment platform/payment_modal_widget.dart';
 
 class SideBar extends StatelessWidget {
@@ -68,7 +68,7 @@ class SideBar extends StatelessWidget {
                   color: Color(0XFF1F1F1F),
                 ),
               ),
-              leading: Icon(Icons.exit_to_app_outlined),
+              leading: Icon(Icons.home),
             ),
           ),
 
@@ -84,6 +84,24 @@ class SideBar extends StatelessWidget {
                   color: Color(0XFF1F1F1F),),
               ),
               leading: Icon(Icons.card_membership),
+            ),
+          ),
+
+          //papelera
+          GestureDetector(
+            onTap: () {
+              final route = MaterialPageRoute(builder: (context) => const TrashScreen());
+              Navigator.push(context, route);
+            },
+            child: const ListTile(
+              title: Text(
+                'Papelera',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0XFF1F1F1F),),
+              ),
+              leading: Icon(Icons.delete),
             ),
           ),
 

@@ -7,6 +7,7 @@ import '../../widgets/note/createNoteFAB_widget.dart';
 import '../../widgets/note/userNote_widget.dart';
 import '../../widgets/shared/appBarMenu.dart';
 import '../../widgets/shared/sidebar_menu.dart';
+import '../note/noteList_screen.dart';
 
 class TrashScreen extends StatefulWidget {
   const TrashScreen({super.key});
@@ -19,7 +20,34 @@ class _TrashScreenState extends State<TrashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarMenu(context),
+
+      appBar: AppBar(
+        backgroundColor: AppTheme.bgGray,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            final route = MaterialPageRoute(builder: (context) => NoteListScreen());
+              Navigator.pushReplacement(context, route);
+          },
+          icon: Icon(Icons.arrow_back_ios, color: Color(0XFF000000)),
+        ),
+        title: Image.asset(
+          "assets/my_notes_app.png",
+          width: 130,
+        ),
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: AppTheme.text_dark),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search, color: AppTheme.text_dark),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Buscar Proximamente')));
+            },
+          ),
+        ],
+      ),
+
       drawer: const SideBar(),
       body: const SafeArea(child: BodyContentWidget()),
       floatingActionButton: const CreateNoteFAB(),

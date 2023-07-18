@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 
 import '../../../config/theme/app_theme.dart';
 import '../../widgets/note/ListViewBuilder_widget.dart';
+import '../../widgets/note/createNoteFAB_widget.dart';
+import '../trash/trash_screen.dart';
 
 class NoteListScreen extends StatefulWidget {
   const NoteListScreen({super.key});
@@ -35,7 +37,36 @@ class _NoteListScreenState extends State<NoteListScreen> {
     return Scaffold(
       backgroundColor: AppTheme.bgGray,
       drawer: const SideBar(),
-      appBar: AppBarMenu(context),
+
+      appBar: AppBar(
+        backgroundColor: AppTheme.bgGray,
+        elevation: 0,
+        title: Image.asset(
+          "assets/my_notes_app.png",
+          width: 130,
+        ),
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: AppTheme.text_dark),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete, color: AppTheme.text_dark),
+            onPressed: () {
+              final route = MaterialPageRoute(
+                builder: (context) => const TrashScreen(),
+              );
+              Navigator.pushReplacement(context, route);
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.search, color: AppTheme.text_dark),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Buscar Proximamente')));
+            },
+          ),
+        ],
+      ),
+
       body: SafeArea(
           child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -46,31 +77,8 @@ class _NoteListScreenState extends State<NoteListScreen> {
                         child: ListViewBuilder(
                             noteProvider: _noteProvider, index: index));
                   })))),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            heroTag: "Update",
-            onPressed: () {
-              _noteProvider.getNotes();
-            },
-            child: const Icon(Icons.update),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          FloatingActionButton(
-            heroTag: "Create",
-            onPressed: () {
-              final route = MaterialPageRoute(
-                builder: (context) => NoteEditorScreen(),
-              );
-              Navigator.pushReplacement(context, route);
-            },
-            child: const Icon(Icons.add),
-          ),
-        ],
-      ),
-    );
+      
+              floatingActionButton:         const CreateNoteFAB(),
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,  
+          );}
   }
-}
