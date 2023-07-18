@@ -1,8 +1,9 @@
-import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
+import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
 import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 import 'package:note_app_frontend/infrastructure/models/task_model.dart';
 import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
@@ -20,19 +21,18 @@ class NoteEditorScreen extends StatefulWidget {
 
   NoteEditorScreen({String idNote = ''}) {
     if (idNote == '') {
-      currentNote = Note(
-        id: 'offline_${_uuid.v4()}',
-        title: 'Nueva Nota',
-        description: '',
-        date: DateTime.now().toString(),
-        status: 'active',
-        tasks: [],
-        body: [],
-      );
-      _noteProvier.addNote(currentNote);
-    } else {
-      currentNote = _noteProvier.getNote(idNote);
+      idNote = 'offline_${_uuid.v4()}';
+      _noteProvier.addNote(Note(
+          id: idNote,
+          title: 'Nueva Nota',
+          description: '',
+          date: DateTime.now().toString(),
+          status: 'active',
+          tasks: [],
+          body: [],
+          offlineStatus: OfflineStatus.created));
     }
+    currentNote = _noteProvier.getNote(idNote);
   }
 
   late Note currentNote;
@@ -285,27 +285,36 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
         actions: [
           //Tag
           IconButton(
-            icon: const Icon(Icons.sell_outlined, color: AppTheme.text_dark,),
-              onPressed: () async {
-              final route = MaterialPageRoute(builder: (context) => TagScreen());
-              Navigator.pushReplacement(context, route);},
+            icon: const Icon(
+              Icons.sell_outlined,
+              color: AppTheme.text_dark,
+            ),
+            onPressed: () async {
+              final route =
+                  MaterialPageRoute(builder: (context) => TagScreen());
+              Navigator.pushReplacement(context, route);
+            },
           ),
           //Check
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
             onPressed: () async {
               _saveData();
-              if (widget.currentNote.id.startsWith('offline_')) {
-                _noteProvider.addNote(widget.currentNote);
-              } else {
-                _noteProvider.editNote(
-                    widget.currentNote, widget.currentNote.id);
+              if (!widget.currentNote.id.startsWith('offline_')) {
+                widget.currentNote.offlineStatus = OfflineStatus.edited;
               }
-              SnackBar snackBar = AlertSnackBar(titulo: "¡Nota guardada!", mensaje: "Nota guardada con éxito", tipo: ContentType.success);
+              _noteProvider.editNote(widget.currentNote, widget.currentNote.id);
+              SnackBar snackBar = AlertSnackBar(
+                  titulo: "¡Nota guardada!",
+                  mensaje: "Nota guardada con éxito",
+                  tipo: ContentType.success);
 
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(snackBar);
+              final route = MaterialPageRoute(
+                  builder: (context) => const NoteListScreen());
+              Navigator.pushReplacement(context, route);
             },
           ),
         ],

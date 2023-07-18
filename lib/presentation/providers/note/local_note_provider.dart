@@ -62,9 +62,7 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Create Note
   void addNote(Note newNote) async {
-    newNote.offlineStatus = OfflineStatus.created;
     await _box.put(newNote.id, newNote);
-    await SyncHelper.execute();
   }
 
   // Create Note Body
@@ -75,7 +73,9 @@ class LocalNoteProvider extends ChangeNotifier {
       newBody.id = "local_${_uuid.v4()}";
       note.body.add(newBody);
       await note.save();
-      await SyncHelper.execute();
+      if (!noteId.startsWith('offline_')) {
+        await SyncHelper.execute();
+      }
     }
   }
 
@@ -87,7 +87,9 @@ class LocalNoteProvider extends ChangeNotifier {
       newTask.id = _uuid.v1();
       note.tasks.add(newTask);
       await note.save();
-      await SyncHelper.execute();
+      if (!noteId.startsWith('offline_')) {
+        await SyncHelper.execute();
+      }
     }
   }
 
@@ -99,13 +101,16 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Update Note
   void editNote(Note note, String noteKey) async {
-    note.offlineStatus = OfflineStatus.edited;
     _box.put(noteKey, note);
     await SyncHelper.execute();
   }
 
   // Update Note
   void saveNote(Note note, String noteKey) async {
+    if (noteKey.startsWith('offline_')) {
+      _box.delete(noteKey);
+      noteKey = note.id;
+    }
     _box.put(noteKey, note);
   }
 
@@ -120,7 +125,9 @@ class LocalNoteProvider extends ChangeNotifier {
         }
       }
       await note.save();
-      await SyncHelper.execute();
+      if (!noteId.startsWith('offline_')) {
+        await SyncHelper.execute();
+      }
     }
   }
 
@@ -135,7 +142,9 @@ class LocalNoteProvider extends ChangeNotifier {
         }
       }
       await note.save();
-      await SyncHelper.execute();
+      if (!noteId.startsWith('offline_')) {
+        await SyncHelper.execute();
+      }
     }
   }
 
