@@ -91,6 +91,9 @@ class ListViewBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return userNote(
-        note: noteProvider.localNotes[index], color: AppTheme.note_1);
+      note: noteProvider.localNotes[index],
+      color: AppTheme.note_1,
+      index: index,
+    );
   }
 }

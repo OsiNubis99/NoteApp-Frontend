@@ -10,11 +10,13 @@ import '../../../config/theme/app_theme.dart';
 class userNote extends StatelessWidget {
   final QuillEditorController _quillController = QuillEditorController();
   final Note note;
+  final int index;
   final Color color;
 
   userNote({
     super.key,
     required this.color,
+    required this.index,
     required this.note,
   });
 
@@ -25,6 +27,7 @@ class userNote extends StatelessWidget {
         final route = MaterialPageRoute(
             builder: (context) => NoteEditorScreen(
                   note: note,
+                  index: index,
                 ));
         Navigator.pushReplacement(context, route);
       },

@@ -37,11 +37,11 @@ class Note extends HiveObject {
 
   factory Note.fromJson(Map<String, dynamic> json) {
     return Note(
-      id: json['idNota'],
-      title: json['tituloNota'],
-      description: json['description'],
-      date: json['fechaNota'],
-      status: json['estadoNota'],
+      id: json['idNota']['idNota'],
+      title: json['tituloNota']['tituloNota'],
+      description: json['descripcion']['descripcion'],
+      date: json['fechaCreacion']['fecha'],
+      status: json['estado'],
       tasks: json['tasks'].map((e) => TaskEntity.fromJson(e)).toList(),
       body: json['body'].map((e) => BodyEntity.fromJson(e)).toList(),
     );

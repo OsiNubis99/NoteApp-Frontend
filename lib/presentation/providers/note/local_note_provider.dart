@@ -36,6 +36,8 @@ class LocalNoteProvider extends ChangeNotifier {
   // Create Note
   void addNote(Note newNote) async {
     await _box.add(newNote);
+    print('////// Added note /////');
+    print(_box.values);
   }
 
   // Create Note Body

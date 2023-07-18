@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 import 'noteList_screen.dart';
 
 class NoteEditorScreen extends StatefulWidget {
-  NoteEditorScreen({Note? note}) {
+  NoteEditorScreen({Note? note, this.index}) {
     if (note == null) {
       currentNote = Note(
         id: '',
@@ -29,6 +29,7 @@ class NoteEditorScreen extends StatefulWidget {
     }
   }
 
+  int? index;
   late Note currentNote;
 
   @override
@@ -252,16 +253,11 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
             onPressed: () async {
+              _saveData();
               if (widget.currentNote.id == '') {
-                // _noteProvider
-                //     .addNote(
-                //         title: _titleController.text,
-                //         description: _descriptionController.text)
-                //     .then((e) {});
+                _noteProvider.addNote(widget.currentNote);
               } else {
-                widget.currentNote.title = _titleController.text;
-                widget.currentNote.description = _descriptionController.text;
-                // _noteProvider.updateNote(widget.currentNote).then((e) {});
+                _noteProvider.editNote(widget.currentNote, widget.index!);
               }
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('¡Nota guardada con exito!')));

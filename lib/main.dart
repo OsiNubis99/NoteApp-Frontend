@@ -16,6 +16,8 @@ void main() async {
   // Open HIVE boxes for storing data
   await Hive.openBox<Note>(LocalNoteProvider.boxName);
 
+  final _noteProvider = LocalNoteProvider();
+  _noteProvider.getNotesServer();
   runApp(const MyApp());
 }
 

@@ -12,7 +12,7 @@ class GetNotes {
         .get('https://noteapp-backend-prod.up.railway.app/user/1/notes');
 
     for (final item in response.data['notes']) {
-      notes.add(await GetNoteContent.execute(item['idNote']));
+      notes.add(await GetNoteContent.execute(item['idNota']));
     }
 
     return notes;
