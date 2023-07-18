@@ -1,4 +1,5 @@
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
@@ -9,6 +10,8 @@ import 'package:note_app_frontend/presentation/screens/note/quilll_editor_screen
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../widgets/shared/alertSnackBar.dart';
+import '../tag/tag_screen.dart';
 import 'noteList_screen.dart';
 
 class NoteEditorScreen extends StatefulWidget {
@@ -280,6 +283,14 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
         centerTitle: true,
         iconTheme: const IconThemeData(color: AppTheme.text_dark),
         actions: [
+          //Tag
+          IconButton(
+            icon: const Icon(Icons.sell_outlined, color: AppTheme.text_dark,),
+              onPressed: () async {
+              final route = MaterialPageRoute(builder: (context) => TagScreen());
+              Navigator.pushReplacement(context, route);},
+          ),
+          //Check
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
             onPressed: () async {
@@ -290,10 +301,11 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                 _noteProvider.editNote(
                     widget.currentNote, widget.currentNote.id);
               }
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('¡Nota guardada con exito!')));
-              _taskScrollController
-                  .jumpTo(_taskScrollController.position.maxScrollExtent);
+              SnackBar snackBar = AlertSnackBar(titulo: "¡Nota guardada!", mensaje: "Nota guardada con éxito", tipo: ContentType.success);
+
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(snackBar);
             },
           ),
         ],

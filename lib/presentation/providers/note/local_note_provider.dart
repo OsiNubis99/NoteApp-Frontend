@@ -44,6 +44,10 @@ class LocalNoteProvider extends ChangeNotifier {
         .toList();
   }
 
+  List<Note> getNotesInactive() {
+    return _box.values.where((note) => note.status != 'active').toList();
+  }
+
   // Get Notes from server
   void getNotesServer() async {
     getNotes();

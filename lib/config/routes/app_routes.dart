@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:note_app_frontend/presentation/screens/home/home_screen.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteList_screen.dart';
-import '../../presentation/screens/login/login_screen.dart';
+
+import '../../presentation/screens/start/login_screen.dart';
 
 class AppRoutes {
   static const initialRoute = 'login';
