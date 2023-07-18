@@ -41,3 +41,5 @@ $ flutter build apk
 - [image picker](https://pub.dev/packages/image_picker) 
 - [image cropper](https://pub.dev/packages/image_cropper) 
 - [alert](https://pub.dev/packages/awesome_snackbar_content)
+- [form payment](https://pub.dev/packages/mask_text_input_formatter)
+- [random](https://pub.dev/packages/random_string)
