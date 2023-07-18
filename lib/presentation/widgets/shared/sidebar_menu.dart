@@ -91,7 +91,7 @@ class SideBar extends StatelessWidget {
           GestureDetector(
             onTap: () {
               final route =
-                  MaterialPageRoute(builder: (context) => const LoginScreen());
+                  MaterialPageRoute(builder: (context) => const StartScreen());
               Navigator.push(context, route);
             },
             child: const ListTile(

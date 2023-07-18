@@ -4,11 +4,13 @@ import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.da
 import 'package:note_app_frontend/presentation/screens/note/noteList_screen.dart';
 
 import '../../presentation/screens/start/login_screen.dart';
+import '../../presentation/screens/start/start_screen.dart';
 
 class AppRoutes {
-  static const initialRoute = 'login';
+  static const initialRoute = 'start';
 
   static Map<String, Widget Function(BuildContext)> routes = {
+    'start': (BuildContext context) => const StartScreen(),
     'login': (BuildContext context) => const LoginScreen(),
     'home': (BuildContext context) => const HomeScreen(),
     'noteList': (BuildContext context) => const NoteListScreen(),
