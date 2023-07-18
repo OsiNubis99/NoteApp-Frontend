@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/presentation/screens/home/home_screen.dart';
+import 'package:note_app_frontend/presentation/screens/start/login_screen.dart';
 import 'package:note_app_frontend/presentation/screens/start/start_screen.dart';
 
 import '../../../config/theme/app_theme.dart';
@@ -8,7 +9,6 @@ import '../payment platform/payment_modal_widget.dart';
 class SideBar extends StatelessWidget {
   const SideBar({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -16,7 +16,6 @@ class SideBar extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-
           //Info User Account
           UserAccountsDrawerHeader(
             accountName: const Text(
@@ -26,7 +25,7 @@ class SideBar extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: Color(0XFF1F1F1F),
               ),
-            ), 
+            ),
             accountEmail: const Text(
               'usuario@email.com',
               style: TextStyle(
@@ -47,33 +46,31 @@ class SideBar extends StatelessWidget {
               color: Colors.blue,
               image: DecorationImage(
                 image: NetworkImage(
-                  'https://images.unsplash.com/photo-1623150502742-6a849aa94be4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80'
-                ),
+                    'https://images.unsplash.com/photo-1623150502742-6a849aa94be4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80'),
                 fit: BoxFit.cover,
               ),
             ),
           ),
 
-
           //'Home'
           GestureDetector(
             onTap: () {
-              final route = MaterialPageRoute(builder: (context) => const HomeScreen());
+              final route =
+                  MaterialPageRoute(builder: (context) => const HomeScreen());
               Navigator.push(context, route);
-              },
+            },
             child: const ListTile(
               title: Text(
                 'Menú Principal',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
-                  color: Color(0XFF1F1F1F),),
+                  color: Color(0XFF1F1F1F),
+                ),
               ),
-            leading: Icon(Icons.home),
+              leading: Icon(Icons.exit_to_app_outlined),
             ),
           ),
-
-
 
           //Plan Premium
           GestureDetector(
@@ -90,26 +87,25 @@ class SideBar extends StatelessWidget {
             ),
           ),
 
-
-
           //'Cerrar sesión'
           GestureDetector(
             onTap: () {
-              final route = MaterialPageRoute(builder: (context) => const StartScreen());
+              final route =
+                  MaterialPageRoute(builder: (context) => const LoginScreen());
               Navigator.push(context, route);
-              },
+            },
             child: const ListTile(
               title: Text(
                 'Cerrar sesión',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
-                  color: Color(0XFF1F1F1F),),
+                  color: Color(0XFF1F1F1F),
+                ),
               ),
-            leading: Icon(Icons.exit_to_app_outlined),
+              leading: Icon(Icons.exit_to_app_outlined),
             ),
           ),
-
         ],
       ),
     );

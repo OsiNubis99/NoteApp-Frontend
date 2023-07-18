@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/domain/entities/note.dart';
+import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 import 'package:note_app_frontend/presentation/screens/home/home_screen.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
 import 'package:provider/provider.dart';
@@ -10,25 +11,25 @@ import '../../providers/note/note_provider.dart';
 
 class userNote extends StatelessWidget {
   final QuillEditorController _quillController = QuillEditorController();
-  final NoteEntity note;
+  final Note note;
+  final int index;
   final Color color;
 
   userNote({
     super.key,
     required this.color,
+    required this.index,
     required this.note,
   });
 
   @override
   Widget build(BuildContext context) {
 
-    final noteProvider = context.watch<NoteProvider>();
-    
     return InkWell(
       onTap: () {
         final route = MaterialPageRoute(
             builder: (context) => NoteEditorScreen(
-                  note: note,
+                  idNote: note.id,
                 ));
         Navigator.pushReplacement(context, route);
       },
@@ -46,44 +47,16 @@ class userNote extends StatelessWidget {
 
                        Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(note.tituloNota,
+                      child: Text(note.title,
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18)),
                     ),
-                               
+
                     SizedBox(
                       height: 60,
                       child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: 
-                            Text(note.descriptionNota),
-
-                        // QuillHtmlEditor(
-                        //   hintText: '',
-                        //   controller: _quillController,
-                        //   isEnabled: false,
-                        //   textStyle: const TextStyle(
-                        //         fontWeight: FontWeight.normal, fontSize: 16, overflow: TextOverflow.ellipsis),
-                        //   hintTextAlign: TextAlign.start,
-                        //   padding: const EdgeInsets.only(top: 4),
-                        //   backgroundColor: Color(0xFFF19976),
-                        //   onEditorCreated: () {
-                        //     _quillController.setText(note.descriptionNota);
-                        //   }, minHeight: 1,
-                        // ),
-                      ),
-                    ),
-
-                      Align(
-                      alignment: Alignment.bottomLeft,
-                      child: IconButton(
-                        onPressed: (){
-
-                         // noteProvider.updateNoteService();
-
-                        },
-                        icon: const Icon(Icons.delete_forever),
-                      ),
+                          alignment: Alignment.centerLeft,
+                          child: Text(note.description)),
                     ),
 
                   ],

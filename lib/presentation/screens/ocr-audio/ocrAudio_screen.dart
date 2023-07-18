@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
+import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
@@ -59,7 +60,7 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final noteProvider = context.watch<NoteProvider>();
+    final noteProvider = context.watch<LocalNoteProvider>();
 
     return Scaffold(
       drawer: const SideBar(),
@@ -99,9 +100,9 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
                             const SizedBox(height: 20),
                             FilledButton(
                                 onPressed: () {
-                                  noteProvider.addNote(
-                                      title: "Titulo de transcripción audio",
-                                      description: _lastWords);
+                                  // noteProvider.addNote(
+                                  //     title: "Titulo de transcripción audio",
+                                  //     description: _lastWords);
                                   _lastWords = '';
                                   setState(() {});
                                 },

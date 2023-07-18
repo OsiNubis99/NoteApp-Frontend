@@ -1,21 +1,33 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:note_app_frontend/presentation/widgets/note/userNote_widget.dart';
 
 import '../../../config/theme/app_theme.dart';
-import '../../providers/note/note_provider.dart';
+import '../../providers/note/local_note_provider.dart';
 
 class ListViewBuilder extends StatelessWidget {
-  const ListViewBuilder({
+  ListViewBuilder({
     super.key,
     required this.noteProvider,
     required this.index,
   });
 
-  final NoteProvider noteProvider;
+  final LocalNoteProvider noteProvider;
   final int index;
+
+  final colorNotes = [
+    AppTheme.note_1,
+    AppTheme.note_2,
+    AppTheme.note_3,
+    AppTheme.note_4,
+    AppTheme.note_5
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return userNote(note: noteProvider.notes[index], color: AppTheme.colorTheme[index]);
+    return userNote(
+      note: noteProvider.localNotes[index],
+      color: colorNotes[index % 5],
+      index: index,
+    );
   }
 }

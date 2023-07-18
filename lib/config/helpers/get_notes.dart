@@ -1,27 +1,19 @@
 import 'package:dio/dio.dart';
-
-import '../../domain/entities/note.dart';
+import 'package:note_app_frontend/config/helpers/get_note_content.dart';
+import 'package:note_app_frontend/infrastructure/models/note_model.dart';
+import 'package:note_app_frontend/infrastructure/models/user_data.dart';
 
 class GetNotes {
-  final _dio = Dio();
+  static final _dio = Dio();
 
-  Future<List<NoteEntity>> getAnswer() async {
-    List<NoteEntity> notes = [];
+  static Future<List<Note>> execute() async {
+    List<Note> notes = [];
 
-    final response =
-        await _dio.get('https://noteapp-backend-prod.up.railway.app/user/1/notes');
+    final response = await _dio.get(
+        'https://noteapp-backend-prod.up.railway.app/user/${UserData.id}/notes');
 
     for (final item in response.data['notes']) {
-      NoteEntity noteIn = NoteEntity(
-          idNota: item['idNota'],
-          descriptionNota: item['descripcionNota'],
-          estadoNota: item['estadoNota'],
-          fechaNota: item['fechaNota'],
-          tituloNota: item['tituloNota'],
-          descripcionGPS: item['descripcionGPS'],
-          latitud: item['latitud'],
-          longitud: item['longitud']);
-      notes.add(noteIn);
+      notes.add(await GetNoteContent.execute(item['idNota']));
     }
 
     return notes;

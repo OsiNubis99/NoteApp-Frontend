@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
+import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 import 'package:provider/provider.dart';
 
@@ -32,11 +33,10 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final noteProvider = context.watch<NoteProvider>();
+    final noteProvider = context.watch<LocalNoteProvider>();
 
     return Scaffold(
       drawer: const SideBar(),
-
       appBar: AppBar(
         backgroundColor: AppTheme.bgGray,
         elevation: 0,
@@ -56,8 +56,9 @@ class _ResultScreenState extends State<ResultScreen> {
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
             onPressed: () {
-              noteProvider.addNote(
-                  title: "Título de transcripción imagen", description: controller.text);
+              // noteProvider.addNote(
+              //     title: "Título de transcripción imagen",
+              //     description: controller.text);
               controller.text = '';
               setState(() {});
               final route = MaterialPageRoute(
@@ -68,19 +69,19 @@ class _ResultScreenState extends State<ResultScreen> {
         ],
       ),
       body: _isBusy == true
-        ? const Center(
-          child: CircularProgressIndicator(),
-        )
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
 
-        //SCAN TEXT
-        : Container(
-          padding: const EdgeInsets.all(20),
-            child: TextFormField(
-              maxLines: MediaQuery.of(context).size.height.toInt(),
-              controller: controller,
-              style: AppTheme.lightTheme.textTheme.titleMedium,
+          //SCAN TEXT
+          : Container(
+              padding: const EdgeInsets.all(20),
+              child: TextFormField(
+                maxLines: MediaQuery.of(context).size.height.toInt(),
+                controller: controller,
+                style: AppTheme.lightTheme.textTheme.titleMedium,
+              ),
             ),
-        ),
     );
   }
 

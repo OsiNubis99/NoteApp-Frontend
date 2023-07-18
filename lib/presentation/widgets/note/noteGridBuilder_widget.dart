@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../providers/note/note_provider.dart';
+import '../../providers/note/local_note_provider.dart';
 import 'ListViewBuilder_widget.dart';
 
 class NoteGridBuilderWidget extends StatelessWidget {
@@ -11,7 +11,7 @@ class NoteGridBuilderWidget extends StatelessWidget {
   });
 
   final int countNote;
-  final NoteProvider noteProvider;
+  final LocalNoteProvider noteProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +19,7 @@ class NoteGridBuilderWidget extends StatelessWidget {
         crossAxisCount: 2,
         children: List.generate(countNote, (index) {
           return Center(
-              child: ListViewBuilder(
-                  noteProvider: noteProvider, index: index));
+              child: ListViewBuilder(noteProvider: noteProvider, index: index));
         }));
   }
 }
