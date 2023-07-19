@@ -57,7 +57,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 Padding(
                   padding: const EdgeInsets.only(bottom:15, top: 20),
                   child: Image.asset("assets/Payment.png",
-                    width: 300,
+                    width: 280,
                     fit: BoxFit.cover,
                     alignment: Alignment.topCenter,
                   ),

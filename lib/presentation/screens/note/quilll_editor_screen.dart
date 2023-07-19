@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/infrastructure/models/body_model.dart';
@@ -5,6 +6,8 @@ import 'package:note_app_frontend/presentation/providers/note/local_note_provide
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../widgets/shared/alertSnackBar.dart';
 
 class QuillEditorScreen extends StatefulWidget {
   QuillEditorScreen({Body? body, this.idNote = ''}) {
@@ -67,11 +70,16 @@ class _QuillEditorScreenState extends State<QuillEditorScreen> {
     } else {
       _noteProvider.editNoteBody(widget.idNote, widget.currentBody);
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('¡Contenido guardado con exito!'),
-      ),
-    );
+    SnackBar snackBar = AlertSnackBar(
+      titulo: "¡Contenido guardado!",
+      mensaje: "Contenido guardado con éxito",
+      tipo: ContentType.success);
+
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(snackBar);
+      final route = MaterialPageRoute(builder: (context) => NoteEditorScreen());
+      Navigator.pushReplacement(context, route);
   }
 
   @override
