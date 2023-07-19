@@ -54,7 +54,7 @@ class NoteEditorScreen extends StatefulWidget {
 
 class _NoteEditorScreenState extends State<NoteEditorScreen>
     with SingleTickerProviderStateMixin {
-  String address = 'Añadir ubicación';
+  String address = 'Ubicación';
   late String? lat;
   late String? long;
 
@@ -78,9 +78,6 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
     ntP.getNotes();
     _titleController.text = widget.currentNote.title;
     _descriptionController.text = widget.currentNote.description;
-    //lat = widget.currentNote.latitude;
-    //long = widget.currentNote.longitude;
-    //address = widget.currentNote.address!;
 
     for (var e in widget.currentNote.body) {
       // if (e.image['buffer']?.length > 0) {
@@ -121,6 +118,9 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   void initState() {
     _tasks = widget.currentNote.tasks;
     _initData();
+    determinePosition().then((value) async {
+      await getAddress(value);
+    });
     super.initState();
   }
 
@@ -397,19 +397,14 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                       //UBICACION
                       Container(
                           padding: const EdgeInsets.symmetric(vertical: 1),
-                          child: MaterialButton(
-                            onPressed: () {
-                              determinePosition().then((value) async {
-                                await getAddress(value);
-                              });
-                            },
-                            child: Text(
+                          child: Text(
                               address,
                               style: const TextStyle(
                                   color: Colors.black87,
                                   fontWeight: FontWeight.normal),
                             ),
-                          )),
+                          )
+
                     ],
                   ),
                 ),
