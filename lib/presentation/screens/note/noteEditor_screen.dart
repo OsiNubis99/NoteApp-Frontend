@@ -2,8 +2,11 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator_platform_interface/src/models/position.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
+import 'package:note_app_frontend/infrastructure/models/body_model.dart';
 import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 import 'package:note_app_frontend/infrastructure/models/task_model.dart';
 import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
@@ -11,6 +14,7 @@ import 'package:note_app_frontend/presentation/screens/note/quilll_editor_screen
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../widgets/geolocator/geolocator_widget.dart';
 import '../../widgets/shared/alertSnackBar.dart';
 import '../tag/tag_screen.dart';
 import 'noteList_screen.dart';
@@ -19,7 +23,7 @@ class NoteEditorScreen extends StatefulWidget {
   final _uuid = const Uuid();
   final _noteProvier = LocalNoteProvider();
 
-  NoteEditorScreen({String idNote = ''}) {
+  NoteEditorScreen({super.key, String idNote = '', Body? newBody}) {
     if (idNote == '') {
       idNote = 'offline_${_uuid.v4()}';
       _noteProvier.addNote(Note(
@@ -28,11 +32,18 @@ class NoteEditorScreen extends StatefulWidget {
           description: '',
           date: DateTime.now().toString(),
           status: 'active',
+          latitude: 0,
+          longitude: 0,
+          address: 'Caracas',
           tasks: [],
           body: [],
           offlineStatus: OfflineStatus.created));
     }
     currentNote = _noteProvier.getNote(idNote);
+
+    if (newBody != null) {
+      currentNote.body.add(newBody);
+    }
   }
 
   late Note currentNote;
@@ -43,6 +54,10 @@ class NoteEditorScreen extends StatefulWidget {
 
 class _NoteEditorScreenState extends State<NoteEditorScreen>
     with SingleTickerProviderStateMixin {
+  String address = 'Ubicación';
+  late String? lat;
+  late String? long;
+
   final _uuid = const Uuid();
   int _tabSelected = 0;
   final dateNow = DateTime.now().toString();
@@ -103,6 +118,9 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   void initState() {
     _tasks = widget.currentNote.tasks;
     _initData();
+    determinePosition().then((value) async {
+      await getAddress(value);
+    });
     super.initState();
   }
 
@@ -366,16 +384,27 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 1),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 1),
-                        child: Text("Fecha: ${dateNow.substring(0, 10)}"),
+                        child: Text("Fecha: ${dateNow.substring(0, 10)}",
+                            style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.normal)),
                       ),
+
+                      //UBICACION
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 1),
-                        child: const Text("Ubicación"),
-                      ),
+                          padding: const EdgeInsets.symmetric(vertical: 1),
+                          child: Text(
+                              address,
+                              style: const TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          )
+
                     ],
                   ),
                 ),
@@ -485,6 +514,18 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
         ],
       ),
     );
+  }
+
+  //GET ADDRESS
+  Future<void> getAddress(Position value) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(value.latitude, value.longitude);
+
+    Placemark place = placemarks[0];
+
+    setState(() {
+      address = "${place.locality}, ${place.country}";
+    });
   }
 }
 
