@@ -120,10 +120,10 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   @override
   void initState() {
     _tasks = widget.currentNote.tasks;
-    _initData();
     determinePosition().then((value) async {
       await getAddress(value);
     });
+    _initData();
     super.initState();
   }
 
