@@ -36,6 +36,7 @@ $ flutter build apk
 - [dio](https://pub.dev/packages/dio)
 - [quill html editor](https://pub.dev/packages/quill_html_editor)
 - [geolocator](https://pub.dev/packages/geolocator)
+- [geocoding](https://pub.dev/packages/geocoding)
 - [speech to text](https://pub.dev/packages/speech_to_text)
 - [image to text](https://pub.dev/packages/google_mlkit_text_recognition) 
 - [image picker](https://pub.dev/packages/image_picker) 

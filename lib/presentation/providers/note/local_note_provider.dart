@@ -24,9 +24,8 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Get Notes List
   void getNotes() async {
-    localNotes = _box.values.toList();
-    localNotes = localNotes.where((note) => note.status == 'active').toList();
-    localNotes = List.from(localNotes.reversed);
+    localNotes = _box.values.where((note) => note.status == 'active').toList();
+     localNotes = List.from(localNotes.reversed);
   }
 
   // Get Note By id
@@ -56,8 +55,37 @@ class LocalNoteProvider extends ChangeNotifier {
     final notesServer = await GetNotes.execute();
     for (var note in notesServer) {
       note.offlineStatus = OfflineStatus.ok;
-      if (!localNotes.any((element) => element.id == note.id)) {
+      var localNote = _box.get(note.id);
+      if (localNote == null) {
         await _box.put(note.id, note);
+      } else {
+        if (localNote.offlineStatus == OfflineStatus.ok) {
+          localNote.title = note.title;
+          localNote.description = note.description;
+        }
+        for (var body in note.body) {
+          var index =
+              localNote.body.indexWhere((element) => element.id == body.id);
+          if (index < 0) {
+            localNote.body.add(body);
+          } else {
+            if (localNote.body[index].offlineStatus == OfflineStatus.ok) {
+              localNote.body[index] = body;
+            }
+          }
+        }
+        for (var task in note.tasks) {
+          var index =
+              localNote.tasks.indexWhere((element) => element.id == task.id);
+          if (index < 0) {
+            localNote.tasks.add(task);
+          } else {
+            if (localNote.tasks[index].offlineStatus == OfflineStatus.ok) {
+              localNote.tasks[index] = task;
+            }
+          }
+        }
+        localNote.save();
       }
     }
   }

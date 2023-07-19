@@ -23,12 +23,21 @@ class Note extends HiveObject {
   String status;
 
   @HiveField(5)
-  List<Task> tasks;
+  num latitude;
 
   @HiveField(6)
-  List<Body> body;
+  num longitude;
 
   @HiveField(7)
+  String address;
+
+  @HiveField(8)
+  List<Task> tasks;
+
+  @HiveField(9)
+  List<Body> body;
+
+  @HiveField(10)
   String? offlineStatus;
 
   Note({
@@ -39,6 +48,9 @@ class Note extends HiveObject {
     required this.status,
     required this.tasks,
     required this.body,
+    required this.latitude,
+    required this.longitude,
+    required this.address,
     this.offlineStatus,
   });
 
@@ -49,6 +61,9 @@ class Note extends HiveObject {
       description: json['descripcion']['descripcion'],
       date: json['fechaCreacion']['fecha'],
       status: json['estado']['estado'],
+      latitude: json['geolocalizacion']['latitud'],
+      longitude: json['geolocalizacion']['longitud'],
+      address: json['geolocalizacion']['descripcion'],
       tasks:
           List<Task>.from(json['tareas'].map((e) => Task.fromJson(e)).toList()),
       body: List<Body>.from(json['body'].map((e) => Body.fromJson(e)).toList()),
@@ -58,9 +73,9 @@ class Note extends HiveObject {
   Map<String, dynamic> toCreateJson() => {
         "titulo": title,
         "fechaC": date.toString(),
-        "latitud": 0,
-        "longitud": 0,
-        "descripcionGPS": "Caracas",
+        "latitud": latitude,
+        "longitud": longitude,
+        "descripcionGPS": address,
         "est": status,
         "desc": description,
         "idUsuario": UserData.id
@@ -70,6 +85,9 @@ class Note extends HiveObject {
         "titulo": title,
         "fechaC": date.toString(),
         "est": status,
+        "latitud": latitude,
+        "longitud": longitude,
+        "descripcionGPS": address,
         "desc": description
       };
 }
