@@ -13,13 +13,13 @@ AppBar AppBarMenu(BuildContext context) {
     centerTitle: true,
     iconTheme: const IconThemeData(color: AppTheme.text_dark),
     actions: [
-      IconButton(
-        icon: const Icon(Icons.search, color: AppTheme.text_dark),
-        onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Buscar Proximamente')));
-        },
-      ),
+      // IconButton(
+      //   icon: const Icon(Icons.search, color: AppTheme.text_dark),
+      //   onPressed: () {
+      //     ScaffoldMessenger.of(context).showSnackBar(
+      //         const SnackBar(content: Text('Buscar Proximamente')));
+      //   },
+      // ),
     ],
   );
 }

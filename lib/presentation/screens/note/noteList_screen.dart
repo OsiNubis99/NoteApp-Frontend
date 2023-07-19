@@ -57,13 +57,13 @@ class _NoteListScreenState extends State<NoteListScreen> {
               Navigator.pushReplacement(context, route);
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.search, color: AppTheme.text_dark),
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Buscar Proximamente')));
-            },
-          ),
+          // IconButton(
+          //   icon: const Icon(Icons.search, color: AppTheme.text_dark),
+          //   onPressed: () {
+          //     ScaffoldMessenger.of(context).showSnackBar(
+          //       const SnackBar(content: Text('Buscar Proximamente')));
+          //   },
+          // ),
         ],
       ),
 

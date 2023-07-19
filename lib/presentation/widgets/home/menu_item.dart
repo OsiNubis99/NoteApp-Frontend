@@ -10,11 +10,11 @@ class HomeItem extends StatelessWidget {
   final IconData   icon;
   final Color  color;
   final String bodyText;
+  double height;
 
 
-
-  const HomeItem({
-    super.key, required this.onPressed, required this.title, required this.icon, required this.color, required this.bodyText,
+  HomeItem({
+    super.key, required this.onPressed, required this.title, required this.icon, required this.color, required this.bodyText, this.height = 150
   });
 
   @override
@@ -22,7 +22,7 @@ class HomeItem extends StatelessWidget {
     return 
  
     Container(
-        height: 150,
+        height: height,
         width: double.maxFinite,
         decoration:  const BoxDecoration(
            borderRadius:  BorderRadius.all(Radius.circular(10)),

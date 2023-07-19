@@ -64,6 +64,7 @@ class FindedLastNote extends StatelessWidget {
           height: 10,
         ),
         HomeItem(
+          height: 250,
           title: note.title,
           bodyText: note.description,
           color: AppTheme.note_1,
