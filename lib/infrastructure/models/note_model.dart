@@ -31,6 +31,15 @@ class Note extends HiveObject {
   @HiveField(7)
   String? offlineStatus;
 
+  /* @HiveField(8)
+  String? latitude;
+  
+  @HiveField(9)
+  String? longitude;
+
+  @HiveField(10)
+  String? address; */
+
   Note({
     required this.id,
     required this.title,
@@ -40,6 +49,9 @@ class Note extends HiveObject {
     required this.tasks,
     required this.body,
     this.offlineStatus,
+    //this.latitude,
+    //this.longitude,
+    //this.address,
   });
 
   factory Note.fromJson(Map<String, dynamic> json) {

@@ -49,9 +49,9 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
     with SingleTickerProviderStateMixin {
       
   
-  String locationMenssage = 'Añadir ubicación';
-  late String lat;
-  late String long;
+  String address = 'Añadir ubicación';
+  late String? lat;
+  late String? long;
   
   final _uuid = const Uuid();
   int _tabSelected = 0;
@@ -73,6 +73,9 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
     ntP.getNotes();
     _titleController.text = widget.currentNote.title;
     _descriptionController.text = widget.currentNote.description;
+    //lat = widget.currentNote.latitude;
+    //long = widget.currentNote.longitude;
+    //address = widget.currentNote.address!;
 
     for (var e in widget.currentNote.body) {
       // if (e.image['buffer']?.length > 0) {
@@ -388,7 +391,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                         padding: const EdgeInsets.symmetric(vertical: 1),
                         child:  MaterialButton (
                           onPressed: () { determinePosition().then((value) async {await getAddress(value);});},
-                          child: Text(locationMenssage, style: TextStyle(color: Colors.black87, fontWeight: FontWeight.normal),),
+                          child: Text(address, style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.normal),),
                         )
                       ),
 
@@ -504,13 +507,14 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
     );
   }
 
+  //GET ADDRESS
   Future<void> getAddress(Position value) async {
     List<Placemark> placemarks = await placemarkFromCoordinates(value.latitude, value.longitude);
     
     Placemark place = placemarks[0];
     
     setState(() {
-      locationMenssage = "${place.locality}, ${place.country}";
+      address = "${place.locality}, ${place.country}";
     });
   }
 
