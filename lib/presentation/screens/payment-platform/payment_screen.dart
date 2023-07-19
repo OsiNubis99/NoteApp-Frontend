@@ -79,6 +79,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       label: Text("Nombre en la tarjeta"),
                       labelStyle: TextStyle(fontSize: 15, color: AppTheme.text_dark),
                       hintText: "Nombre A Apellido",
+                      hintStyle: TextStyle(fontSize: 18, color: Colors.black26),
                       border: OutlineInputBorder(borderSide: BorderSide.none),
                     ),
                   ),
@@ -99,6 +100,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     decoration: const InputDecoration(
                       label: Text("Número de tarjeta"),
                       hintText: "0000 0000 0000 0000",
+                      hintStyle: TextStyle(fontSize: 18, color: Colors.black26),
                       labelStyle: TextStyle(fontSize: 15, color: AppTheme.text_dark),
                       border: OutlineInputBorder(borderSide: BorderSide.none),
                       prefixIcon: Icon(Icons.payment)
@@ -122,10 +124,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                         margin: const EdgeInsets.symmetric(horizontal: 15),
                         child: TextFormField(
+                          inputFormatters: [dateCard],
                           style: const TextStyle(fontSize: 20),
                           decoration: const InputDecoration(
                             label: Text("Fecha vencimiento"),
                             hintText: "07/24",
+                            hintStyle: TextStyle(fontSize: 18, color: Colors.black26),
                             labelStyle: TextStyle(fontSize: 15, color: AppTheme.text_dark),
                             border: OutlineInputBorder(borderSide: BorderSide.none),
                           ),
@@ -144,10 +148,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                         margin: const EdgeInsets.symmetric(horizontal: 15),
                         child: TextFormField(
+                          inputFormatters: [digitCard],
                           style: const TextStyle(fontSize: 20),
                           decoration: const InputDecoration(
                             label: Text("CVV"),
                             hintText: "000",
+                            hintStyle: TextStyle(fontSize: 18, color: Colors.black26),
                             labelStyle: TextStyle(fontSize: 15, color: AppTheme.text_dark),
                             border: OutlineInputBorder(borderSide: BorderSide.none),
                           ),
