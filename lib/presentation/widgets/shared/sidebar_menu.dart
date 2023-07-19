@@ -3,6 +3,7 @@ import 'package:note_app_frontend/presentation/screens/home/home_screen.dart';
 import 'package:note_app_frontend/presentation/screens/start/start_screen.dart';
 
 import '../../../config/theme/app_theme.dart';
+import '../../screens/home/home_free_screen.dart';
 import '../../screens/trash/trash_screen.dart';
 import '../payment platform/payment_modal_widget.dart';
 
@@ -69,6 +70,25 @@ class SideBar extends StatelessWidget {
                 ),
               ),
               leading: Icon(Icons.home),
+            ),
+          ),
+
+          GestureDetector(
+            onTap: () {
+              final route =
+                  MaterialPageRoute(builder: (context) => const HomeFreeScreen());
+              Navigator.push(context, route);
+            },
+            child: const ListTile(
+              title: Text(
+                'Free',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0XFF1F1F1F),
+                ),
+              ),
+              leading: Icon(Icons.free_breakfast),
             ),
           ),
 

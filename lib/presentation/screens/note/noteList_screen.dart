@@ -59,16 +59,16 @@ class _NoteListScreenState extends State<NoteListScreen> {
               Navigator.pushReplacement(context, route);
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.search, color: AppTheme.text_dark),
-            onPressed: () {
-            SnackBar snackBar = AlertSnackBar(titulo: "¡Próximamente!", mensaje: "La función de buscar estará disponible próximamente", tipo: ContentType.warning);
+          // IconButton(
+          //   icon: const Icon(Icons.search, color: AppTheme.text_dark),
+          //   onPressed: () {
+          //   SnackBar snackBar = AlertSnackBar(titulo: "¡Próximamente!", mensaje: "La función de buscar estará disponible próximamente", tipo: ContentType.warning);
               
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(snackBar);;
-            },
-          ),
+          //   ScaffoldMessenger.of(context)
+          //     ..hideCurrentSnackBar()
+          //     ..showSnackBar(snackBar);;
+          //   },
+          // ),
         ],
       ),
 

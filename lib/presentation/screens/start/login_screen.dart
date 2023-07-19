@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import '../../../config/theme/app_theme.dart';
+import '../home/home_free_screen.dart';
 import '../home/home_screen.dart';
 //import 'package:note_app_frontend/domain/entities/usuario.dart';
 
