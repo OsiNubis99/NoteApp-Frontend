@@ -1,6 +1,8 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 
 import '../../../config/theme/app_theme.dart';
+import 'alertSnackBar.dart';
 
 AppBar AppBarMenu(BuildContext context) {
   return AppBar(
@@ -16,8 +18,11 @@ AppBar AppBarMenu(BuildContext context) {
       // IconButton(
       //   icon: const Icon(Icons.search, color: AppTheme.text_dark),
       //   onPressed: () {
-      //     ScaffoldMessenger.of(context).showSnackBar(
-      //         const SnackBar(content: Text('Buscar Proximamente')));
+      //       SnackBar snackBar = AlertSnackBar(titulo: "¡Próximamente!", mensaje: "La función de buscar estará disponible próximamente", tipo: ContentType.warning);
+              
+      //       ScaffoldMessenger.of(context)
+      //         ..hideCurrentSnackBar()
+      //         ..showSnackBar(snackBar);;
       //   },
       // ),
     ],

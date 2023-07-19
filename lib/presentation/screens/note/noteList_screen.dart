@@ -1,6 +1,8 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
+import 'package:note_app_frontend/presentation/widgets/shared/alertSnackBar.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/appBarMenu.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 import 'package:provider/provider.dart';
@@ -60,8 +62,11 @@ class _NoteListScreenState extends State<NoteListScreen> {
           // IconButton(
           //   icon: const Icon(Icons.search, color: AppTheme.text_dark),
           //   onPressed: () {
-          //     ScaffoldMessenger.of(context).showSnackBar(
-          //       const SnackBar(content: Text('Buscar Proximamente')));
+          //   SnackBar snackBar = AlertSnackBar(titulo: "¡Próximamente!", mensaje: "La función de buscar estará disponible próximamente", tipo: ContentType.warning);
+              
+          //   ScaffoldMessenger.of(context)
+          //     ..hideCurrentSnackBar()
+          //     ..showSnackBar(snackBar);;
           //   },
           // ),
         ],
