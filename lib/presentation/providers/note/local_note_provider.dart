@@ -25,6 +25,7 @@ class LocalNoteProvider extends ChangeNotifier {
   // Get Notes List
   void getNotes() async {
     localNotes = _box.values.toList();
+    localNotes = localNotes.where((note) => note.status == 'active').toList();
     localNotes = List.from(localNotes.reversed);
   }
 

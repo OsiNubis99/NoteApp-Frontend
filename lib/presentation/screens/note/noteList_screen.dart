@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../../config/theme/app_theme.dart';
 import '../../widgets/note/ListViewBuilder_widget.dart';
+import '../../widgets/note/NoteNoteFound.dart';
 import '../../widgets/note/createNoteFAB_widget.dart';
 import '../trash/trash_screen.dart';
 
@@ -75,13 +76,29 @@ class _NoteListScreenState extends State<NoteListScreen> {
       body: SafeArea(
           child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: GridView.count(
+              child:
+                (countNote != 0) ? 
+              
+               GridView.count(
                   crossAxisCount: 2,
-                  children: List.generate(countNote, (index) {
+                  children: 
+                  
+                
+                  
+                  List.generate(countNote, (index) {
                     return Center(
-                        child: ListViewBuilder(
+                        child:
+                         ListViewBuilder(
                             noteProvider: _noteProvider, index: index));
-                  })))),
+                  })
+                  
+                  
+                  )
+                  
+                  : 
+                        const Center(child:  NoteNotFound())
+                  
+                  )),
       
               floatingActionButton:         const CreateNoteFAB(),
               floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,  
