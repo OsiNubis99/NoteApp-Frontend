@@ -34,7 +34,7 @@ class NoteEditorScreen extends StatefulWidget {
           status: 'active',
           latitude: 0,
           longitude: 0,
-          address: 'Caracas',
+          address: '',
           tasks: [],
           body: [],
           offlineStatus: OfflineStatus.created));
@@ -55,8 +55,8 @@ class NoteEditorScreen extends StatefulWidget {
 class _NoteEditorScreenState extends State<NoteEditorScreen>
     with SingleTickerProviderStateMixin {
   String address = 'Ubicación';
-  late String? lat;
-  late String? long;
+  late num lat;
+  late num long;
 
   final _uuid = const Uuid();
   int _tabSelected = 0;
@@ -112,15 +112,18 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
     widget.currentNote.title = _titleController.text;
     widget.currentNote.description = _descriptionController.text;
     widget.currentNote.date = dateNow;
+    widget.currentNote.longitude = long;
+    widget.currentNote.latitude = lat;
+    widget.currentNote.address = address;
   }
 
   @override
   void initState() {
     _tasks = widget.currentNote.tasks;
-    _initData();
     determinePosition().then((value) async {
       await getAddress(value);
     });
+    _initData();
     super.initState();
   }
 
