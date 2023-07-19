@@ -22,16 +22,19 @@ class NoteAdapter extends TypeAdapter<Note> {
       description: fields[2] as String,
       date: fields[3] as String,
       status: fields[4] as String,
-      tasks: (fields[5] as List).cast<Task>(),
-      body: (fields[6] as List).cast<Body>(),
-      offlineStatus: fields[7] as String?,
+      tasks: (fields[8] as List).cast<Task>(),
+      body: (fields[9] as List).cast<Body>(),
+      latitude: fields[5] as num,
+      longitude: fields[6] as num,
+      address: fields[7] as String,
+      offlineStatus: fields[10] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Note obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -43,10 +46,16 @@ class NoteAdapter extends TypeAdapter<Note> {
       ..writeByte(4)
       ..write(obj.status)
       ..writeByte(5)
-      ..write(obj.tasks)
+      ..write(obj.latitude)
       ..writeByte(6)
-      ..write(obj.body)
+      ..write(obj.longitude)
       ..writeByte(7)
+      ..write(obj.address)
+      ..writeByte(8)
+      ..write(obj.tasks)
+      ..writeByte(9)
+      ..write(obj.body)
+      ..writeByte(10)
       ..write(obj.offlineStatus);
   }
 
