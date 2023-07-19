@@ -9,6 +9,12 @@ class TagEntity {
     required this.idUsuario,
   });
 
+  factory TagEntity.fromJson(Map<String, dynamic> json) => TagEntity(
+        idEtiqueta: json["idEtiqueta"],
+        nombreEtiqueta: json["nombreEtiqueta"],
+        idUsuario: json["idUsuario"],
+  );
+
   Map<String, dynamic> toJson() => {
         "idEtiqueta": idEtiqueta,
         "nombre": nombreEtiqueta,
