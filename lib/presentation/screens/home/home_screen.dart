@@ -39,7 +39,7 @@ class BodyContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.bgGray,
-      child: const Column(
+      child:  Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           MenuOptionsWidget(),
