@@ -5,9 +5,12 @@ import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart'
 import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:uuid/uuid.dart';
 
+import '../../../infrastructure/models/body_model.dart';
 import '../../providers/note/note_provider.dart';
 import '../../widgets/shared/appBarMenu.dart';
+import '../note/noteEditor_screen.dart';
 
 class OcrAudioScreen extends StatefulWidget {
   const OcrAudioScreen({super.key});
@@ -17,6 +20,10 @@ class OcrAudioScreen extends StatefulWidget {
 }
 
 class _OcrAudioScreenState extends State<OcrAudioScreen> {
+
+
+
+
   bool openCapture = false;
 
   SpeechToText _speechToText = SpeechToText();
@@ -62,6 +69,11 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
   Widget build(BuildContext context) {
     final noteProvider = context.watch<LocalNoteProvider>();
 
+
+     Body body;
+     DateTime date = DateTime.now();
+     final idBody =  Uuid().toString();
+
     return Scaffold(
       drawer: const SideBar(),
       appBar: AppBarMenu(context),
@@ -103,6 +115,13 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
                                   // noteProvider.addNote(
                                   //     title: "Titulo de transcripción audio",
                                   //     description: _lastWords);
+
+                                   body = Body(id: idBody, idNota: "", text: _lastWords, image: {}, date: date, ocr: true);                    
+                                   final route = MaterialPageRoute(builder: (context) => NoteEditorScreen(idNote:"",newBody:body));
+                                   Navigator.pushReplacement(context, route);
+
+
+
                                   _lastWords = '';
                                   setState(() {});
                                 },

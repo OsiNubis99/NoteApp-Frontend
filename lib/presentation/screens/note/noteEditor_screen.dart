@@ -15,7 +15,9 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../widgets/geolocator/geolocator_widget.dart';
+import '../../widgets/ocrcam/modal_optioncam.dart';
 import '../../widgets/shared/alertSnackBar.dart';
+import '../ocr-audio/optionOcrAudio.dart';
 import '../tag/tag_screen.dart';
 import 'noteList_screen.dart';
 
@@ -280,7 +282,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                   backgroundColor: AppTheme.note_3,
                   label: 'Voz a Texto',
                   labelStyle: TextStyle(fontSize: 18.0),
-                  onTap: () => print('THIRD CHILD'),
+                  onTap: () => optionOcrAudio(context,_noteProvider,widget.currentNote.id),
                 ),
 
                 //add more menu item childs here
