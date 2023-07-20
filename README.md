@@ -1,3 +1,4 @@
+[![Flutter CI](https://github.com/OsiNubis99/NoteApp-Frontend/actions/workflows/flutter-workflow.yml/badge.svg?branch=main)](https://github.com/OsiNubis99/NoteApp-Frontend/actions/workflows/flutter-workflow.yml)
 <p align="center">
   <img src="./assets/my_notes_app.png" width="320" alt="NoteApp" />
 </p>
