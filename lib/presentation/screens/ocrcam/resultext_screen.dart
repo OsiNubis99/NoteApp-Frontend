@@ -90,7 +90,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     idNota: id,
                     date: DateTime.now(),
                     image: {},
-                    text: '<p>$controller.text</p>',
+                    text: controller.text,
                     ocr: false));
               final route = MaterialPageRoute(
                   builder: (context) => NoteEditorScreen(
