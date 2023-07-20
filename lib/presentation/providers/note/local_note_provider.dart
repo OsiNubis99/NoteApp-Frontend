@@ -13,28 +13,25 @@ class LocalNoteProvider extends ChangeNotifier {
   // Utils
   final _uuid = const Uuid();
 
-  // Box name
-  static String boxName = 'notesOf_${UserData().id}';
-
   // Notes list
   List<Note> localNotes = [];
 
-  // Use Box
-  final _box = Hive.box<Note>(boxName);
-
   // Get Notes List
   void getNotes() async {
-    localNotes = _box.values.where((note) => note.status == 'active').toList();
+    var box = Hive.box<Note>('notesOf_${UserData().id}');
+    localNotes = box.values.where((note) => note.status == 'active').toList();
   }
 
   // Get Note By id
   Note? getNoteById(String noteId) {
-    return _box.get(noteId);
+    var box = Hive.box<Note>('notesOf_${UserData().id}');
+    return box.get(noteId);
   }
 
   // Get notes unsync
   List<Note> getNoteUnSync() {
-    return _box.values
+    var box = Hive.box<Note>('notesOf_${UserData().id}');
+    return box.values
         .where((note) =>
             note.offlineStatus != OfflineStatus.ok ||
             note.tasks
@@ -45,18 +42,20 @@ class LocalNoteProvider extends ChangeNotifier {
   }
 
   List<Note> getNotesInactive() {
-    return _box.values.where((note) => note.status != 'active').toList();
+    var box = Hive.box<Note>('notesOf_${UserData().id}');
+    return box.values.where((note) => note.status != 'active').toList();
   }
 
   // Get Notes from server
   void getNotesServer() async {
+    var box = Hive.box<Note>('notesOf_${UserData().id}');
     getNotes();
     final notesServer = await GetNotes.execute();
     for (var note in notesServer) {
       note.offlineStatus = OfflineStatus.ok;
-      var localNote = _box.get(note.id);
+      var localNote = box.get(note.id);
       if (localNote == null) {
-        await _box.put(note.id, note);
+        await box.put(note.id, note);
       } else {
         if (localNote.offlineStatus == OfflineStatus.ok) {
           localNote.title = note.title;
@@ -91,13 +90,15 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Create Note
   void addNote(Note newNote) async {
-    await _box.put(newNote.id, newNote);
+    var box = Hive.box<Note>('notesOf_${UserData().id}');
+    await box.put(newNote.id, newNote);
   }
 
   // Create Note Body
   void addNoteBody(String noteId, Body newBody) async {
+    var box = Hive.box<Note>('notesOf_${UserData().id}');
     newBody.offlineStatus = OfflineStatus.created;
-    final note = _box.get(noteId);
+    final note = box.get(noteId);
     if (note != null) {
       newBody.id = "local_${_uuid.v4()}";
       note.body.add(newBody);
@@ -110,10 +111,11 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Create Note Task
   void addNoteTask(String noteId, Task newTask) async {
+    var box = Hive.box<Note>('notesOf_${UserData().id}');
     newTask.offlineStatus = OfflineStatus.created;
-    final note = _box.get(noteId);
+    final note = box.get(noteId);
     if (note != null) {
-      newTask.id = _uuid.v1();
+      newTask.id = _uuid.v4();
       note.tasks.add(newTask);
       await note.save();
       if (!noteId.startsWith('offline_')) {
@@ -124,29 +126,33 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Read Note
   Note getNote(String id) {
+    var box = Hive.box<Note>('notesOf_${UserData().id}');
     getNotes();
     return localNotes.firstWhere((element) => element.id == id);
   }
 
   // Update Note
   void editNote(Note note, String noteKey) async {
-    _box.put(noteKey, note);
+    var box = Hive.box<Note>('notesOf_${UserData().id}');
+    box.put(noteKey, note);
     await SyncHelper.execute();
   }
 
   // Update Note
   void saveNote(Note note, String noteKey) async {
+    var box = Hive.box<Note>('notesOf_${UserData().id}');
     if (noteKey.startsWith('offline_')) {
-      _box.delete(noteKey);
+      box.delete(noteKey);
       noteKey = note.id;
     }
-    _box.put(noteKey, note);
+    box.put(noteKey, note);
   }
 
   // Update Note Body
   void editNoteBody(String noteId, Body editedBody) async {
+    var box = Hive.box<Note>('notesOf_${UserData().id}');
     editedBody.offlineStatus = OfflineStatus.edited;
-    final note = _box.get(noteId);
+    final note = box.get(noteId);
     if (note != null) {
       for (var bdy in note.body) {
         if (bdy.id == editedBody.id) {
@@ -162,8 +168,9 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Update Note Task
   void editNoteTask(String noteId, Task editedTask) async {
+    var box = Hive.box<Note>('notesOf_${UserData().id}');
     editedTask.offlineStatus = OfflineStatus.edited;
-    final note = _box.get(noteId);
+    final note = box.get(noteId);
     if (note != null) {
       for (var tsk in note.tasks) {
         if (tsk.id == editedTask.id) {
@@ -179,12 +186,14 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Delete Note
   void deleteNote(int index) async {
-    await _box.deleteAt(index);
+    var box = Hive.box<Note>('notesOf_${UserData().id}');
+    await box.deleteAt(index);
   }
 
   // Delete Note Body
   void deleteNoteBody(String noteId, int index) async {
-    final note = _box.get(noteId);
+    var box = Hive.box<Note>('notesOf_${UserData().id}');
+    final note = box.get(noteId);
     if (note != null && index >= 0 && index < note.body.length) {
       note.body.removeAt(index);
       await note.save();
@@ -193,7 +202,8 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Delete Note Task
   void deleteNoteTask(String noteId, int index) async {
-    final note = _box.get(noteId);
+    var box = Hive.box<Note>('notesOf_${UserData().id}');
+    final note = box.get(noteId);
     if (note != null && index >= 0 && index < note.tasks.length) {
       note.tasks.removeAt(index);
       await note.save();
