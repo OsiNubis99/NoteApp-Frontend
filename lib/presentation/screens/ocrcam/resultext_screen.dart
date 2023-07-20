@@ -5,13 +5,18 @@ import 'package:note_app_frontend/presentation/providers/note/local_note_provide
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 import 'package:provider/provider.dart';
 
+import '../../../infrastructure/models/body_model.dart';
+import '../../../infrastructure/models/note_model.dart';
 import '../../providers/note/note_provider.dart';
+import '../note/noteEditor_screen.dart';
 import '../note/noteList_screen.dart';
+import '../note/quilll_editor_screen.dart';
 
 class ResultScreen extends StatefulWidget {
   final String? path;
 
-  const ResultScreen({Key? key, this.path}) : super(key: key);
+  ResultScreen({Key? key, this.path, required String idNota}) : super(key: key);
+
 
   @override
   State<ResultScreen> createState() => _ResultScreenState();
@@ -21,6 +26,10 @@ class _ResultScreenState extends State<ResultScreen> {
   bool _isBusy = false;
 
   TextEditingController controller = TextEditingController();
+
+  late String idNota;
+  late String idBody;
+  late Body contentOCR;
 
   @override
   void initState() {
@@ -59,11 +68,15 @@ class _ResultScreenState extends State<ResultScreen> {
               // noteProvider.addNote(
               //     title: "Título de transcripción imagen",
               //     description: controller.text);
-              controller.text = '';
-              setState(() {});
+
+              contentOCR = Body(id: idBody, idNota: idNota, text: controller.text, image: {}, date: DateTime.now(), ocr: true);
+
               final route = MaterialPageRoute(
-                  builder: (context) => const NoteListScreen());
+                  builder: (context) => NoteEditorScreen(idNote: idNota, newBody: contentOCR));
               Navigator.pushReplacement(context, route);
+
+              
+              controller.text = ''; 
             },
           ),
         ],

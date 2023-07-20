@@ -65,7 +65,7 @@ class MenuOptionsWidget extends StatelessWidget {
           height: 10,
         ),
                
-         HomeItem(title: 'Lector de imagenes     ',    bodyText: '¡Convierta una imagen en texto!', color: AppTheme.note_1, icon: Icons.camera_enhance,               onPressed: () { optionOcrCam(context); },),  
+         HomeItem(title: 'Lector de imagenes     ',    bodyText: '¡Convierta una imagen en texto!', color: AppTheme.note_1, icon: Icons.camera_enhance,               onPressed: () { optionOcrCam(context, idNote: ''); },),  
         
         const SizedBox(
           height: 30,
