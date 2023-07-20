@@ -167,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 _userProvider.setId('2');
                                 final route = MaterialPageRoute(
                                     builder: (context) =>
-                                        const HomeFreeScreen());
+                                        const HomeScreen());
                                 Navigator.pushReplacement(context, route);
                                 emailController.clear();
                                 passwordController.clear();
@@ -175,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   "asensio_elpro@gmail.com") {
                                 _userProvider.setId('1');
                                 final route = MaterialPageRoute(
-                                    builder: (context) => const HomeScreen());
+                                    builder: (context) => const HomeFreeScreen());
                                 Navigator.pushReplacement(context, route);
                                 emailController.clear();
                                 passwordController.clear();
