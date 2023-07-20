@@ -78,7 +78,7 @@ class Note extends HiveObject {
         "descripcionGPS": address,
         "est": status,
         "desc": description,
-        "idUsuario": UserData.id
+        "idUsuario": UserData().id
       };
 
   Map<String, dynamic> toUpdateJson() => {

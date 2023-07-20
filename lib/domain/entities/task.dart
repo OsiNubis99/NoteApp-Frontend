@@ -1,5 +1,3 @@
-import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
-
 class TaskEntity {
   String id;
   String idNota;

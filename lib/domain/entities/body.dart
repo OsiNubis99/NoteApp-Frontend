@@ -1,5 +1,3 @@
-import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
-
 class BodyEntity {
   String id;
   String idNota;

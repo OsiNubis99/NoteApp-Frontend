@@ -65,42 +65,12 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _taskTextController = TextEditingController();
-  final ScrollController _taskScrollController = ScrollController();
-  final List<Widget> _bubbles = [];
 
   _initData() async {
     final ntP = LocalNoteProvider();
     ntP.getNotes();
     _titleController.text = widget.currentNote.title;
     _descriptionController.text = widget.currentNote.description;
-
-    for (var e in widget.currentNote.body) {
-      _bubbles.add(InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => QuillEditorScreen(
-                  idNote: widget.currentNote.id,
-                  body: e,
-                ),
-              ),
-            );
-          },
-          child: Container(
-            // decoration: BoxDecoration(
-            //   border: Border.all(color: Colors.black54),
-            //   borderRadius: const BorderRadius.only(
-            //     topLeft: Radius.circular(5),
-            //     bottomLeft: Radius.circular(5),
-            //   ),
-            // ),
-            margin: const EdgeInsets.symmetric(vertical: 5),
-            child: Html(
-              data: e.text,
-            ),
-          )));
-    }
 
     setState(() {});
   }
@@ -195,12 +165,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
               ),
             )
           : SpeedDial(
-              //Speed dial menu
-              // marginBottom: 10,
-              //margin bottom
               icon: Icons.menu,
-
-              //icon on Floating action button
               activeIcon: Icons.close,
               //icon when menu is expanded on button
               backgroundColor: AppTheme.primary,
@@ -388,7 +353,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 1),
                         child: Text("Fecha: ${dateNow.substring(0, 10)}",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.black87,
                                 fontWeight: FontWeight.normal)),
                       ),
@@ -493,7 +458,34 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                     width: MediaQuery.of(context).size.width - 10,
                     alignment: Alignment.center,
                     child: ListView(
-                      children: _bubbles,
+                      children: widget.currentNote.body
+                          .map((e) => InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => QuillEditorScreen(
+                                      idNote: widget.currentNote.id,
+                                      body: e,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppTheme.primary,
+                                  border: Border.all(color: Colors.black54),
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(5),
+                                    bottomLeft: Radius.circular(5),
+                                  ),
+                                ),
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                child: Html(
+                                    data: e.text,
+                                    style: {"*": Style(color: AppTheme.white)}),
+                              )))
+                          .toList(),
                     ),
                   )
                 : Container(
@@ -502,9 +494,23 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                     width: MediaQuery.of(context).size.width - 10,
                     alignment: Alignment.center,
                     child: ListView(
-                      controller: _taskScrollController,
                       children: widget.currentNote.tasks
-                          .map((e) => TaskCard(e.status, e.title))
+                          .map((e) => Container(
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                child: Row(
+                                  children: [
+                                    Checkbox(
+                                        value: e.status,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            e.status = value!;
+                                            _noteProvider.editNoteTask(e.id, e);
+                                          });
+                                        }),
+                                    Expanded(flex: 5, child: Text(e.title))
+                                  ],
+                                ),
+                              ))
                           .toList(),
                     ),
                   ),
@@ -524,36 +530,5 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
     setState(() {
       address = "${place.locality}, ${place.country}";
     });
-  }
-}
-
-class TaskCard extends StatefulWidget {
-  TaskCard(this.status, this.description);
-
-  bool status = false;
-  String description;
-
-  @override
-  State<TaskCard> createState() => _TaskCardState();
-}
-
-class _TaskCardState extends State<TaskCard> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      child: Row(
-        children: [
-          Checkbox(
-              value: widget.status,
-              onChanged: (value) {
-                setState(() {
-                  widget.status = value!;
-                });
-              }),
-          Expanded(flex: 5, child: Text(widget.description))
-        ],
-      ),
-    );
   }
 }

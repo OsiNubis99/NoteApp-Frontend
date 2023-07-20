@@ -14,7 +14,7 @@ class LocalNoteProvider extends ChangeNotifier {
   final _uuid = const Uuid();
 
   // Box name
-  static String boxName = 'notesOf_${UserData.id}';
+  static String boxName = 'notesOf_${UserData().id}';
 
   // Notes list
   List<Note> localNotes = [];
@@ -96,9 +96,9 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Create Note Body
   void addNoteBody(String noteId, Body newBody) async {
+    newBody.offlineStatus = OfflineStatus.created;
     final note = _box.get(noteId);
     if (note != null) {
-      newBody.offlineStatus = OfflineStatus.created;
       newBody.id = "local_${_uuid.v4()}";
       note.body.add(newBody);
       await note.save();
@@ -110,9 +110,9 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Create Note Task
   void addNoteTask(String noteId, Task newTask) async {
+    newTask.offlineStatus = OfflineStatus.created;
     final note = _box.get(noteId);
     if (note != null) {
-      newTask.offlineStatus = OfflineStatus.created;
       newTask.id = _uuid.v1();
       note.tasks.add(newTask);
       await note.save();
@@ -145,9 +145,9 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Update Note Body
   void editNoteBody(String noteId, Body editedBody) async {
+    editedBody.offlineStatus = OfflineStatus.edited;
     final note = _box.get(noteId);
     if (note != null) {
-      editedBody.offlineStatus = OfflineStatus.edited;
       for (var bdy in note.body) {
         if (bdy.id == editedBody.id) {
           bdy = editedBody;
@@ -162,9 +162,9 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Update Note Task
   void editNoteTask(String noteId, Task editedTask) async {
+    editedTask.offlineStatus = OfflineStatus.edited;
     final note = _box.get(noteId);
     if (note != null) {
-      editedTask.offlineStatus = OfflineStatus.edited;
       for (var tsk in note.tasks) {
         if (tsk.id == editedTask.id) {
           tsk = editedTask;
