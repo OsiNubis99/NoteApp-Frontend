@@ -78,7 +78,9 @@ class _QuillEditorScreenState extends State<QuillEditorScreen> {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(snackBar);
-    final route = MaterialPageRoute(builder: (context) => NoteEditorScreen());
+    final route = MaterialPageRoute(
+      builder: (context) => NoteEditorScreen(idNote: widget.idNote),
+    );
     Navigator.pushReplacement(context, route);
   }
 
