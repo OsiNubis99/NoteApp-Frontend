@@ -7,7 +7,7 @@ import 'package:note_app_frontend/presentation/screens/ocrcam/resultext_screen.d
 import '../../screens/ocrcam/ocrcam_screen.dart';
 import 'image_cropper.dart';
 
-void optionOcrCam(BuildContext context){
+void optionOcrCam(BuildContext context, {required String idNote}){
   showModalBottomSheet(
     context:context, 
     builder: (context) {
@@ -23,7 +23,7 @@ void optionOcrCam(BuildContext context){
                     imageCropper(value, context).then((value) {
                       if(value != ''){
                         Navigator.push(context, CupertinoPageRoute(
-                          builder: (_) => ResultScreen(path: value,)
+                          builder: (_) => ResultScreen(path: value, idNota: idNote,)
                         ));
                     }
                   });}
@@ -39,7 +39,7 @@ void optionOcrCam(BuildContext context){
                     imageCropper(value, context).then((value) {
                       if(value != ''){
                         Navigator.push(context, CupertinoPageRoute(
-                          builder: (_) => ResultScreen(path: value,)
+                          builder: (_) => ResultScreen(path: value, idNota: idNote,)
                         ));
                     }
                   });}

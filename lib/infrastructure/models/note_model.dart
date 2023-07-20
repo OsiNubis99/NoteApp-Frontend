@@ -1,95 +1,92 @@
-// To parse this JSON data, do
-//
-//     final notesByUserId = notesByUserIdFromJson(jsonString);
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:note_app_frontend/infrastructure/models/body_model.dart';
+import 'package:note_app_frontend/infrastructure/models/task_model.dart';
 
-import '../../domain/entities/note.dart';
+part 'note_model.g.dart';
 
-class NotesByUserId {
-    final String id;
-    final String nombre;
-    final String clave;
-    final String usuario;
-    final String correo;
-    final DateTime fNacimiento;
-    final List<NoteEntity> notes;
+@HiveType(typeId: 0)
+class Note extends HiveObject {
+  @HiveField(0)
+  String id;
 
-    NotesByUserId({
-        required this.id,
-        required this.nombre,
-        required this.clave,
-        required this.usuario,
-        required this.correo,
-        required this.fNacimiento,
-        required this.notes,
-    });
+  @HiveField(1)
+  String title;
 
-    factory NotesByUserId.fromJson(Map<String, dynamic> json) => NotesByUserId(
-        id: json["id"],
-        nombre: json["nombre"],
-        clave: json["clave"],
-        usuario: json["usuario"],
-        correo: json["correo"],
-        fNacimiento: DateTime.parse(json["f_nacimiento"]),
-        notes: List<NoteEntity>.from(json["notes"].map((x) => Note.fromJson(x))),
+  @HiveField(2)
+  String description;
+
+  @HiveField(3)
+  String date;
+
+  @HiveField(4)
+  String status;
+
+  @HiveField(5)
+  num latitude;
+
+  @HiveField(6)
+  num longitude;
+
+  @HiveField(7)
+  String address;
+
+  @HiveField(8)
+  List<Task> tasks;
+
+  @HiveField(9)
+  List<Body> body;
+
+  @HiveField(10)
+  String? offlineStatus;
+
+  Note({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.date,
+    required this.status,
+    required this.tasks,
+    required this.body,
+    required this.latitude,
+    required this.longitude,
+    required this.address,
+    this.offlineStatus,
+  });
+
+  factory Note.fromJson(Map<String, dynamic> json) {
+    return Note(
+      id: json['idNota']['idNota'],
+      title: json['tituloNota']['tituloNota'],
+      description: json['descripcion']['descripcion'],
+      date: json['fechaCreacion']['fecha'],
+      status: json['estado']['estado'],
+      latitude: json['geolocalizacion']['latitud'],
+      longitude: json['geolocalizacion']['longitud'],
+      address: json['geolocalizacion']['descripcion'],
+      tasks:
+          List<Task>.from(json['tareas'].map((e) => Task.fromJson(e)).toList()),
+      body: List<Body>.from(json['body'].map((e) => Body.fromJson(e)).toList()),
     );
+  }
 
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "nombre": nombre,
-        "clave": clave,
-        "usuario": usuario,
-        "correo": correo,
-        "f_nacimiento": "${fNacimiento.year.toString().padLeft(4, '0')}-${fNacimiento.month.toString().padLeft(2, '0')}-${fNacimiento.day.toString().padLeft(2, '0')}",
-        "notes": List<NoteEntity>.from(notes.map((x) => x.toJson())),
-    };
-}
+  Map<String, dynamic> toCreateJson(String idUser) => {
+        "titulo": title,
+        "fechaC": date.toString(),
+        "latitud": latitude,
+        "longitud": longitude,
+        "descripcionGPS": address,
+        "est": status,
+        "desc": description,
+        "idUsuario": idUser
+      };
 
-class Note {
-    final String idNota;
-    final String cuerpoNotaText;
-    final String cuerpoNotaImg;
-    final String estadoNota;
-    final String etiquetaNota;
-    final DateTime fechaNota;
-    final String tituloNota;
-
-    Note({
-        required this.idNota,
-        required this.cuerpoNotaText,
-        required this.cuerpoNotaImg,
-        required this.estadoNota,
-        required this.etiquetaNota,
-        required this.fechaNota,
-        required this.tituloNota,
-    });
-
-    factory Note.fromJson(Map<String, dynamic> json) => Note(
-        idNota: json["idNota"],
-        cuerpoNotaText: json["cuerpoNotaText"],
-        cuerpoNotaImg: json["cuerpoNotaImg"],
-        estadoNota: json["estadoNota"],
-        etiquetaNota: json["etiquetaNota"],
-        fechaNota: DateTime.parse(json["fechaNota"]),
-        tituloNota: json["tituloNota"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "idNota": idNota,
-        "cuerpoNotaText": cuerpoNotaText,
-        "cuerpoNotaImg": cuerpoNotaImg,
-        "estadoNota": estadoNota,
-        "etiquetaNota": etiquetaNota,
-        "fechaNota": fechaNota.toIso8601String(),
-        "tituloNota": tituloNota,
-    };
-
-    List<NoteEntity> toNoteEntity() {
-
-        List<NoteEntity> notes = [];
-
-
-        return notes;
-
-
-    }
+  Map<String, dynamic> toUpdateJson() => {
+        "titulo": title,
+        "fechaC": date.toString(),
+        "est": status,
+        "latitud": latitude,
+        "longitud": longitude,
+        "descripcionGPS": address,
+        "desc": description
+      };
 }

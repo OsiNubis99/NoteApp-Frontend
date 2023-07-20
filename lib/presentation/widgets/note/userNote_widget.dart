@@ -1,29 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:note_app_frontend/domain/entities/note.dart';
+import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 import 'package:note_app_frontend/presentation/screens/home/home_screen.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
-import 'package:quill_html_editor/quill_html_editor.dart';
+import 'package:provider/provider.dart';
 
 import '../../../config/theme/app_theme.dart';
+import '../../providers/note/local_note_provider.dart';
+import '../../screens/note/noteList_screen.dart';
 
 class userNote extends StatelessWidget {
-  final QuillEditorController _quillController = QuillEditorController();
-  final NoteEntity note;
+  final Note note;
+  final int index;
   final Color color;
 
   userNote({
     super.key,
     required this.color,
+    required this.index,
     required this.note,
   });
 
   @override
   Widget build(BuildContext context) {
+    final _noteProvider = context.watch<LocalNoteProvider>();
+
     return InkWell(
       onTap: () {
         final route = MaterialPageRoute(
             builder: (context) => NoteEditorScreen(
-                  note: note,
+                  idNote: note.id,
                 ));
         Navigator.pushReplacement(context, route);
       },
@@ -33,33 +38,33 @@ class userNote extends StatelessWidget {
             width: 200,
             height: 200,
             child: Padding(
-              padding: const EdgeInsets.all(15),
+              padding:
+                  const EdgeInsets.only(left: 15, right: 5, top: 0, bottom: 0),
               child: Column(children: <Widget>[
+                Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      onPressed: () {
+                        sendNoteToTrash(note, _noteProvider, context);
+                      },
+                      icon: const Icon(Icons.close),
+                    )),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(note.tituloNota,
+                      alignment: Alignment.topLeft,
+                      child: Text(note.title,
                           style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
+                              fontWeight: FontWeight.bold, fontSize: 10),
+                      ),
                     ),
                     SizedBox(
-                      height: 80,
+                      height: 100,
                       child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: QuillHtmlEditor(
-                          hintText: '',
-                          controller: _quillController,
-                          isEnabled: false,
-                          textStyle: const TextStyle(
-                                fontWeight: FontWeight.normal, fontSize: 16, overflow: TextOverflow.ellipsis),
-                          hintTextAlign: TextAlign.start,
-                          padding: const EdgeInsets.only(top: 4),
-                          backgroundColor: Color(0xFFF19976),
-                          onEditorCreated: () {
-                            _quillController.setText(note.descriptionNota);
-                          }, minHeight: 1,
+                        alignment: Alignment.topLeft,
+                        child: Text(note.description,
+                            style: const TextStyle(fontSize: 8),
                         ),
                       ),
                     ),
@@ -69,6 +74,15 @@ class userNote extends StatelessWidget {
             )),
       ),
     );
+  }
+
+  void sendNoteToTrash(
+      Note note, LocalNoteProvider noteProvide, BuildContext context) {
+    note.status = "inactive";
+    noteProvide.editNote(note, note.id);
+    final route =
+        MaterialPageRoute(builder: (context) => const NoteListScreen());
+    Navigator.pushReplacement(context, route);
   }
 }
 

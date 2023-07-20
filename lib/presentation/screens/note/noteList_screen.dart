@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:note_app_frontend/domain/entities/note.dart';
-import 'package:note_app_frontend/presentation/providers/note/note_provider.dart';
-import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
-import 'package:note_app_frontend/presentation/widgets/shared/appBarMenu.dart';
+import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 import 'package:provider/provider.dart';
 
 import '../../../config/theme/app_theme.dart';
-import '../../widgets/note/userNote_widget.dart';
+import '../../widgets/note/ListViewBuilder_widget.dart';
+import '../../widgets/note/NoteNoteFound.dart';
+import '../../widgets/note/createNoteFAB_widget.dart';
+import '../trash/trash_screen.dart';
 
 class NoteListScreen extends StatefulWidget {
   const NoteListScreen({super.key});
@@ -19,71 +19,77 @@ class NoteListScreen extends StatefulWidget {
 class _NoteListScreenState extends State<NoteListScreen> {
   @override
   Widget build(BuildContext context) {
-    final noteProvider = context.watch<NoteProvider>();
+    final _noteProvider = context.watch<LocalNoteProvider>();
+    // Trae del server
+    _noteProvider.getNotesServer();
+    // Pone en .localNotes
+    _noteProvider.getNotes();
 
-    final countNote = noteProvider.notes.length;
-
-    @override
-    void initState() {
-      noteProvider.getNotes();
-      super.initState();
-    }
+    final countNote = _noteProvider.localNotes.length;
 
     return Scaffold(
       backgroundColor: AppTheme.bgGray,
       drawer: const SideBar(),
-      appBar: AppBarMenu(context),
-      body: SafeArea(
-          child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: GridView.count(
-                  crossAxisCount: 2,
-                  children: List.generate(countNote, (index) {
-                    return Center(
-                        child: ListViewBuilder(
-                            noteProvider: noteProvider, index: index));
-                  })))),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            heroTag: "Update",
-            onPressed: () {
-              noteProvider.getNotes();
-            },
-            child: const Icon(Icons.update),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          FloatingActionButton(
-            heroTag: "Create",
+      appBar: AppBar(
+        backgroundColor: AppTheme.bgGray,
+        elevation: 0,
+        title: Image.asset(
+          "assets/my_notes_app.png",
+          width: 130,
+        ),
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: AppTheme.text_dark),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete, color: AppTheme.text_dark),
             onPressed: () {
               final route = MaterialPageRoute(
-                builder: (context) => NoteEditorScreen(),
+                builder: (context) => const TrashScreen(),
               );
               Navigator.pushReplacement(context, route);
             },
-            child: const Icon(Icons.add),
           ),
+          // IconButton(
+          //   icon: const Icon(Icons.search, color: AppTheme.text_dark),
+          //   onPressed: () {
+          //     ScaffoldMessenger.of(context).showSnackBar(
+          //         const SnackBar(content: Text('Buscar Proximamente')));
+          //   },
+          // ),
         ],
       ),
-    );
-  }
-}
+      floatingActionButton: const CreateNoteFAB(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: SafeArea(
+          child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child:
+                (countNote != 0) ? 
+              
+               GridView.count(
+                  crossAxisCount: 2,
+                  children: 
+                  
+                
+                  
+                  List.generate(countNote, (index) {
+                    return Center(
+                        child:
+                         ListViewBuilder(
+                            noteProvider: _noteProvider, index: index));
+                  })
+                  
+                  
+                  )
+                  
+                  : 
+                        const Center(child:  NoteNotFound())
+                  
+                  )
+          ),
 
-class ListViewBuilder extends StatelessWidget {
-  const ListViewBuilder({
-    super.key,
-    required this.noteProvider,
-    required this.index,
-  });
+              
+          );}
+  
 
-  final NoteProvider noteProvider;
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return userNote(note: noteProvider.notes[index], color: AppTheme.note_1);
-  }
 }
