@@ -71,23 +71,20 @@ class _QuillEditorScreenState extends State<QuillEditorScreen> {
       _noteProvider.editNoteBody(widget.idNote, widget.currentBody);
     }
     SnackBar snackBar = AlertSnackBar(
-      titulo: "¡Contenido guardado!",
-      mensaje: "Contenido guardado con éxito",
-      tipo: ContentType.success);
+        titulo: "¡Contenido guardado!",
+        mensaje: "Contenido guardado con éxito",
+        tipo: ContentType.success);
 
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(snackBar);
-      final route = MaterialPageRoute(builder: (context) => NoteEditorScreen());
-      Navigator.pushReplacement(context, route);
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackBar);
+    final route = MaterialPageRoute(builder: (context) => NoteEditorScreen());
+    Navigator.pushReplacement(context, route);
   }
 
   @override
   void initState() {
     controller = QuillEditorController();
-    controller.onTextChanged((text) {
-      debugPrint('listening to $text');
-    });
     super.initState();
   }
 
