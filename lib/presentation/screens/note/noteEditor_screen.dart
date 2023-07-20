@@ -257,17 +257,9 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                   onTap: () => print('SECOND CHILD'),
                 ),
                 SpeedDialChild(
-                  child: const Icon(Icons.brush),
-                  foregroundColor: Colors.white,
-                  backgroundColor: AppTheme.note_3,
-                  label: 'Escritura a Imagen',
-                  labelStyle: TextStyle(fontSize: 18.0),
-                  onTap: () => print('THIRD CHILD'),
-                ),
-                SpeedDialChild(
                   child: const Icon(Icons.image),
                   foregroundColor: Colors.white,
-                  backgroundColor: AppTheme.note_3,
+                  backgroundColor: AppTheme.note_2,
                   label: 'Imagen a Texto',
                   labelStyle: TextStyle(fontSize: 18.0),
                   onTap: () => print('THIRD CHILD'),
@@ -303,6 +295,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
         iconTheme: const IconThemeData(color: AppTheme.text_dark),
         actions: [
           //Tag
+          /* 
           IconButton(
             icon: const Icon(
               Icons.sell_outlined,
@@ -313,7 +306,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                   MaterialPageRoute(builder: (context) => TagScreen());
               Navigator.pushReplacement(context, route);
             },
-          ),
+          ), */
           //Check
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),

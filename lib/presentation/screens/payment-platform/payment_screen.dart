@@ -22,6 +22,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   var numberCard = MaskTextInputFormatter(mask: '#### #### #### ####', filter: { "#": RegExp(r'[0-9]') });
   var dateCard = MaskTextInputFormatter(mask: '##/##', filter: { "#": RegExp(r'[0-9]') });
   var digitCard = MaskTextInputFormatter(mask: '###', filter: { "#": RegExp(r'[0-9]') });
+  final _formfield = GlobalKey<FormState>();
   
   @override
   Widget build(BuildContext context) {
@@ -50,145 +51,181 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
       body: SafeArea(
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-          
-                //Imagen
-                Padding(
-                  padding: const EdgeInsets.only(bottom:15, top: 20),
-                  child: Image.asset("assets/Payment.png",
-                    width: 280,
-                    fit: BoxFit.cover,
-                    alignment: Alignment.topCenter,
-                  ),
-                ),
-          
-                const SizedBox(height: 20,),
-          
-                //name
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Colors.grey),
-                    color: const Color(0xFFFFFFFF),
-                  ),
-                  margin: const EdgeInsets.symmetric(horizontal: 15),
-                  child: TextFormField(
-                    style: const TextStyle(fontSize: 20),
-                    decoration: const InputDecoration(
-                      label: Text("Nombre en la tarjeta"),
-                      labelStyle: TextStyle(fontSize: 15, color: AppTheme.text_dark),
-                      hintText: "Nombre A Apellido",
-                      hintStyle: TextStyle(fontSize: 18, color: Colors.black26),
-                      border: OutlineInputBorder(borderSide: BorderSide.none),
+            child: Form(
+            key: _formfield,
+              child: Column(
+                children: [
+                      
+                  //Imagen
+                  Padding(
+                    padding: const EdgeInsets.only(bottom:15, top: 20),
+                    child: Image.asset("assets/Payment.png",
+                      width: 280,
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
-          
-                //card
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Colors.grey),
-                    color: const Color(0xFFFFFFFF),
-                  ),
-                  margin: const EdgeInsets.symmetric(horizontal: 15),
-                  child: TextFormField(
-                    inputFormatters: [numberCard],
-                    style: const TextStyle(fontSize: 20),
-                    decoration: const InputDecoration(
-                      label: Text("Número de tarjeta"),
-                      hintText: "0000 0000 0000 0000",
-                      hintStyle: TextStyle(fontSize: 18, color: Colors.black26),
-                      labelStyle: TextStyle(fontSize: 15, color: AppTheme.text_dark),
-                      border: OutlineInputBorder(borderSide: BorderSide.none),
-                      prefixIcon: Icon(Icons.payment)
+                      
+                  const SizedBox(height: 20,),
+                      
+                  //name
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: Colors.grey),
+                      color: const Color(0xFFFFFFFF),
                     ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-          
-                
-                Row(
-                  children: [
-          
-                    //date
-                    Container(
-                      width: MediaQuery.of(context).size.width*0.5,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(color: Colors.grey),
-                          color: const Color(0xFFFFFFFF),
-                        ),
-                        margin: const EdgeInsets.symmetric(horizontal: 15),
-                        child: TextFormField(
-                          inputFormatters: [dateCard],
-                          style: const TextStyle(fontSize: 20),
-                          decoration: const InputDecoration(
-                            label: Text("Fecha vencimiento"),
-                            hintText: "07/24",
-                            hintStyle: TextStyle(fontSize: 18, color: Colors.black26),
-                            labelStyle: TextStyle(fontSize: 15, color: AppTheme.text_dark),
-                            border: OutlineInputBorder(borderSide: BorderSide.none),
-                          ),
-                        ),
+                    margin: const EdgeInsets.symmetric(horizontal: 15),
+                    child: TextFormField(
+                      style: const TextStyle(fontSize: 20),
+                      decoration: const InputDecoration(
+                        label: Text("Nombre en la tarjeta"),
+                        labelStyle: TextStyle(fontSize: 15, color: AppTheme.text_dark),
+                        hintText: "Nombre A Apellido",
+                        hintStyle: TextStyle(fontSize: 18, color: Colors.black26),
+                        border: OutlineInputBorder(borderSide: BorderSide.none),
                       ),
-                    ),
-          
-                    //cvv
-                    Container(
-                      width: MediaQuery.of(context).size.width*0.5,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(color: Colors.grey),
-                          color: const Color(0xFFFFFFFF),
-                        ),
-                        margin: const EdgeInsets.symmetric(horizontal: 15),
-                        child: TextFormField(
-                          inputFormatters: [digitCard],
-                          style: const TextStyle(fontSize: 20),
-                          decoration: const InputDecoration(
-                            label: Text("CVV"),
-                            hintText: "000",
-                            hintStyle: TextStyle(fontSize: 18, color: Colors.black26),
-                            labelStyle: TextStyle(fontSize: 15, color: AppTheme.text_dark),
-                            border: OutlineInputBorder(borderSide: BorderSide.none),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
-                //Buttom
-                Padding(padding: const EdgeInsets.only(top: 50.0, left: 20, right: 20, bottom: 30),
-                child: Row(
-                  children: [ Expanded(
-                      child: MaterialButton(
-                        color: const Color(0xFFEDC123),
-                        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(5),),
-
-                        onPressed: () {
-                          confirmPayment(context);
+                        validator: (value){
+                          if (value!.isEmpty){
+                            return "Ingrese los datos en la tarjeta";
+                          }
                         },
-
-                        child: Padding(padding: const EdgeInsets.all(15.0),
-                          child: Column(children: <Widget>[ 
-                              Text( "Procesar pago", style: Theme.of(context).textTheme.displaySmall,),],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                      
+                  //card
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: Colors.grey),
+                      color: const Color(0xFFFFFFFF),
+                    ),
+                    margin: const EdgeInsets.symmetric(horizontal: 15),
+                    child: TextFormField(
+                      inputFormatters: [numberCard],
+                      style: const TextStyle(fontSize: 20),
+                      decoration: const InputDecoration(
+                        label: Text("Número de tarjeta"),
+                        hintText: "0000 0000 0000 0000",
+                        hintStyle: TextStyle(fontSize: 18, color: Colors.black26),
+                        labelStyle: TextStyle(fontSize: 15, color: AppTheme.text_dark),
+                        border: OutlineInputBorder(borderSide: BorderSide.none),
+                        prefixIcon: Icon(Icons.payment)
+                      ),
+                        validator: (value){
+                          if (value!.isEmpty){
+                            return "Ingrese su número de tarjeta";
+                            
+                          }
+                          else if (value.length < 16){
+                            return "Ingrese un número de tarjeta válido";
+                          }
+                        },
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                      
+                  
+                  Row(
+                    children: [
+                      
+                      //date
+                      Container(
+                        width: MediaQuery.of(context).size.width*0.5,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: Colors.grey),
+                            color: const Color(0xFFFFFFFF),
+                          ),
+                          margin: const EdgeInsets.symmetric(horizontal: 15),
+                          child: TextFormField(
+                            inputFormatters: [dateCard],
+                            style: const TextStyle(fontSize: 20),
+                            decoration: const InputDecoration(
+                              label: Text("Fecha vencimiento"),
+                              hintText: "07/24",
+                              hintStyle: TextStyle(fontSize: 18, color: Colors.black26),
+                              labelStyle: TextStyle(fontSize: 15, color: AppTheme.text_dark),
+                              border: OutlineInputBorder(borderSide: BorderSide.none),
+                            ),
+                        validator: (value){
+                          if (value!.isEmpty){
+                            return "Ingrese la fecha de vencimiento";
+                            
+                          }
+                          else if (value.length < 4){
+                            return "Ingrese una fecha de vencimiento válida";
+                          }
+                        },
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                      
+                      //cvv
+                      Container(
+                        width: MediaQuery.of(context).size.width*0.5,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: Colors.grey),
+                            color: const Color(0xFFFFFFFF),
+                          ),
+                          margin: const EdgeInsets.symmetric(horizontal: 15),
+                          child: TextFormField(
+                            inputFormatters: [digitCard],
+                            style: const TextStyle(fontSize: 20),
+                            decoration: const InputDecoration(
+                              label: Text("CVV"),
+                              hintText: "000",
+                              hintStyle: TextStyle(fontSize: 18, color: Colors.black26),
+                              labelStyle: TextStyle(fontSize: 15, color: AppTheme.text_dark),
+                              border: OutlineInputBorder(borderSide: BorderSide.none),
+                            ),
+                        validator: (value){
+                          if (value!.isEmpty){
+                            return "Ingrese el código";
+                            
+                          }
+                          else if (value.length < 3){
+                            return "Ingrese un código válido";
+                          }
+                        },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+            
+                  //Buttom
+                  Padding(padding: const EdgeInsets.only(top: 50.0, left: 20, right: 20, bottom: 30),
+                  child: Row(
+                    children: [ Expanded(
+                        child: MaterialButton(
+                          color: const Color(0xFFEDC123),
+                          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(5),),
+            
+                          onPressed: () {
+                            if(_formfield.currentState!.validate()){
+                            confirmPayment(context);}
+                          },
+            
+                          child: Padding(padding: const EdgeInsets.all(15.0),
+                            child: Column(children: <Widget>[ 
+                                Text( "Procesar pago", style: Theme.of(context).textTheme.displaySmall,),],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+            
+                      
+                      
+                ],
               ),
-
-          
-          
-              ],
             ),
           ),
       ),
