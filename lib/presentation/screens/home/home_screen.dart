@@ -39,8 +39,7 @@ class BodyContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.bgGray,
-      child:  Column(
-        mainAxisSize: MainAxisSize.min,
+      child:  ListView(
         children: [
           MenuOptionsWidget(),
           LastNoteWidget(),

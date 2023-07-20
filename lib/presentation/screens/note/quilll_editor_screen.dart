@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
@@ -78,7 +80,9 @@ class _QuillEditorScreenState extends State<QuillEditorScreen> {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(snackBar);
-    final route = MaterialPageRoute(builder: (context) => NoteEditorScreen());
+    final route = MaterialPageRoute(
+      builder: (context) => NoteEditorScreen(idNote: widget.idNote),
+    );
     Navigator.pushReplacement(context, route);
   }
 

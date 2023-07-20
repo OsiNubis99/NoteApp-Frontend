@@ -1,26 +1,33 @@
+// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
-import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
+import 'package:note_app_frontend/presentation/providers/user_provider.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../infrastructure/enumns/offline_status.dart';
 import '../../../infrastructure/models/body_model.dart';
-import '../../providers/note/note_provider.dart';
+import '../../../infrastructure/models/note_model.dart';
+import '../../providers/note/local_note_provider.dart';
 import '../note/noteEditor_screen.dart';
-import '../note/noteList_screen.dart';
+import '../ocr-no-try-left/ocrNoTryLeft_screen.dart';
 
 class ResultScreen extends StatefulWidget {
   final String? path;
 
-  const ResultScreen({Key? key, this.path}) : super(key: key);
+  ResultScreen({super.key, this.path, required this.idNota});
+
+  String idNota;
 
   @override
   State<ResultScreen> createState() => _ResultScreenState();
 }
 
 class _ResultScreenState extends State<ResultScreen> {
+  final _uuid = const Uuid();
+  final _noteProvier = LocalNoteProvider();
+  final _userProvider = UserProvider();
   bool _isBusy = false;
 
   TextEditingController controller = TextEditingController();
@@ -36,11 +43,12 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
-     Body body;
-     DateTime date = DateTime.now();
-     final idBody =  Uuid().toString();
-    final noteProvider = context.watch<LocalNoteProvider>();
-
+    if (_userProvider.getId() != '2') {
+      final route = MaterialPageRoute(
+        builder: (context) => const NoTryLeftOCRScreen(),
+      );
+      Navigator.pushReplacement(context, route);
+    }
     return Scaffold(
       drawer: const SideBar(),
       appBar: AppBar(
@@ -62,16 +70,38 @@ class _ResultScreenState extends State<ResultScreen> {
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
             onPressed: () {
-              body = Body(id: idBody, idNota: "", text: controller.text, image: {}, date: date, ocr: true);                    
-              final route = MaterialPageRoute(builder: (context) => NoteEditorScreen(idNote:"",newBody:body));
+              var id = widget.idNota;
+              if (id == '') {
+                id = 'offline_${_uuid.v4()}';
+                _noteProvier.addNote(Note(
+                    id: id,
+                    title: 'Nueva Nota',
+                    description: '',
+                    date: DateTime.now().toString(),
+                    status: 'active',
+                    latitude: 0,
+                    longitude: 0,
+                    address: '',
+                    tasks: [],
+                    body: [],
+                    offlineStatus: OfflineStatus.created));
+              }
+              var text = controller.text;
+              _noteProvier.addNoteBody(
+                  id,
+                  Body(
+                      id: '',
+                      idNota: id,
+                      date: DateTime.now(),
+                      image: {},
+                      text: '<p>$text</p>',
+                      ocr: false));
+              final route = MaterialPageRoute(
+                builder: (context) => NoteEditorScreen(
+                  idNote: id,
+                ),
+              );
               Navigator.pushReplacement(context, route);
-
-              // noteProvider.addNote(
-              //     title: "Título de transcripción imagen",
-              //     description: controller.text);
-              
-              controller.text = '';
-              setState(() {});
             },
           ),
         ],
@@ -80,7 +110,6 @@ class _ResultScreenState extends State<ResultScreen> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-
           //SCAN TEXT
           : Container(
               padding: const EdgeInsets.all(20),

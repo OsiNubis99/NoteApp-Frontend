@@ -6,21 +6,19 @@ import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
 import 'package:note_app_frontend/infrastructure/models/body_model.dart';
 import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 import 'package:note_app_frontend/infrastructure/models/task_model.dart';
-import 'package:note_app_frontend/infrastructure/models/user_data.dart';
 import 'package:uuid/uuid.dart';
+
+import '../user_provider.dart';
 
 class LocalNoteProvider extends ChangeNotifier {
   // Utils
   final _uuid = const Uuid();
+  static final _userProvider = UserProvider();
 
-  // Box name
-  static String boxName = 'notesOf_${UserData.id}';
+  final _box = Hive.box<Note>('notesOf_${_userProvider.getId()}');
 
   // Notes list
   List<Note> localNotes = [];
-
-  // Use Box
-  final _box = Hive.box<Note>(boxName);
 
   // Get Notes List
   void getNotes() async {
@@ -97,9 +95,9 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Create Note Body
   void addNoteBody(String noteId, Body newBody) async {
+    newBody.offlineStatus = OfflineStatus.created;
     final note = _box.get(noteId);
     if (note != null) {
-      newBody.offlineStatus = OfflineStatus.created;
       newBody.id = "local_${_uuid.v4()}";
       note.body.add(newBody);
       await note.save();
@@ -111,10 +109,10 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Create Note Task
   void addNoteTask(String noteId, Task newTask) async {
+    newTask.offlineStatus = OfflineStatus.created;
     final note = _box.get(noteId);
     if (note != null) {
-      newTask.offlineStatus = OfflineStatus.created;
-      newTask.id = _uuid.v1();
+      newTask.id = _uuid.v4();
       note.tasks.add(newTask);
       await note.save();
       if (!noteId.startsWith('offline_')) {
@@ -146,9 +144,9 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Update Note Body
   void editNoteBody(String noteId, Body editedBody) async {
+    editedBody.offlineStatus = OfflineStatus.edited;
     final note = _box.get(noteId);
     if (note != null) {
-      editedBody.offlineStatus = OfflineStatus.edited;
       for (var bdy in note.body) {
         if (bdy.id == editedBody.id) {
           bdy = editedBody;
@@ -163,9 +161,9 @@ class LocalNoteProvider extends ChangeNotifier {
 
   // Update Note Task
   void editNoteTask(String noteId, Task editedTask) async {
+    editedTask.offlineStatus = OfflineStatus.edited;
     final note = _box.get(noteId);
     if (note != null) {
-      editedTask.offlineStatus = OfflineStatus.edited;
       for (var tsk in note.tasks) {
         if (tsk.id == editedTask.id) {
           tsk = editedTask;

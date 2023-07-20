@@ -89,6 +89,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           if (value!.isEmpty){
                             return "Ingrese los datos en la tarjeta";
                           }
+                          return null;
                         },
                     ),
                   ),
@@ -121,6 +122,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           else if (value.length < 16){
                             return "Ingrese un número de tarjeta válido";
                           }
+                          return null;
                         },
                     ),
                   ),
@@ -158,6 +160,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           else if (value.length < 4){
                             return "Ingrese una fecha de vencimiento válida";
                           }
+                          return null;
                         },
                           ),
                         ),
@@ -191,6 +194,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           else if (value.length < 3){
                             return "Ingrese un código válido";
                           }
+                          return null;
                         },
                           ),
                         ),

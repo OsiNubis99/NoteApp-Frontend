@@ -4,7 +4,6 @@ import 'package:note_app_frontend/presentation/widgets/shared/appBarMenu.dart';
 import '../../../config/theme/app_theme.dart';
 import '../../widgets/home/last_note.dart';
 import '../../widgets/home/menu_free_options.dart';
-import '../../widgets/home/menu_options.dart';
 import '../../widgets/note/createNoteFAB_widget.dart';
 import '../../widgets/shared/sidebar_menu.dart';
 
@@ -40,9 +39,8 @@ class BodyContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.bgGray,
-      child:  const Column(
-        mainAxisSize: MainAxisSize.min,
-        children:  [
+      child: ListView(
+        children: const [
           MenuFreeOptionsWidget(),
           LastNoteWidget(),
         ],

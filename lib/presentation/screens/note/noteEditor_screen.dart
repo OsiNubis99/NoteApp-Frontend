@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -6,26 +8,24 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator_platform_interface/src/models/position.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
-import 'package:note_app_frontend/infrastructure/models/body_model.dart';
 import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 import 'package:note_app_frontend/infrastructure/models/task_model.dart';
 import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
 import 'package:note_app_frontend/presentation/screens/note/quilll_editor_screen.dart';
+import 'package:note_app_frontend/presentation/screens/ocr-audio/ocrAudio_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../widgets/geolocator/geolocator_widget.dart';
 import '../../widgets/ocrcam/modal_optioncam.dart';
 import '../../widgets/shared/alertSnackBar.dart';
-import '../ocr-audio/optionOcrAudio.dart';
-import '../tag/tag_screen.dart';
 import 'noteList_screen.dart';
 
 class NoteEditorScreen extends StatefulWidget {
   final _uuid = const Uuid();
   final _noteProvier = LocalNoteProvider();
 
-  NoteEditorScreen({super.key, String idNote = '', Body? newBody}) {
+  NoteEditorScreen({super.key, String idNote = ''}) {
     if (idNote == '') {
       idNote = 'offline_${_uuid.v4()}';
       _noteProvier.addNote(Note(
@@ -42,10 +42,6 @@ class NoteEditorScreen extends StatefulWidget {
           offlineStatus: OfflineStatus.created));
     }
     currentNote = _noteProvier.getNote(idNote);
-
-    if (newBody != null) {
-      currentNote.body.add(newBody);
-    }
   }
 
   late Note currentNote;
@@ -67,42 +63,12 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _taskTextController = TextEditingController();
-  final ScrollController _taskScrollController = ScrollController();
-  final List<Widget> _bubbles = [];
 
   _initData() async {
     final ntP = LocalNoteProvider();
     ntP.getNotes();
     _titleController.text = widget.currentNote.title;
     _descriptionController.text = widget.currentNote.description;
-
-    for (var e in widget.currentNote.body) {
-      _bubbles.add(InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => QuillEditorScreen(
-                  idNote: widget.currentNote.id,
-                  body: e,
-                ),
-              ),
-            );
-          },
-          child: Container(
-            // decoration: BoxDecoration(
-            //   border: Border.all(color: Colors.black54),
-            //   borderRadius: const BorderRadius.only(
-            //     topLeft: Radius.circular(5),
-            //     bottomLeft: Radius.circular(5),
-            //   ),
-            // ),
-            margin: const EdgeInsets.symmetric(vertical: 5),
-            child: Html(
-              data: e.text,
-            ),
-          )));
-    }
 
     setState(() {});
   }
@@ -197,12 +163,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
               ),
             )
           : SpeedDial(
-              //Speed dial menu
-              // marginBottom: 10,
-              //margin bottom
               icon: Icons.menu,
-
-              //icon on Floating action button
               activeIcon: Icons.close,
               //icon when menu is expanded on button
               backgroundColor: AppTheme.primary,
@@ -249,28 +210,29 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                   },
                 ),
                 SpeedDialChild(
-                  child: const Icon(Icons.camera),
-                  backgroundColor: AppTheme.note_5,
-                  foregroundColor: Colors.white,
-                  label: 'Agregar Imagen',
-                  labelStyle: TextStyle(fontSize: 18.0),
-                  onTap: () => print('SECOND CHILD'),
-                ),
-                SpeedDialChild(
                   child: const Icon(Icons.image),
                   foregroundColor: Colors.white,
                   backgroundColor: AppTheme.note_2,
                   label: 'Imagen a Texto',
-                  labelStyle: TextStyle(fontSize: 18.0),
-                  onTap: () => print('THIRD CHILD'),
+                  labelStyle: const TextStyle(fontSize: 18.0),
+                  onTap: () {
+                    optionOcrCam(context, idNote: widget.currentNote.id);
+                  },
                 ),
                 SpeedDialChild(
                   child: const Icon(Icons.mic),
                   foregroundColor: Colors.white,
                   backgroundColor: AppTheme.note_3,
                   label: 'Voz a Texto',
-                  labelStyle: TextStyle(fontSize: 18.0),
-                  onTap: () => optionOcrAudio(context,_noteProvider,widget.currentNote.id),
+                  labelStyle: const TextStyle(fontSize: 18.0),
+                  onTap: () {
+                    final route = MaterialPageRoute(
+                      builder: (context) => OcrAudioScreen(
+                        idNote: widget.currentNote.id,
+                      ),
+                    );
+                    Navigator.pushReplacement(context, route);
+                  },
                 ),
 
                 //add more menu item childs here
@@ -295,7 +257,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
         iconTheme: const IconThemeData(color: AppTheme.text_dark),
         actions: [
           //Tag
-          /* 
+          /*
           IconButton(
             icon: const Icon(
               Icons.sell_outlined,
@@ -488,7 +450,34 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                     width: MediaQuery.of(context).size.width - 10,
                     alignment: Alignment.center,
                     child: ListView(
-                      children: _bubbles,
+                      children: widget.currentNote.body
+                          .map((e) => InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => QuillEditorScreen(
+                                      idNote: widget.currentNote.id,
+                                      body: e,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppTheme.primary,
+                                  border: Border.all(color: Colors.black54),
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(5),
+                                    bottomLeft: Radius.circular(5),
+                                  ),
+                                ),
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                child: Html(
+                                    data: e.text,
+                                    style: {"*": Style(color: AppTheme.white)}),
+                              )))
+                          .toList(),
                     ),
                   )
                 : Container(
@@ -497,9 +486,23 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                     width: MediaQuery.of(context).size.width - 10,
                     alignment: Alignment.center,
                     child: ListView(
-                      controller: _taskScrollController,
                       children: widget.currentNote.tasks
-                          .map((e) => TaskCard(e.status, e.title))
+                          .map((e) => Container(
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                child: Row(
+                                  children: [
+                                    Checkbox(
+                                        value: e.status,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            e.status = value!;
+                                            _noteProvider.editNoteTask(e.id, e);
+                                          });
+                                        }),
+                                    Expanded(flex: 5, child: Text(e.title))
+                                  ],
+                                ),
+                              ))
                           .toList(),
                     ),
                   ),
@@ -519,36 +522,5 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
     setState(() {
       address = "${place.locality}, ${place.country}";
     });
-  }
-}
-
-class TaskCard extends StatefulWidget {
-  TaskCard(this.status, this.description);
-
-  bool status = false;
-  String description;
-
-  @override
-  State<TaskCard> createState() => _TaskCardState();
-}
-
-class _TaskCardState extends State<TaskCard> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      child: Row(
-        children: [
-          Checkbox(
-              value: widget.status,
-              onChanged: (value) {
-                setState(() {
-                  widget.status = value!;
-                });
-              }),
-          Expanded(flex: 5, child: Text(widget.description))
-        ],
-      ),
-    );
   }
 }

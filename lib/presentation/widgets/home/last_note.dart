@@ -5,7 +5,6 @@ import '../../../config/theme/app_theme.dart';
 import '../../../infrastructure/models/note_model.dart';
 import '../../providers/note/local_note_provider.dart';
 import '../../screens/note/noteEditor_screen.dart';
-import '../../screens/note/noteList_screen.dart';
 import '../note/NoteNoteFound.dart';
 import 'menu_item.dart';
 
