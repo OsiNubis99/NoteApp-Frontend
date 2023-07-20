@@ -3,11 +3,14 @@ import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
 import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
 
+import '../../presentation/providers/user_provider.dart';
+
 class SyncHelper {
   static final _dio = Dio();
+  static final _userProvider = UserProvider();
+  static final _noteProvider = LocalNoteProvider();
 
   static Future<void> execute() async {
-    final _noteProvider = LocalNoteProvider();
     //  Para traer todas las notas
     List<Note> unSyncNotes = _noteProvider.getNoteUnSync();
 
@@ -16,7 +19,7 @@ class SyncHelper {
       if (note.offlineStatus == OfflineStatus.created) {
         await _dio
             .post('https://noteapp-backend-prod.up.railway.app/note',
-                data: note.toCreateJson())
+                data: note.toCreateJson(_userProvider.getId()))
             .then((value) {
           note.id = value.data['idNota'];
           note.offlineStatus = OfflineStatus.ok;

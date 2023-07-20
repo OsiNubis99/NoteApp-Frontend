@@ -18,6 +18,7 @@ void main() async {
   Hive.registerAdapter(TaskAdapter());
 
   // Open HIVE boxes for storing data
+  await Hive.openBox<Note>('user');
   await Hive.openBox<Note>('notesOf_1');
   await Hive.openBox<Note>('notesOf_2');
   await Hive.openBox<Note>('notesOf_3');
@@ -36,6 +37,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
+    Hive.box('user').compact();
     Hive.box('notesOf_1').compact();
     Hive.box('notesOf_2').compact();
     Hive.box('notesOf_3').compact();

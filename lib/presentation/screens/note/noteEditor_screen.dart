@@ -234,7 +234,9 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                   backgroundColor: AppTheme.note_3,
                   label: 'Imagen a Texto',
                   labelStyle: TextStyle(fontSize: 18.0),
-                  onTap: (){optionOcrCam(context, idNote: widget.currentNote.id);},
+                  onTap: () {
+                    optionOcrCam(context, idNote: widget.currentNote.id);
+                  },
                 ),
                 SpeedDialChild(
                   child: const Icon(Icons.mic),

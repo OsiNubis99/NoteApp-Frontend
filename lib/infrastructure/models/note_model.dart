@@ -1,7 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_app_frontend/infrastructure/models/body_model.dart';
 import 'package:note_app_frontend/infrastructure/models/task_model.dart';
-import 'package:note_app_frontend/infrastructure/models/user_data.dart';
 
 part 'note_model.g.dart';
 
@@ -70,7 +69,7 @@ class Note extends HiveObject {
     );
   }
 
-  Map<String, dynamic> toCreateJson() => {
+  Map<String, dynamic> toCreateJson(String idUser) => {
         "titulo": title,
         "fechaC": date.toString(),
         "latitud": latitude,
@@ -78,7 +77,7 @@ class Note extends HiveObject {
         "descripcionGPS": address,
         "est": status,
         "desc": description,
-        "idUsuario": UserData().id
+        "idUsuario": idUser
       };
 
   Map<String, dynamic> toUpdateJson() => {
