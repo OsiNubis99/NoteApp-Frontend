@@ -5,7 +5,6 @@ import '../../../config/theme/app_theme.dart';
 import '../../providers/note/local_note_provider.dart';
 import '../../widgets/note/createNoteFAB_widget.dart';
 import '../../widgets/note/userNote_widget.dart';
-import '../../widgets/shared/appBarMenu.dart';
 import '../../widgets/shared/sidebar_menu.dart';
 import '../note/noteList_screen.dart';
 

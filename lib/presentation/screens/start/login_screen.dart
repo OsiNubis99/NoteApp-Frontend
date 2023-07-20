@@ -94,6 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       } else if (!emailValid) {
                         return "Ingrese un correo electrónico válido";
                       }
+                      return null;
                     },
                   ),
                 ),

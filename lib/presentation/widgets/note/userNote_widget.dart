@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:note_app_frontend/domain/entities/note.dart';
 import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 import 'package:note_app_frontend/presentation/screens/home/home_screen.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
-import 'package:provider/provider.dart';
-import 'package:quill_html_editor/quill_html_editor.dart';
 
 import '../../../config/theme/app_theme.dart';
-import '../../providers/note/note_provider.dart';
 
 class userNote extends StatelessWidget {
-  final QuillEditorController _quillController = QuillEditorController();
   final Note note;
   final int index;
   final Color color;

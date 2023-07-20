@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../config/theme/app_theme.dart';
 import '../../screens/note/noteList_screen.dart';
-import '../../screens/ocr-audio/ocrAudio_screen.dart';
-import '../ocrcam/modal_optioncam.dart';
 import '../payment platform/payment_modal_widget.dart';
 import 'menu_item.dart';
 
