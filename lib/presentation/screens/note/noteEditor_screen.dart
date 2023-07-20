@@ -1,6 +1,6 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator_platform_interface/src/models/position.dart';
@@ -56,6 +56,7 @@ class NoteEditorScreen extends StatefulWidget {
 
 class _NoteEditorScreenState extends State<NoteEditorScreen>
     with SingleTickerProviderStateMixin {
+  late HtmlParser htmlParser;
   String address = 'Ubicación';
   late num lat;
   late num long;
@@ -67,12 +68,6 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _taskTextController = TextEditingController();
   final ScrollController _taskScrollController = ScrollController();
-
-  /// CREAR CONEXION CON EL BACK PARA LAS TAREAS ///
-  /// RELLENAR CON LA DATA DE LAS TAREAS ///
-  late List<Task> _tasks;
-
-  /// LISTA DE BURBUJAS ///
   final List<Widget> _bubbles = [];
 
   _initData() async {
@@ -82,29 +77,31 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
     _descriptionController.text = widget.currentNote.description;
 
     for (var e in widget.currentNote.body) {
-      // if (e.image['buffer']?.length > 0) {
-      //   // _bubbles.add(BubbleNormalImage(id: e.id, image: Image.));
-      // } else {
       _bubbles.add(InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => QuillEditorScreen(
-                idNote: widget.currentNote.id,
-                body: e,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => QuillEditorScreen(
+                  idNote: widget.currentNote.id,
+                  body: e,
+                ),
               ),
+            );
+          },
+          child: Container(
+            // decoration: BoxDecoration(
+            //   border: Border.all(color: Colors.black54),
+            //   borderRadius: const BorderRadius.only(
+            //     topLeft: Radius.circular(5),
+            //     bottomLeft: Radius.circular(5),
+            //   ),
+            // ),
+            margin: const EdgeInsets.symmetric(vertical: 5),
+            child: Html(
+              data: e.text,
             ),
-          );
-        },
-        child: BubbleSpecialThree(
-          text: e.text,
-          tail: false,
-          color: AppTheme.primary,
-          textStyle: const TextStyle(color: Colors.white),
-        ),
-      ));
-      // }
+          )));
     }
 
     setState(() {});
@@ -121,7 +118,6 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
 
   @override
   void initState() {
-    _tasks = widget.currentNote.tasks;
     determinePosition().then((value) async {
       await getAddress(value);
     });
@@ -401,15 +397,14 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
 
                       //UBICACION
                       Container(
-                          padding: const EdgeInsets.symmetric(vertical: 1),
-                          child: Text(
-                              address,
-                              style: const TextStyle(
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.normal),
-                            ),
-                          )
-
+                        padding: const EdgeInsets.symmetric(vertical: 1),
+                        child: Text(
+                          address,
+                          style: const TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -510,7 +505,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                     alignment: Alignment.center,
                     child: ListView(
                       controller: _taskScrollController,
-                      children: _tasks
+                      children: widget.currentNote.tasks
                           .map((e) => TaskCard(e.status, e.title))
                           .toList(),
                     ),
