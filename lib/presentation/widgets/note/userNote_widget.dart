@@ -22,9 +22,7 @@ class userNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-     final _noteProvider = context.watch<LocalNoteProvider>();
-
+    final _noteProvider = context.watch<LocalNoteProvider>();
 
     return InkWell(
       onTap: () {
@@ -40,52 +38,51 @@ class userNote extends StatelessWidget {
             width: 200,
             height: 200,
             child: Padding(
-              padding: const EdgeInsets.only(left:15,right: 5,top: 0,bottom: 0),
+              padding:
+                  const EdgeInsets.only(left: 15, right: 5, top: 0, bottom: 0),
               child: Column(children: <Widget>[
-
                 Align(
-                  alignment: Alignment.topRight,
-                  child: IconButton(onPressed: (){sendNoteToTrash(note,_noteProvider,context);}, icon: const  Icon(Icons.close),)
-                 ),
-
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      onPressed: () {
+                        sendNoteToTrash(note, _noteProvider, context);
+                      },
+                      icon: const Icon(Icons.close),
+                    )),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-
-                       Align(
+                    Align(
                       alignment: Alignment.topLeft,
                       child: Text(note.title,
                           style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
+                              fontWeight: FontWeight.bold, fontSize: 10),
+                      ),
                     ),
-
                     SizedBox(
                       height: 100,
                       child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(note.description)),
+                        alignment: Alignment.topLeft,
+                        child: Text(note.description,
+                            style: const TextStyle(fontSize: 8),
+                        ),
+                      ),
                     ),
-
                   ],
-
-
                 ),
-
-
-
-              ]
-              ),
+              ]),
             )),
       ),
     );
   }
 
-  void sendNoteToTrash(Note note,LocalNoteProvider noteProvide,BuildContext context){
-   note.status="inactive";
-   noteProvide.editNote(note, note.id);
-    final route = MaterialPageRoute(
-    builder: (context) => const NoteListScreen());
-     Navigator.pushReplacement(context, route);
+  void sendNoteToTrash(
+      Note note, LocalNoteProvider noteProvide, BuildContext context) {
+    note.status = "inactive";
+    noteProvide.editNote(note, note.id);
+    final route =
+        MaterialPageRoute(builder: (context) => const NoteListScreen());
+    Navigator.pushReplacement(context, route);
   }
 }
 

@@ -19,6 +19,7 @@ class ResultScreen extends StatefulWidget {
   ResultScreen({super.key, this.path, required this.idNota});
 
   String idNota;
+
   @override
   State<ResultScreen> createState() => _ResultScreenState();
 }
@@ -42,7 +43,7 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if(_userProvider.getId()!='2'){
+    if (_userProvider.getId() != '2') {
       final route = MaterialPageRoute(
         builder: (context) => const NoTryLeftOCRScreen(),
       );
@@ -85,17 +86,20 @@ class _ResultScreenState extends State<ResultScreen> {
                     body: [],
                     offlineStatus: OfflineStatus.created));
               }
-              _noteProvier.addNoteBody(id,Body(
-                    id: '',
-                    idNota: id,
-                    date: DateTime.now(),
-                    image: {},
-                    text: '<p>$controller.text</p>',
-                    ocr: false));
+              var text = controller.text;
+              _noteProvier.addNoteBody(
+                  id,
+                  Body(
+                      id: '',
+                      idNota: id,
+                      date: DateTime.now(),
+                      image: {},
+                      text: '<p>$text</p>',
+                      ocr: false));
               final route = MaterialPageRoute(
-                  builder: (context) => NoteEditorScreen(
-                      idNote: id,
-                  ),
+                builder: (context) => NoteEditorScreen(
+                  idNote: id,
+                ),
               );
               Navigator.pushReplacement(context, route);
             },

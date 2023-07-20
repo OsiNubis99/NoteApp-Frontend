@@ -8,7 +8,6 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator_platform_interface/src/models/position.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/infrastructure/enumns/offline_status.dart';
-import 'package:note_app_frontend/infrastructure/models/body_model.dart';
 import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 import 'package:note_app_frontend/infrastructure/models/task_model.dart';
 import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';

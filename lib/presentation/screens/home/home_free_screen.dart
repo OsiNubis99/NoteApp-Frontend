@@ -39,9 +39,8 @@ class BodyContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.bgGray,
-      child: const Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
+      child: ListView(
+        children: const [
           MenuFreeOptionsWidget(),
           LastNoteWidget(),
         ],
