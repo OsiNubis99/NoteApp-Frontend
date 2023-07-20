@@ -11,6 +11,7 @@ import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 import 'package:note_app_frontend/infrastructure/models/task_model.dart';
 import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
 import 'package:note_app_frontend/presentation/screens/note/quilll_editor_screen.dart';
+import 'package:note_app_frontend/presentation/screens/ocr-audio/ocrAudio_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -24,7 +25,7 @@ class NoteEditorScreen extends StatefulWidget {
   final _uuid = const Uuid();
   final _noteProvier = LocalNoteProvider();
 
-  NoteEditorScreen({super.key, String idNote = '', Body? newBody}) {
+  NoteEditorScreen({super.key, String idNote = '', String? newBody}) {
     if (idNote == '') {
       idNote = 'offline_${_uuid.v4()}';
       _noteProvier.addNote(Note(
@@ -40,11 +41,16 @@ class NoteEditorScreen extends StatefulWidget {
           body: [],
           offlineStatus: OfflineStatus.created));
     }
-    currentNote = _noteProvier.getNote(idNote);
-
     if (newBody != null) {
-      currentNote.body.add(newBody);
+      currentNote.body.add(Body(
+          id: '',
+          idNota: idNote,
+          date: DateTime.now(),
+          image: {},
+          text: newBody,
+          ocr: false));
     }
+    currentNote = _noteProvier.getNote(idNote);
   }
 
   late Note currentNote;
@@ -213,22 +219,6 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                   },
                 ),
                 SpeedDialChild(
-                  child: const Icon(Icons.camera),
-                  backgroundColor: AppTheme.note_5,
-                  foregroundColor: Colors.white,
-                  label: 'Agregar Imagen',
-                  labelStyle: TextStyle(fontSize: 18.0),
-                  onTap: () => print('SECOND CHILD'),
-                ),
-                SpeedDialChild(
-                  child: const Icon(Icons.brush),
-                  foregroundColor: Colors.white,
-                  backgroundColor: AppTheme.note_3,
-                  label: 'Escritura a Imagen',
-                  labelStyle: TextStyle(fontSize: 18.0),
-                  onTap: () => print('THIRD CHILD'),
-                ),
-                SpeedDialChild(
                   child: const Icon(Icons.image),
                   foregroundColor: Colors.white,
                   backgroundColor: AppTheme.note_3,
@@ -244,7 +234,14 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                   backgroundColor: AppTheme.note_3,
                   label: 'Voz a Texto',
                   labelStyle: TextStyle(fontSize: 18.0),
-                  onTap: () => print('THIRD CHILD'),
+                  onTap: () {
+                    final route = MaterialPageRoute(
+                      builder: (context) => OcrAudioScreen(
+                        idNote: widget.currentNote.id,
+                      ),
+                    );
+                    Navigator.pushReplacement(context, route);
+                  },
                 ),
 
                 //add more menu item childs here

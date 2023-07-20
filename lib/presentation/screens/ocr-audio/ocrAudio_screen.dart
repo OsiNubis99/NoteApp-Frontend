@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
+import 'package:note_app_frontend/infrastructure/models/body_model.dart';
 import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import '../../widgets/shared/appBarMenu.dart';
+import '../note/noteEditor_screen.dart';
+import '../note/quilll_editor_screen.dart';
 
 class OcrAudioScreen extends StatefulWidget {
-  const OcrAudioScreen({super.key});
+  const OcrAudioScreen({super.key, this.idNote = ''});
+
+  final String idNote;
 
   @override
   State<OcrAudioScreen> createState() => _OcrAudioScreenState();
@@ -27,22 +32,16 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
     _initSpeech();
   }
 
-  /// This has to happen only once per app
   void _initSpeech() async {
     _speechEnabled = await _speechToText.initialize();
     setState(() {});
   }
 
-  /// Each time to start a speech recognition session
   void _startListening() async {
     await _speechToText.listen(onResult: _onSpeechResult);
     setState(() {});
   }
 
-  /// Manually stop the active speech recognition session
-  /// Note that there are also timeouts that each platform enforces
-  /// and the SpeechToText plugin supports setting timeouts on the
-  /// listen method.
   void _stopListening() async {
     await _speechToText.stop();
     setState(() {});
@@ -58,8 +57,6 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final noteProvider = context.watch<LocalNoteProvider>();
-
     return Scaffold(
       drawer: const SideBar(),
       appBar: AppBarMenu(context),
@@ -98,9 +95,13 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
                             const SizedBox(height: 20),
                             FilledButton(
                                 onPressed: () {
-                                  // noteProvider.addNote(
-                                  //     title: "Titulo de transcripción audio",
-                                  //     description: _lastWords);
+                                  final route = MaterialPageRoute(
+                                    builder: (context) => NoteEditorScreen(
+                                      idNote: widget.idNote,
+                                      newBody: _lastWords,
+                                    ),
+                                  );
+                                  Navigator.pushReplacement(context, route);
                                   _lastWords = '';
                                   setState(() {});
                                 },

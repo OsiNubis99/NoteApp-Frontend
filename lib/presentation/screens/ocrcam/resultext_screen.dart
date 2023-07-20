@@ -17,7 +17,6 @@ class ResultScreen extends StatefulWidget {
 
   ResultScreen({Key? key, this.path, required String idNota}) : super(key: key);
 
-
   @override
   State<ResultScreen> createState() => _ResultScreenState();
 }
@@ -42,8 +41,6 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final noteProvider = context.watch<LocalNoteProvider>();
-
     return Scaffold(
       drawer: const SideBar(),
       appBar: AppBar(
@@ -65,18 +62,11 @@ class _ResultScreenState extends State<ResultScreen> {
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
             onPressed: () {
-              // noteProvider.addNote(
-              //     title: "Título de transcripción imagen",
-              //     description: controller.text);
-
-              contentOCR = Body(id: idBody, idNota: idNota, text: controller.text, image: {}, date: DateTime.now(), ocr: true);
-
               final route = MaterialPageRoute(
-                  builder: (context) => NoteEditorScreen(idNote: idNota, newBody: contentOCR));
+                  builder: (context) => NoteEditorScreen(
+                      idNote: idNota, newBody: controller.text));
               Navigator.pushReplacement(context, route);
-
-              
-              controller.text = ''; 
+              controller.text = '';
             },
           ),
         ],
