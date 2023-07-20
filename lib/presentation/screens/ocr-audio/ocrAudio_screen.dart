@@ -41,10 +41,10 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
     setState(() {});
   }
 
-  void _stopListening() async {
-    await _speechToText.stop();
-    setState(() {});
-  }
+  // void _stopListening() async {
+  //   await _speechToText.stop();
+  //   setState(() {});
+  // }
 
   /// This is the callback that the SpeechToText plugin calls when
   /// the platform returns recognized words.
@@ -107,7 +107,6 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
                                     ),
                                   );
                                   Navigator.pushReplacement(context, route);
-                                  _lastWords = '';
                                   setState(() {});
                                 },
                                 child: const Text('Guardar Nota')),

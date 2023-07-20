@@ -66,7 +66,6 @@ class _ResultScreenState extends State<ResultScreen> {
                   builder: (context) => NoteEditorScreen(
                       idNote: widget.idNota, newBody: controller.text));
               Navigator.pushReplacement(context, route);
-              controller.text = '';
             },
           ),
         ],

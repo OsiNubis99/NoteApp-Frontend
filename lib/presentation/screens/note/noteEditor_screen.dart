@@ -32,7 +32,7 @@ class NoteEditorScreen extends StatefulWidget {
       _noteProvier.addNote(Note(
           id: idNote,
           title: 'Nueva Nota',
-          description: '',
+          description: '$newBody',
           date: DateTime.now().toString(),
           status: 'active',
           latitude: 0,
@@ -49,7 +49,7 @@ class NoteEditorScreen extends StatefulWidget {
           idNota: idNote,
           date: DateTime.now(),
           image: {},
-          text: newBody,
+          text: '<p>$newBody</p>',
           ocr: false));
     }
   }
