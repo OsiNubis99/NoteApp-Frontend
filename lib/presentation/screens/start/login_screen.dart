@@ -24,7 +24,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
   bool passwordToggle = true;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       
       body: SafeArea(
-        child: Padding(padding:const EdgeInsets.only(top: 20, bottom: 50.0),
+        child: SingleChildScrollView(padding:const EdgeInsets.only(top: 20, bottom: 50.0),
           child: Form(
             key: _formfield,
             child: Column(
@@ -61,7 +60,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   Image.asset("assets/my_notes_app.png",
                     width: 140,
                     fit: BoxFit.cover,
-                  ),const Spacer(),
+                  ),
+                  const SizedBox(height: 50),
                   
                   //email
                   Container(
@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20), 
           
                   //password
                   Container(
@@ -126,6 +126,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         border: const OutlineInputBorder(borderSide: BorderSide.none),
                       ),
+                      validator: (value){
+                        if (value!.isEmpty){
+                          return "Ingrese una clave";
+                          
+                        }
+                        else if (value != "123456"){
+                          return "Ingrese un clave válida";
+                        }
+                      },
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -143,10 +152,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           //Navigator
                           onPressed: () {
                             if(_formfield.currentState!.validate()){
-                              final route = MaterialPageRoute(builder:(context) =>  const HomeScreen());
-                              Navigator.pushReplacement(context, route); 
-                              emailController.clear();
-                              passwordController.clear();
+                              if(emailController.text == "asensio_elpro@gmail.com"){
+                                final route = MaterialPageRoute(builder:(context) =>  const HomeFreeScreen());print(emailController.text);
+                                Navigator.pushReplacement(context, route); 
+                                emailController.clear();
+                                passwordController.clear();
+                              }
+                              else if (emailController.text == "jerojas696969@gmail.com"){
+                                final route = MaterialPageRoute(builder:(context) =>  const HomeScreen());print(emailController.text);
+                                Navigator.pushReplacement(context, route); 
+                                emailController.clear();
+                                passwordController.clear();
+                              }
                             }
                           },
           
@@ -162,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
-                ), const Spacer(),
+                ), 
           
           
                 ],
