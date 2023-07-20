@@ -4,8 +4,11 @@ import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
+import '../../../infrastructure/models/body_model.dart';
 import '../../providers/note/note_provider.dart';
+import '../note/noteEditor_screen.dart';
 import '../note/noteList_screen.dart';
 
 class ResultScreen extends StatefulWidget {
@@ -33,6 +36,9 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
+     Body body;
+     DateTime date = DateTime.now();
+     final idBody =  Uuid().toString();
     final noteProvider = context.watch<LocalNoteProvider>();
 
     return Scaffold(
@@ -56,14 +62,16 @@ class _ResultScreenState extends State<ResultScreen> {
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
             onPressed: () {
+              body = Body(id: idBody, idNota: "", text: controller.text, image: {}, date: date, ocr: true);                    
+              final route = MaterialPageRoute(builder: (context) => NoteEditorScreen(idNote:"",newBody:body));
+              Navigator.pushReplacement(context, route);
+
               // noteProvider.addNote(
               //     title: "Título de transcripción imagen",
               //     description: controller.text);
+              
               controller.text = '';
               setState(() {});
-              final route = MaterialPageRoute(
-                  builder: (context) => const NoteListScreen());
-              Navigator.pushReplacement(context, route);
             },
           ),
         ],
