@@ -4,7 +4,12 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/presentation/providers/user_provider.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
+import 'package:uuid/uuid.dart';
 
+import '../../../infrastructure/enumns/offline_status.dart';
+import '../../../infrastructure/models/body_model.dart';
+import '../../../infrastructure/models/note_model.dart';
+import '../../providers/note/local_note_provider.dart';
 import '../note/noteEditor_screen.dart';
 import '../ocr-no-try-left/ocrNoTryLeft_screen.dart';
 
@@ -19,6 +24,8 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
+  final _uuid = const Uuid();
+  final _noteProvier = LocalNoteProvider();
   final _userProvider = UserProvider();
   bool _isBusy = false;
 
@@ -62,9 +69,33 @@ class _ResultScreenState extends State<ResultScreen> {
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
             onPressed: () {
+              if (widget.idNota == '') {
+                widget.idNota = 'offline_${_uuid.v4()}';
+                _noteProvier.addNote(Note(
+                    id: widget.idNota,
+                    title: 'Nueva Nota',
+                    description: '',
+                    date: DateTime.now().toString(),
+                    status: 'active',
+                    latitude: 0,
+                    longitude: 0,
+                    address: '',
+                    tasks: [],
+                    body: [],
+                    offlineStatus: OfflineStatus.created));
+              }
+              _noteProvier.addNoteBody(widget.idNota,Body(
+                    id: '',
+                    idNota: widget.idNota,
+                    date: DateTime.now(),
+                    image: {},
+                    text: '<p>$controller.text</p>',
+                    ocr: false));
               final route = MaterialPageRoute(
                   builder: (context) => NoteEditorScreen(
-                      idNote: widget.idNota, newBody: controller.text));
+                      idNote: widget.idNota,
+                  ),
+              );
               Navigator.pushReplacement(context, route);
             },
           ),
@@ -74,7 +105,6 @@ class _ResultScreenState extends State<ResultScreen> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-
           //SCAN TEXT
           : Container(
               padding: const EdgeInsets.all(20),

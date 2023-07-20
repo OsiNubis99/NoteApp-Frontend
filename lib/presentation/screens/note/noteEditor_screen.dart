@@ -26,13 +26,13 @@ class NoteEditorScreen extends StatefulWidget {
   final _uuid = const Uuid();
   final _noteProvier = LocalNoteProvider();
 
-  NoteEditorScreen({super.key, String idNote = '', String? newBody}) {
+  NoteEditorScreen({super.key, String idNote = ''}) {
     if (idNote == '') {
       idNote = 'offline_${_uuid.v4()}';
       _noteProvier.addNote(Note(
           id: idNote,
           title: 'Nueva Nota',
-          description: '$newBody',
+          description: '',
           date: DateTime.now().toString(),
           status: 'active',
           latitude: 0,
@@ -43,15 +43,6 @@ class NoteEditorScreen extends StatefulWidget {
           offlineStatus: OfflineStatus.created));
     }
     currentNote = _noteProvier.getNote(idNote);
-    if (newBody != null) {
-      currentNote.body.add(Body(
-          id: '',
-          idNota: idNote,
-          date: DateTime.now(),
-          image: {},
-          text: '<p>$newBody</p>',
-          ocr: false));
-    }
   }
 
   late Note currentNote;

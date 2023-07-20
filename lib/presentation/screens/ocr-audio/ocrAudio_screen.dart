@@ -3,15 +3,20 @@ import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:uuid/uuid.dart';
+import '../../../infrastructure/enumns/offline_status.dart';
+import '../../../infrastructure/models/body_model.dart';
+import '../../../infrastructure/models/note_model.dart';
+import '../../providers/note/local_note_provider.dart';
 import '../../providers/user_provider.dart';
 import '../../widgets/shared/appBarMenu.dart';
 import '../note/noteEditor_screen.dart';
 import '../ocr-no-try-left/ocrNoTryLeft_screen.dart';
 
 class OcrAudioScreen extends StatefulWidget {
-  const OcrAudioScreen({super.key, this.idNote = ''});
+  OcrAudioScreen({super.key, this.idNote = ''});
 
-  final String idNote;
+  late final String idNote;
 
   @override
   State<OcrAudioScreen> createState() => _OcrAudioScreenState();
@@ -56,7 +61,9 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if(_userProvider.getId()!='2'){
+    final _uuid = const Uuid();
+    final _noteProvier = LocalNoteProvider();
+    if (_userProvider.getId() != '2') {
       final route = MaterialPageRoute(
         builder: (context) => const NoTryLeftOCRScreen(),
       );
@@ -100,10 +107,33 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
                             const SizedBox(height: 20),
                             FilledButton(
                                 onPressed: () {
+                                  if (widget.idNote == '') {
+                                    widget.idNote = 'offline_${_uuid.v4()}';
+                                    _noteProvier.addNote(Note(
+                                        id: widget.idNote,
+                                        title: 'Nueva Nota',
+                                        description: '',
+                                        date: DateTime.now().toString(),
+                                        status: 'active',
+                                        latitude: 0,
+                                        longitude: 0,
+                                        address: '',
+                                        tasks: [],
+                                        body: [],
+                                        offlineStatus: OfflineStatus.created));
+                                  }
+                                  _noteProvier.addNoteBody(
+                                      widget.idNote,
+                                      Body(
+                                          id: '',
+                                          idNota: widget.idNote,
+                                          date: DateTime.now(),
+                                          image: {},
+                                          text: '<p>$_lastWords</p>',
+                                          ocr: false));
                                   final route = MaterialPageRoute(
                                     builder: (context) => NoteEditorScreen(
                                       idNote: widget.idNote,
-                                      newBody: _lastWords,
                                     ),
                                   );
                                   Navigator.pushReplacement(context, route);

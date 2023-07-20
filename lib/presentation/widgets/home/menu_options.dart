@@ -55,7 +55,7 @@ class MenuOptionsWidget extends StatelessWidget {
         
               Expanded(
               child: 
-              HomeItem(title: 'Redactor de audio     ',    bodyText: '¡Convierta un audio en texto!', color: AppTheme.note_1, icon: Icons.mic,               onPressed: () {final route = MaterialPageRoute(builder: (context) => const OcrAudioScreen());  Navigator.pushReplacement(context, route); },),   
+              HomeItem(title: 'Redactor de audio     ',    bodyText: '¡Convierta un audio en texto!', color: AppTheme.note_1, icon: Icons.mic,               onPressed: () {final route = MaterialPageRoute(builder: (context) => OcrAudioScreen());  Navigator.pushReplacement(context, route); },),
             ),
          
          
