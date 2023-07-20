@@ -6,6 +6,9 @@
 
 Applicación mobile desarrollada por Clean Coders Naranja, utilizando Flutter. Complementada por el [Backend Nestjs](https://github.com/omarlopezoficial/NoteApp-Backend/)
 
+## _Figma_
+https://www.figma.com/file/h2JDWXfSIadBIQriFZUYZq/NotasApp?type=design&node-id=0%3A1&mode=design&t=2sdqoqmTvUZvoI9L-1
+
 ## Instalación
 ```bash
 # Clean the dependencies
