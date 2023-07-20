@@ -69,10 +69,11 @@ class _ResultScreenState extends State<ResultScreen> {
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
             onPressed: () {
-              if (widget.idNota == '') {
-                widget.idNota = 'offline_${_uuid.v4()}';
+              var id = widget.idNota;
+              if (id == '') {
+                id = 'offline_${_uuid.v4()}';
                 _noteProvier.addNote(Note(
-                    id: widget.idNota,
+                    id: id,
                     title: 'Nueva Nota',
                     description: '',
                     date: DateTime.now().toString(),
@@ -84,16 +85,16 @@ class _ResultScreenState extends State<ResultScreen> {
                     body: [],
                     offlineStatus: OfflineStatus.created));
               }
-              _noteProvier.addNoteBody(widget.idNota,Body(
+              _noteProvier.addNoteBody(id,Body(
                     id: '',
-                    idNota: widget.idNota,
+                    idNota: id,
                     date: DateTime.now(),
                     image: {},
                     text: '<p>$controller.text</p>',
                     ocr: false));
               final route = MaterialPageRoute(
                   builder: (context) => NoteEditorScreen(
-                      idNote: widget.idNota,
+                      idNote: id,
                   ),
               );
               Navigator.pushReplacement(context, route);

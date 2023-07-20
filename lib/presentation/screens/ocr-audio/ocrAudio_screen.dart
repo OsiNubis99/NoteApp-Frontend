@@ -107,10 +107,11 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
                             const SizedBox(height: 20),
                             FilledButton(
                                 onPressed: () {
-                                  if (widget.idNote == '') {
-                                    widget.idNote = 'offline_${_uuid.v4()}';
+                                  var id = widget.idNote;
+                                  if (id == '') {
+                                    id = 'offline_${_uuid.v4()}';
                                     _noteProvier.addNote(Note(
-                                        id: widget.idNote,
+                                        id: id,
                                         title: 'Nueva Nota',
                                         description: '',
                                         date: DateTime.now().toString(),
@@ -123,7 +124,7 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
                                         offlineStatus: OfflineStatus.created));
                                   }
                                   _noteProvier.addNoteBody(
-                                      widget.idNote,
+                                      id,
                                       Body(
                                           id: '',
                                           idNota: widget.idNote,
@@ -133,7 +134,7 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
                                           ocr: false));
                                   final route = MaterialPageRoute(
                                     builder: (context) => NoteEditorScreen(
-                                      idNote: widget.idNote,
+                                      idNote: id,
                                     ),
                                   );
                                   Navigator.pushReplacement(context, route);
