@@ -18,10 +18,11 @@ void main() async {
   Hive.registerAdapter(TaskAdapter());
 
   // Open HIVE boxes for storing data
-  await Hive.openBox<Note>(LocalNoteProvider.boxName);
+  await Hive.openBox<Note>('notesOf_1');
+  await Hive.openBox<Note>('notesOf_2');
+  await Hive.openBox<Note>('notesOf_3');
+  await Hive.openBox<Note>('notesOf_4');
 
-  final _noteProvider = LocalNoteProvider();
-  _noteProvider.getNotesServer();
   runApp(const MyApp());
 }
 
@@ -35,7 +36,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
-    Hive.box(LocalNoteProvider.boxName).compact();
+    Hive.box('notesOf_1').compact();
+    Hive.box('notesOf_2').compact();
+    Hive.box('notesOf_3').compact();
+    Hive.box('notesOf_4').compact();
     Hive.close();
     super.dispose();
   }
