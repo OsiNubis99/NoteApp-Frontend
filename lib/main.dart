@@ -18,7 +18,7 @@ void main() async {
   Hive.registerAdapter(TaskAdapter());
 
   // Open HIVE boxes for storing data
-  await Hive.openBox<Note>('user');
+  await Hive.openBox<String>('user');
   await Hive.openBox<Note>('notesOf_1');
   await Hive.openBox<Note>('notesOf_2');
   await Hive.openBox<Note>('notesOf_3');
