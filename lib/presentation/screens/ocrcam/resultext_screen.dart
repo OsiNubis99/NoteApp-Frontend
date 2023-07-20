@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
-import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
+import 'package:note_app_frontend/presentation/providers/user_provider.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
-import 'package:provider/provider.dart';
 
 import '../../../infrastructure/models/body_model.dart';
-import '../../../infrastructure/models/note_model.dart';
-import '../../providers/note/note_provider.dart';
 import '../note/noteEditor_screen.dart';
-import '../note/noteList_screen.dart';
-import '../note/quilll_editor_screen.dart';
+import '../ocr-no-try-left/ocrNoTryLeft_screen.dart';
 
 class ResultScreen extends StatefulWidget {
   final String? path;
 
-  ResultScreen({Key? key, this.path, required String idNota}) : super(key: key);
+  ResultScreen({super.key, this.path, required this.idNota});
 
+  String idNota;
   @override
   State<ResultScreen> createState() => _ResultScreenState();
 }
 
 class _ResultScreenState extends State<ResultScreen> {
+  final _userProvider = UserProvider();
   bool _isBusy = false;
 
   TextEditingController controller = TextEditingController();
@@ -41,6 +39,12 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if(_userProvider.getId()!='2'){
+      final route = MaterialPageRoute(
+        builder: (context) => const NoTryLeftOCRScreen(),
+      );
+      Navigator.pushReplacement(context, route);
+    }
     return Scaffold(
       drawer: const SideBar(),
       appBar: AppBar(

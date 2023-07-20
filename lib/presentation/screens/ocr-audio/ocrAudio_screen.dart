@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:note_app_frontend/config/theme/app_theme.dart';
-import 'package:note_app_frontend/infrastructure/models/body_model.dart';
-import 'package:note_app_frontend/presentation/providers/note/local_note_provider.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
-import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import '../../providers/user_provider.dart';
 import '../../widgets/shared/appBarMenu.dart';
 import '../note/noteEditor_screen.dart';
-import '../note/quilll_editor_screen.dart';
+import '../ocr-no-try-left/ocrNoTryLeft_screen.dart';
 
 class OcrAudioScreen extends StatefulWidget {
   const OcrAudioScreen({super.key, this.idNote = ''});
@@ -20,9 +18,10 @@ class OcrAudioScreen extends StatefulWidget {
 }
 
 class _OcrAudioScreenState extends State<OcrAudioScreen> {
+  final _userProvider = UserProvider();
   bool openCapture = false;
 
-  SpeechToText _speechToText = SpeechToText();
+  final SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   String _lastWords = '';
 
@@ -57,6 +56,12 @@ class _OcrAudioScreenState extends State<OcrAudioScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if(_userProvider.getId()!='2'){
+      final route = MaterialPageRoute(
+        builder: (context) => const NoTryLeftOCRScreen(),
+      );
+      Navigator.pushReplacement(context, route);
+    }
     return Scaffold(
       drawer: const SideBar(),
       appBar: AppBarMenu(context),

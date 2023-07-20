@@ -41,6 +41,7 @@ class NoteEditorScreen extends StatefulWidget {
           body: [],
           offlineStatus: OfflineStatus.created));
     }
+    currentNote = _noteProvier.getNote(idNote);
     if (newBody != null) {
       currentNote.body.add(Body(
           id: '',
@@ -50,7 +51,6 @@ class NoteEditorScreen extends StatefulWidget {
           text: newBody,
           ocr: false));
     }
-    currentNote = _noteProvier.getNote(idNote);
   }
 
   late Note currentNote;
@@ -223,7 +223,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                   foregroundColor: Colors.white,
                   backgroundColor: AppTheme.note_3,
                   label: 'Imagen a Texto',
-                  labelStyle: TextStyle(fontSize: 18.0),
+                  labelStyle: const TextStyle(fontSize: 18.0),
                   onTap: () {
                     optionOcrCam(context, idNote: widget.currentNote.id);
                   },
@@ -233,7 +233,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                   foregroundColor: Colors.white,
                   backgroundColor: AppTheme.note_3,
                   label: 'Voz a Texto',
-                  labelStyle: TextStyle(fontSize: 18.0),
+                  labelStyle: const TextStyle(fontSize: 18.0),
                   onTap: () {
                     final route = MaterialPageRoute(
                       builder: (context) => OcrAudioScreen(
