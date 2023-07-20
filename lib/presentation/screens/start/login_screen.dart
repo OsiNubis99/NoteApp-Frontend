@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import '../../../config/theme/app_theme.dart';
+import '../../../infrastructure/models/user_data.dart';
 import '../home/home_free_screen.dart';
 import '../home/home_screen.dart';
 //import 'package:note_app_frontend/domain/entities/usuario.dart';
@@ -131,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return "Ingrese una clave";
                           
                         }
-                        else if (value != "123456"){
+                        else if (value != "LaClave23*"){
                           return "Ingrese un clave válida";
                         }
                       },
@@ -152,13 +153,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           //Navigator
                           onPressed: () {
                             if(_formfield.currentState!.validate()){
-                              if(emailController.text == "asensio_elpro@gmail.com"){
+                              if(UserData().id == 1){
+                                UserData().id = 1;
+                                print(UserData().id);
                                 final route = MaterialPageRoute(builder:(context) =>  const HomeFreeScreen());print(emailController.text);
                                 Navigator.pushReplacement(context, route); 
                                 emailController.clear();
                                 passwordController.clear();
                               }
-                              else if (emailController.text == "jerojas696969@gmail.com"){
+                              else if (UserData().id != 1){
+                                UserData().id = 2;
+                                print(UserData().id);
                                 final route = MaterialPageRoute(builder:(context) =>  const HomeScreen());print(emailController.text);
                                 Navigator.pushReplacement(context, route); 
                                 emailController.clear();

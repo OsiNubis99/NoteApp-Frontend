@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../widgets/geolocator/geolocator_widget.dart';
+import '../../widgets/ocrcam/modal_optioncam.dart';
 import '../../widgets/shared/alertSnackBar.dart';
 import '../tag/tag_screen.dart';
 import 'noteList_screen.dart';
@@ -272,7 +273,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                   backgroundColor: AppTheme.note_3,
                   label: 'Imagen a Texto',
                   labelStyle: TextStyle(fontSize: 18.0),
-                  onTap: () => print('THIRD CHILD'),
+                  onTap: (){optionOcrCam(context, idNote: widget.currentNote.id);},
                 ),
                 SpeedDialChild(
                   child: const Icon(Icons.mic),
