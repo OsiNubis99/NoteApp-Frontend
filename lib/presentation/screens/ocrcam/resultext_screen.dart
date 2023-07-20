@@ -25,7 +25,6 @@ class _ResultScreenState extends State<ResultScreen> {
 
   TextEditingController controller = TextEditingController();
 
-  late String idNota;
   late String idBody;
   late Body contentOCR;
 
@@ -69,7 +68,7 @@ class _ResultScreenState extends State<ResultScreen> {
             onPressed: () {
               final route = MaterialPageRoute(
                   builder: (context) => NoteEditorScreen(
-                      idNote: idNota, newBody: controller.text));
+                      idNote: widget.idNota, newBody: controller.text));
               Navigator.pushReplacement(context, route);
               controller.text = '';
             },
