@@ -1,4 +1,5 @@
 // ignore_for_file: must_be_immutable
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -19,7 +20,6 @@ import 'package:uuid/uuid.dart';
 import '../../widgets/geolocator/geolocator_widget.dart';
 import '../../widgets/ocrcam/modal_optioncam.dart';
 import '../../widgets/shared/alertSnackBar.dart';
-import '../tag/tag_screen.dart';
 import 'noteList_screen.dart';
 
 class NoteEditorScreen extends StatefulWidget {
@@ -222,7 +222,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                 SpeedDialChild(
                   child: const Icon(Icons.image),
                   foregroundColor: Colors.white,
-                  backgroundColor: AppTheme.note_3,
+                  backgroundColor: AppTheme.note_2,
                   label: 'Imagen a Texto',
                   labelStyle: const TextStyle(fontSize: 18.0),
                   onTap: () {
@@ -267,6 +267,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
         iconTheme: const IconThemeData(color: AppTheme.text_dark),
         actions: [
           //Tag
+          /*
           IconButton(
             icon: const Icon(
               Icons.sell_outlined,
@@ -277,7 +278,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                   MaterialPageRoute(builder: (context) => TagScreen());
               Navigator.pushReplacement(context, route);
             },
-          ),
+          ), */
           //Check
           IconButton(
             icon: const Icon(Icons.check, color: AppTheme.text_dark),
@@ -354,7 +355,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen>
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 1),
                         child: Text("Fecha: ${dateNow.substring(0, 10)}",
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: Colors.black87,
                                 fontWeight: FontWeight.normal)),
                       ),

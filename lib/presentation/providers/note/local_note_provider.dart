@@ -23,6 +23,7 @@ class LocalNoteProvider extends ChangeNotifier {
   // Get Notes List
   void getNotes() async {
     localNotes = _box.values.where((note) => note.status == 'active').toList();
+     localNotes = List.from(localNotes.reversed);
   }
 
   // Get Note By id

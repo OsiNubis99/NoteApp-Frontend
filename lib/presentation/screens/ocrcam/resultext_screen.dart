@@ -5,7 +5,6 @@ import 'package:note_app_frontend/config/theme/app_theme.dart';
 import 'package:note_app_frontend/presentation/providers/user_provider.dart';
 import 'package:note_app_frontend/presentation/widgets/shared/sidebar_menu.dart';
 
-import '../../../infrastructure/models/body_model.dart';
 import '../note/noteEditor_screen.dart';
 import '../ocr-no-try-left/ocrNoTryLeft_screen.dart';
 
@@ -24,9 +23,6 @@ class _ResultScreenState extends State<ResultScreen> {
   bool _isBusy = false;
 
   TextEditingController controller = TextEditingController();
-
-  late String idBody;
-  late Body contentOCR;
 
   @override
   void initState() {

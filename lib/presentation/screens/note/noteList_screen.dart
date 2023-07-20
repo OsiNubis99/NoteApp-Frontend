@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../config/theme/app_theme.dart';
 import '../../widgets/note/ListViewBuilder_widget.dart';
+import '../../widgets/note/NoteNoteFound.dart';
 import '../../widgets/note/createNoteFAB_widget.dart';
 import '../trash/trash_screen.dart';
 
@@ -48,30 +49,47 @@ class _NoteListScreenState extends State<NoteListScreen> {
               Navigator.pushReplacement(context, route);
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.search, color: AppTheme.text_dark),
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Buscar Proximamente')));
-            },
-          ),
+          // IconButton(
+          //   icon: const Icon(Icons.search, color: AppTheme.text_dark),
+          //   onPressed: () {
+          //     ScaffoldMessenger.of(context).showSnackBar(
+          //         const SnackBar(content: Text('Buscar Proximamente')));
+          //   },
+          // ),
         ],
       ),
       floatingActionButton: const CreateNoteFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-          child: GridView.count(
-            crossAxisCount: 2,
-            children: List.generate(countNote, (index) {
-              return Center(
-                  child: ListViewBuilder(
-                      noteProvider: _noteProvider, index: index));
-            }),
+          child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child:
+                (countNote != 0) ? 
+              
+               GridView.count(
+                  crossAxisCount: 2,
+                  children: 
+                  
+                
+                  
+                  List.generate(countNote, (index) {
+                    return Center(
+                        child:
+                         ListViewBuilder(
+                            noteProvider: _noteProvider, index: index));
+                  })
+                  
+                  
+                  )
+                  
+                  : 
+                        const Center(child:  NoteNotFound())
+                  
+                  )
           ),
-        ),
-      ),
-    );
-  }
+
+              
+          );}
+  
+
 }

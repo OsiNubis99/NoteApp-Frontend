@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../config/theme/app_theme.dart';
 import '../../../infrastructure/models/note_model.dart';
 import '../../providers/note/local_note_provider.dart';
-import '../../screens/note/noteList_screen.dart';
+import '../../screens/note/noteEditor_screen.dart';
 import '../note/NoteNoteFound.dart';
 import 'menu_item.dart';
 
@@ -71,7 +71,9 @@ class FindedLastNote extends StatelessWidget {
           icon: Icons.edit_note,
           onPressed: () {
             final route =
-                MaterialPageRoute(builder: (context) => const NoteListScreen());
+                MaterialPageRoute(builder: (context) =>  NoteEditorScreen(
+                  idNote: note.id,
+                ));
             Navigator.pushReplacement(context, route);
           },
         ),

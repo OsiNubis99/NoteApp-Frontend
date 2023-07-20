@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:note_app_frontend/infrastructure/models/note_model.dart';
 import 'package:note_app_frontend/presentation/screens/home/home_screen.dart';
 import 'package:note_app_frontend/presentation/screens/note/noteEditor_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../../../config/theme/app_theme.dart';
+import '../../providers/note/local_note_provider.dart';
+import '../../screens/note/noteList_screen.dart';
 
 class userNote extends StatelessWidget {
   final Note note;
@@ -20,6 +23,9 @@ class userNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+     final _noteProvider = context.watch<LocalNoteProvider>();
+
+
     return InkWell(
       onTap: () {
         final route = MaterialPageRoute(
@@ -34,32 +40,52 @@ class userNote extends StatelessWidget {
             width: 200,
             height: 200,
             child: Padding(
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.only(left:15,right: 5,top: 0,bottom: 0),
               child: Column(children: <Widget>[
+
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(onPressed: (){sendNoteToTrash(note,_noteProvider,context);}, icon: const  Icon(Icons.close),)
+                 ),
+
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
 
                        Align(
-                      alignment: Alignment.centerLeft,
+                      alignment: Alignment.topLeft,
                       child: Text(note.title,
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18)),
                     ),
 
                     SizedBox(
-                      height: 60,
+                      height: 100,
                       child: Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: Alignment.topLeft,
                           child: Text(note.description)),
                     ),
 
                   ],
+
+
                 ),
-              ]),
+
+
+
+              ]
+              ),
             )),
       ),
     );
+  }
+
+  void sendNoteToTrash(Note note,LocalNoteProvider noteProvide,BuildContext context){
+   note.status="inactive";
+   noteProvide.editNote(note, note.id);
+    final route = MaterialPageRoute(
+    builder: (context) => const NoteListScreen());
+     Navigator.pushReplacement(context, route);
   }
 }
 

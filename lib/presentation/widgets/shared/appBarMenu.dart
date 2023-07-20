@@ -12,7 +12,7 @@ AppBar AppBarMenu(BuildContext context) {
     ),
     centerTitle: true,
     iconTheme: const IconThemeData(color: AppTheme.text_dark),
-    actions: [
+    actions: const [
       // IconButton(
       //   icon: const Icon(Icons.search, color: AppTheme.text_dark),
       //   onPressed: () {
